@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-
 import { GeistSans } from "geist/font";
+
+import { Providers } from "@/components/providers/providers";
 
 export const metadata: Metadata = {
   title: "Tiny Changes",
@@ -15,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>{children}</body>
+      <body className={GeistSans.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
