@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, router } from "@/trpc/trpc";
 import db from "@/lib/prismadb";
 
 export const waitlistRouter = router({

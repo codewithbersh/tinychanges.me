@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { GeistSans } from "geist/font";
+import { Analytics } from "@vercel/analytics/react";
 
 import { Providers } from "@/components/providers/providers";
 
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={GeistSans.className}>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
