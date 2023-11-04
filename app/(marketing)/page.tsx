@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 
 const Home = () => {
   if (true) {
-    return redirect("/waitlist");
+    return redirect("/login");
+    // return redirect("/waitlist");
   }
 
   return (
