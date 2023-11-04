@@ -5,17 +5,36 @@ import { WaitlistForm } from "./_components/waitlist-form";
 
 const WaitlistPage = () => {
   return (
-    <div className="h-full w-full grid place-items-center">
+    <div className="h-full w-full grid place-items-center p-4">
       <div className="max-w-md text-center mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-4">
-          <h1 className=" text-3xl sm:text-[40px] font-semibold leading-[1.2]">
-            Tiny Changes, <br /> Remarkable Results.
-          </h1>
-          <span className="text-muted-foreground text-lg">– James Clear</span>
+          <div className=" text-3xl sm:text-[40px] font-semibold leading-[1.2]">
+            <h1
+              className=" animate-fade-up opacity-0"
+              style={{ animationDelay: "0.05s", animationFillMode: "forwards" }}
+            >
+              Tiny Changes,
+            </h1>
+            <h1
+              className=" animate-fade-up opacity-0"
+              style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
+            >
+              Remarkable Results.
+            </h1>
+          </div>
+          <span
+            className="text-muted-foreground text-lg animate-fade-up opacity-0"
+            style={{ animationDelay: "0.40s", animationFillMode: "forwards" }}
+          >
+            – James Clear
+          </span>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <p className="sm:text-lg">
+        <div className="flex flex-col gap-4 ">
+          <p
+            className="sm:text-lg animate-fade-up opacity-0"
+            style={{ animationDelay: "0.55s", animationFillMode: "forwards" }}
+          >
             Get notified on launch day for{" "}
             <span className="font-bold">tinychanges</span> – a simplified habit
             tracker.
@@ -26,8 +45,9 @@ const WaitlistPage = () => {
 
         <Link
           href="https://twitter.com/codewithbersh"
-          className="flex items-center flex-col gap-1 text-center text-sm leading-none"
+          className="flex items-center flex-col gap-1 text-center text-sm leading-none animate-fade-up opacity-0"
           target="_blank"
+          style={{ animationDelay: "1s", animationFillMode: "forwards" }}
         >
           <Icons.twitter />
           <span>@codewithbersh</span>

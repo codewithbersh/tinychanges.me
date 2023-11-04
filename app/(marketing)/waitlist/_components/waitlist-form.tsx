@@ -3,9 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { trpc } from "@/app/_trpc/client";
 import { useState } from "react";
+//@ts-ignore
+import confetti from "canvas-confetti";
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -18,7 +21,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export const WaitlistForm = () => {
-  const { mutate: addToWaitlist } = trpc.waitlist.add.useMutation();
+  const { mutate: addToWaitlist, isLoading } = trpc.waitlist.add.useMutation();
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
 
   const form = useForm<FormData>({
@@ -28,17 +31,28 @@ export const WaitlistForm = () => {
     },
   });
 
+  const disabled = isLoading;
+
   const onSubmit = (values: FormData) => {
     addToWaitlist(values, {
       onSuccess: (response) => {
         setShowSuccess(response.message);
+        confetti({
+          particleCount: 200,
+          spread: 360,
+          origin: { y: 0.4 },
+          colors: ["#facc15"],
+        });
       },
     });
   };
 
   if (showSuccess) {
     return (
-      <div className="h-[88px] w-full grid place-items-center">
+      <div
+        className="h-[88px] w-full grid place-items-center animate-fade-up opacity-0 text-green-500"
+        style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
+      >
         {showSuccess}
       </div>
     );
@@ -54,14 +68,30 @@ export const WaitlistForm = () => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem
+              className="animate-fade-up opacity-0"
+              style={{ animationDelay: "0.70s", animationFillMode: "forwards" }}
+            >
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  placeholder="Enter your email"
+                  {...field}
+                  disabled={disabled}
+                />
               </FormControl>
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          disabled={disabled}
+          className={cn(
+            "w-full animate-fade-up opacity-0",
+            disabled && "bg-primary/50"
+          )}
+          style={{ animationDelay: "0.85s", animationFillMode: "forwards" }}
+        >
+          {disabled && <Loader className="w-4 h-4 mr-2 animate-spin" />}
           Get Notified <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </form>

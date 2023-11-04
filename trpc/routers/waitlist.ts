@@ -22,7 +22,7 @@ export const waitlistRouter = router({
         let message: string;
 
         if (emailExists) {
-          message = "You're already on the waitlist.";
+          message = "You have been added to the waitlist. 😉";
         } else {
           await db.waitlist.create({
             data: {
