@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -46,7 +46,6 @@ export const UserAuthForm = () => {
     const signInResult = await signIn("email", {
       email: values.email.toLocaleLowerCase(),
       redirect: false,
-      callbackUrl: searchParams?.get("callbackUrl") || "/transactions",
     });
 
     setIsLoading(false);
@@ -113,7 +112,7 @@ export const UserAuthForm = () => {
       <Button
         onClick={() => {
           setIsGoogleLoading(true);
-          signIn("google", { callbackUrl: "/transactions" });
+          signIn("google");
         }}
         variant="outline"
         className="w-full items-center gap-2"
@@ -123,6 +122,7 @@ export const UserAuthForm = () => {
         <Icons.google />
         Continue with Google
       </Button>
+      <button onClick={() => signOut()}>Logout</button>
     </div>
   );
 };

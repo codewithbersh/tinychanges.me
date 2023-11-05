@@ -1,6 +1,13 @@
+import { getCurrentUser } from "@/lib/get-current-user";
+import { redirect } from "next/navigation";
+
 import { UserAuthForm } from "./_components/user-auth-form";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const user = await getCurrentUser();
+  if (user) {
+    return redirect(`/${user.link}`);
+  }
   return (
     <div className="p-4">
       <div>
