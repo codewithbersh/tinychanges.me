@@ -6,12 +6,12 @@ import { UserAuthForm } from "./_components/user-auth-form";
 const LoginPage = async () => {
   const user = await getCurrentUser();
   if (user) {
-    return redirect(`/${user.link}`);
+    return redirect(`/${user.slug}`);
   }
   return (
     <div className="p-4">
       <div>
-        <h1 className="text-xl font-medium text-center">Welcome</h1>
+        <h1 className="text-center text-xl font-medium">Welcome</h1>
       </div>
       <div className="mt-4">
         <UserAuthForm />

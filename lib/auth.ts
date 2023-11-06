@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
         //@ts-ignore
-        session.user.link = token.link;
+        session.user.slug = token.slug;
       }
 
       return session;
@@ -61,7 +61,7 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
-        link: dbUser.link,
+        slug: dbUser.slug,
       };
     },
   },

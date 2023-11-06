@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, signOut } from "next-auth/react";
@@ -31,7 +30,6 @@ export const UserAuthForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isSent, setIsSent] = useState<boolean>(false);
-  const searchParams = useSearchParams();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
