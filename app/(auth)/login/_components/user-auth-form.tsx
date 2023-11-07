@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -120,7 +120,6 @@ export const UserAuthForm = () => {
         <Icons.google />
         Continue with Google
       </Button>
-      <button onClick={() => signOut()}>Logout</button>
     </div>
   );
 };
