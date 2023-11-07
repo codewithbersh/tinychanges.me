@@ -14,7 +14,7 @@ export const DesktopNavigation = ({ routes }: DesktopNavigationProps) => {
           className="cursor-pointer rounded-md p-2 transition-colors hover:bg-accent"
           href={href}
         >
-          <Icon className="h-5 w-5 text-primary" />
+          <Icon className="stroke-icon h-5 w-5 text-primary" />
         </Link>
       ))}
     </div>

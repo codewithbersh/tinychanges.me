@@ -85,6 +85,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 0.5s",
       },
+      strokeWidth: {
+        icon: "1.5px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

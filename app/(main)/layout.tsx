@@ -32,7 +32,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
       <div className="left-0 top-0 hidden h-screen w-[60px] border-r bg-background sm:fixed sm:left-0 sm:top-0 sm:block">
         <DesktopNavigation routes={routes} />
       </div>
-      <div className="fixed bottom-6 left-6 h-12 w-12 cursor-pointer rounded-full border shadow-md sm:hidden">
+      <div>
         <MobileNavigation routes={routes} />
       </div>
       <div className="mx-auto h-full w-full max-w-sm px-4 sm:px-0">
