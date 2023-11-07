@@ -30,7 +30,11 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
   return (
     <div className="relative h-full w-full">
       <div className="left-0 top-0 hidden h-screen w-[60px] border-r bg-background sm:fixed sm:left-0 sm:top-0 sm:block">
-        <DesktopNavigation routes={routes} />
+        <DesktopNavigation
+          routes={routes}
+          imageUrl={null}
+          emailInitials={user.email![0]}
+        />
       </div>
       <div>
         <MobileNavigation routes={routes} />
