@@ -50,7 +50,7 @@ export const WaitlistForm = () => {
   if (showSuccess) {
     return (
       <div
-        className="h-[88px] w-full grid place-items-center animate-fade-up opacity-0 text-green-500"
+        className="grid h-[88px] w-full animate-fade-up place-items-center text-green-500 opacity-0"
         style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
       >
         {showSuccess}
@@ -87,12 +87,13 @@ export const WaitlistForm = () => {
           disabled={disabled}
           className={cn(
             "w-full animate-fade-up opacity-0",
-            disabled && "bg-primary/50"
+            disabled && "bg-primary/50",
           )}
           style={{ animationDelay: "0.85s", animationFillMode: "forwards" }}
+          size="lg"
         >
-          {disabled && <Loader className="w-4 h-4 mr-2 animate-spin" />}
-          Get Notified <ArrowRight className="w-4 h-4 ml-2" />
+          {disabled && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+          Get Notified <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </form>
     </Form>
