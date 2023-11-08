@@ -41,6 +41,7 @@ model User {
   emailVerified DateTime?
   image         String?
   slug          String    @unique @default(cuid())
+  bio           String?
   accounts      Account[]
   sessions      Session[]
 }

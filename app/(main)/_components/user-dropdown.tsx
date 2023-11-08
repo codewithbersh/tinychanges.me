@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "next-auth";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
@@ -13,41 +12,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UserAvatar } from "@/components/user-avatar";
 
 interface UserPopover {
   user: User & {
     id: string;
     slug: string;
   };
+  className?: string;
 }
 
-export const UserPopover = ({ user }: UserPopover) => {
+export const UserDropdown = ({ user, className }: UserPopover) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="h-8 w-8 cursor-pointer">
-          {user.image ? (
-            <>
-              <AvatarImage src={user.image} />
-            </>
-          ) : null}
-          <AvatarFallback className="font-medium">
-            {user.email![0].toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger className={className}>
+        <UserAvatar imageUrl={user.image} email={user.email!} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-[260px] shadow-sm">
         <DropdownMenuLabel className="flex items-center gap-2">
-          <Avatar className="h-6 w-6">
-            {user.image ? (
-              <>
-                <AvatarImage src={user.image} />
-              </>
-            ) : null}
-            <AvatarFallback className="font-medium">
-              {user.email![0].toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            imageUrl={user.image}
+            email={user.email!}
+            className="h-6 w-6"
+          />
 
           <h1 className="truncate">{user.name ? user.name : "Anonymous"}</h1>
         </DropdownMenuLabel>

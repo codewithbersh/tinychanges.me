@@ -35,7 +35,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
       <div>
         <MobileNavigation routes={routes} />
       </div>
-      <div className="mx-auto h-full w-full max-w-sm px-4 sm:px-0">
+      <div className="mx-auto h-full w-full max-w-sm px-4 py-8 sm:px-0 sm:py-16">
         {children}
       </div>
     </div>

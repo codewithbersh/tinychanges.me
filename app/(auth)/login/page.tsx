@@ -5,6 +5,8 @@ import { UserAuthForm } from "./_components/user-auth-form";
 
 const LoginPage = async () => {
   const user = await getCurrentUser();
+
+  console.log("USER: ", user);
   if (user) {
     return redirect(`/${user.slug}`);
   }

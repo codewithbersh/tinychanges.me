@@ -8,7 +8,7 @@ interface HabitsPageProps {
 }
 
 const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
-  const user = await serverTrpc.user.get({ slug });
+  const user = await serverTrpc.user.public.get({ slug });
 
   if (!user) {
     return notFound();

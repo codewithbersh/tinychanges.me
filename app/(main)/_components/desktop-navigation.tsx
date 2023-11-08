@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Route } from "@/types/types";
 import { User } from "next-auth";
 
-import { UserPopover } from "./user-popover";
+import { UserDropdown } from "./user-dropdown";
 
 interface DesktopNavigationProps {
   routes: Route[];
@@ -25,9 +25,7 @@ export const DesktopNavigation = ({ routes, user }: DesktopNavigationProps) => {
         </Link>
       ))}
 
-      <div className="absolute bottom-4 ">
-        <UserPopover user={user} />
-      </div>
+      <UserDropdown user={user} className="absolute bottom-4" />
     </div>
   );
 };
