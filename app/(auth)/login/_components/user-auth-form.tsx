@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import * as z from "zod";
@@ -18,7 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Icons } from "@/components/ui/icons";
 
 const formSchema = z.object({
   email: z.string().email("Email is required."),
@@ -50,6 +49,8 @@ export const UserAuthForm = () => {
       email: values.email.toLocaleLowerCase(),
       redirect: false,
     });
+
+    console.log("Sign in result: ", signInResult);
 
     setIsLoading(false);
 
@@ -96,7 +97,7 @@ export const UserAuthForm = () => {
               disabled={isLoading || isGoogleLoading}
               size="lg"
             >
-              {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {isLoading && <Loader className="h-4 w-4 animate-spin" />}
               Sign in with email
             </Button>
           )}

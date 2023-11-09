@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
   return (
-    <div className="flex min-h-full min-w-full flex-col gap-12">
+    <div className="flex flex-col gap-12">
       <h1 className="text-lg font-semibold">Settings</h1>
       <div className="flex items-center gap-4 sm:gap-6">
         <UserAvatar

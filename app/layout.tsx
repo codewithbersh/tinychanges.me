@@ -35,7 +35,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
         <Providers>{children}</Providers>
-        <Toaster />
+        <Toaster
+          position="top-center"
+          richColors
+          theme="system"
+          offset={16}
+          duration={1500}
+        />
         <Analytics />
       </body>
     </html>

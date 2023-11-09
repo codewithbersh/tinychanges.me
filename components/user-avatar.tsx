@@ -9,7 +9,7 @@ interface UserAvatarProps {
 
 export const UserAvatar = ({ imageUrl, email, className }: UserAvatarProps) => {
   return (
-    <Avatar className={cn("h-8 w-8 cursor-pointer bg-yellow-500", className)}>
+    <Avatar className={cn("h-8 w-8", className)}>
       {imageUrl ? (
         <>
           <AvatarImage src={imageUrl} />
@@ -17,7 +17,7 @@ export const UserAvatar = ({ imageUrl, email, className }: UserAvatarProps) => {
       ) : null}
       <AvatarFallback
         className={cn(
-          "h-8 w-8 bg-foreground text-lg font-medium text-primary-foreground",
+          "h-8 w-8 bg-accent text-lg font-medium text-primary",
           className,
         )}
       >
