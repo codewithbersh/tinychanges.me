@@ -39,6 +39,11 @@ export const UserAuthForm = () => {
   });
 
   async function onSubmit(values: FormData) {
+    if (values.email !== "brucesalcedo.programming@gmail.com") {
+      form.setError("email", { message: "You're not an admin. 😉" });
+      return;
+    }
+
     setIsLoading(true);
 
     const signInResult = await signIn("email", {
@@ -97,7 +102,7 @@ export const UserAuthForm = () => {
           )}
         </form>
       </Form>
-      <div className="relative">
+      {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -106,9 +111,9 @@ export const UserAuthForm = () => {
             Or continue with
           </span>
         </div>
-      </div>
+      </div> */}
 
-      <Button
+      {/* <Button
         onClick={() => {
           setIsGoogleLoading(true);
           signIn("google");
@@ -121,7 +126,7 @@ export const UserAuthForm = () => {
         {isGoogleLoading && <Loader2 className="h-4 w-4 animate-spin" />}
         <Icons.google />
         Continue with Google
-      </Button>
+      </Button> */}
     </div>
   );
 };

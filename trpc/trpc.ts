@@ -15,6 +15,7 @@ const isAuth = middleware(async (opts) => {
   return opts.next({
     ctx: {
       userId: user.id,
+      email: user.email!,
     },
   });
 });
