@@ -89,6 +89,7 @@ export const UserAuthForm = () => {
               type="submit"
               className="w-full items-center gap-2"
               disabled={isLoading || isGoogleLoading}
+              size="lg"
             >
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
               Sign in with email
@@ -115,6 +116,7 @@ export const UserAuthForm = () => {
         variant="outline"
         className="w-full items-center gap-2"
         disabled={isLoading || isGoogleLoading}
+        size="lg"
       >
         {isGoogleLoading && <Loader2 className="h-4 w-4 animate-spin" />}
         <Icons.google />
