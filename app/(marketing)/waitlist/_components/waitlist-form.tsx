@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useWaitlistStatus } from "@/hooks/use-waitlist-status";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +24,7 @@ type FormData = z.infer<typeof formSchema>;
 export const WaitlistForm = () => {
   const { mutate: addToWaitlist, isLoading } = trpc.waitlist.add.useMutation();
   const [showSuccess, setShowSuccess] = useState<string | null>(null);
+  const { onSuccess } = useWaitlistStatus();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -36,6 +38,7 @@ export const WaitlistForm = () => {
   const onSubmit = (values: FormData) => {
     addToWaitlist(values, {
       onSuccess: (response) => {
+        onSuccess();
         setShowSuccess(response.message);
         confetti({
           particleCount: 200,

@@ -7,7 +7,7 @@ export const waitlistRouter = router({
     .input(
       z.object({
         email: z.string().email(),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { email } = input;
@@ -19,21 +19,15 @@ export const waitlistRouter = router({
           },
         });
 
-        let message: string;
-
-        if (emailExists) {
-          message = "You have been added to the waitlist. 😉";
-        } else {
+        if (!emailExists) {
           await db.waitlist.create({
             data: {
               email,
             },
           });
-
-          message = "You have been added to the waitlist.";
         }
 
-        return { ok: true, message };
+        return { ok: true, message: "You have been added to the waitlist." };
       } catch (error) {
         return { ok: false, message: "An error has occured." };
       }

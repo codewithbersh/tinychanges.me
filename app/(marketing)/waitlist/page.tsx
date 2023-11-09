@@ -2,13 +2,17 @@ import Link from "next/link";
 
 import { Icons } from "@/components/ui/icons";
 import { WaitlistForm } from "./_components/waitlist-form";
+import { Logo } from "./_components/logo";
 
 const WaitlistPage = () => {
   return (
-    <div className="h-full w-full grid place-items-center p-4">
-      <div className="max-w-md text-center mx-auto flex flex-col gap-12">
+    <div className="grid h-full w-full place-items-center p-4">
+      <div className="mx-auto flex max-w-md flex-col gap-12 text-center">
         <div className="flex flex-col gap-4">
-          <div className=" text-3xl sm:text-[40px] font-semibold leading-[1.2]">
+          <div className="mx-auto w-fit">
+            <Logo />
+          </div>
+          <div className=" mt-4 text-3xl font-semibold leading-[1.2] sm:text-[40px]">
             <h1
               className=" animate-fade-up opacity-0"
               style={{ animationDelay: "0.05s", animationFillMode: "forwards" }}
@@ -23,7 +27,7 @@ const WaitlistPage = () => {
             </h1>
           </div>
           <span
-            className="text-muted-foreground text-lg animate-fade-up opacity-0"
+            className="animate-fade-up text-lg text-muted-foreground opacity-0"
             style={{ animationDelay: "0.40s", animationFillMode: "forwards" }}
           >
             – James Clear
@@ -32,7 +36,7 @@ const WaitlistPage = () => {
 
         <div className="flex flex-col gap-4 ">
           <p
-            className="sm:text-lg animate-fade-up opacity-0"
+            className="animate-fade-up opacity-0 sm:text-lg"
             style={{ animationDelay: "0.55s", animationFillMode: "forwards" }}
           >
             Get notified on launch day for{" "}
@@ -45,7 +49,7 @@ const WaitlistPage = () => {
 
         <Link
           href="https://twitter.com/codewithbersh"
-          className="flex items-center flex-col gap-1 text-center text-sm leading-none animate-fade-up opacity-0"
+          className="flex animate-fade-up flex-col items-center gap-1 text-center text-sm leading-none opacity-0"
           target="_blank"
           style={{ animationDelay: "1s", animationFillMode: "forwards" }}
         >
