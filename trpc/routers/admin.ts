@@ -10,9 +10,13 @@ export const adminRouter = router({
         return { ok: false as const };
       }
 
-      const count = await db.waitlist.count({});
+      const waitlists = await db.waitlist.findMany({
+        orderBy: {
+          submittedAt: "desc",
+        },
+      });
 
-      return { ok: true as const, count };
+      return { ok: true as const, waitlists };
     }),
   }),
 });

@@ -8,9 +8,21 @@ const AdminPage = async () => {
     return redirect("/login");
   }
 
+  const { waitlists } = res;
+
   return (
-    <div>
-      <h1 className="text-2xl font-medium">Waitlsits: {res.count}</h1>
+    <div className="flex flex-col gap-8">
+      <h1 className="text-lg font-medium">Waitlsits: ({waitlists.length})</h1>
+      <ul className="flex flex-col gap-2">
+        {waitlists.map((waitlist) => (
+          <li
+            key={waitlist.submittedAt.toDateString()}
+            className="list-disc text-muted-foreground"
+          >
+            {waitlist.email}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
