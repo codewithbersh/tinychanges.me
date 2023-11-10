@@ -1,7 +1,7 @@
 import { z } from "zod";
-import db from "@/lib/prismadb";
 import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
+import db from "@/lib/prismadb";
 import { utapi } from "@/lib/utapi";
 
 export const userRouter = router({
@@ -66,8 +66,6 @@ export const userRouter = router({
             const fileName = extractFileName(oldImage);
 
             if (fileName && image !== oldImage) {
-              console.log("FILENAME: ", fileName);
-              console.log("FILENAME: ", fileName.trim());
               await utapi.deleteFiles([fileName.trim()]);
             }
           }

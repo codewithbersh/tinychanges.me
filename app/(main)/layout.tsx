@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Route } from "@/types/types";
 import { LayoutGrid, Settings } from "lucide-react";
-import { serverTrpc } from "../_trpc/server";
+import { serverTrpc } from "@/app/_trpc/server";
 
 import { DesktopNavigation } from "./_components/desktop-navigation";
 import { MobileNavigation } from "./_components/mobile-navigation";
@@ -28,7 +28,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
         <DesktopNavigation routes={routes} initialData={user} />
       </div>
       <div>
-        <MobileNavigation routes={routes} />
+        <MobileNavigation routes={routes} initialData={user} />
       </div>
       <div className="mx-auto h-full w-full max-w-sm px-4 py-8 sm:px-0 sm:py-16">
         {children}

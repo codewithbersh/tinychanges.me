@@ -43,23 +43,22 @@ export const UserAuthForm = () => {
       return;
     }
 
-    setIsLoading(true);
-
-    const signInResult = await signIn("email", {
-      email: values.email.toLocaleLowerCase(),
-      redirect: false,
-    });
-
-    console.log("Sign in result: ", signInResult);
-
-    setIsLoading(false);
-
-    if (!signInResult?.ok) {
+    try {
+      setIsLoading(true);
+      const signInResult = await signIn("email", {
+        email: values.email.toLocaleLowerCase(),
+        redirect: false,
+      });
+      if (signInResult?.error) {
+        toast.error("An error has occured.");
+      } else {
+        setIsSent(true);
+      }
+    } catch (error) {
       toast.error("An error has occured.");
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    return setIsSent(true);
   }
 
   return (
@@ -70,36 +69,42 @@ export const UserAuthForm = () => {
           className="space-y-4"
           autoComplete="off"
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="sr-only">Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="hello@brucesalcedo.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           {isSent ? (
             <div
-              className="grid h-9 w-full animate-fade-up place-items-center text-sm font-medium text-green-400 opacity-0"
+              className="grid h-24 w-full animate-fade-up place-items-center text-sm font-medium text-green-400 opacity-0"
               style={{ animationDelay: "0.15", animationFillMode: "forwards" }}
             >
               Email sent. Kindly check your inbox.
             </div>
           ) : (
-            <Button
-              type="submit"
-              className="w-full items-center gap-2"
-              disabled={isLoading || isGoogleLoading}
-              size="lg"
-            >
-              {isLoading && <Loader className="h-4 w-4 animate-spin" />}
-              Sign in with email
-            </Button>
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="hello@brucesalcedo.com"
+                        {...field}
+                        className="h-10"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full items-center gap-2"
+                disabled={isLoading || isGoogleLoading}
+                size="lg"
+              >
+                {isLoading && <Loader className="h-4 w-4 animate-spin" />}
+                Sign in with email
+              </Button>
+            </>
           )}
         </form>
       </Form>

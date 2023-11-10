@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GetPrivateUser, Route } from "@/types/types";
-import { UserDropdown } from "./user-dropdown";
+
+import { DesktopUserDropdown } from "./desktop-user-dropdown";
 
 interface DesktopNavigationProps {
   routes: Route[];
@@ -23,7 +24,10 @@ export const DesktopNavigation = ({
         </Link>
       ))}
 
-      <UserDropdown initialData={initialData} className="absolute bottom-4" />
+      <DesktopUserDropdown
+        initialData={initialData}
+        className="absolute bottom-4"
+      />
     </div>
   );
 };

@@ -15,15 +15,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
 
-interface UserPopover {
+interface DesktopUserDropdownProps {
   initialData: GetPrivateUser;
   className?: string;
 }
 
-export const UserDropdown = ({ initialData, className }: UserPopover) => {
+export const DesktopUserDropdown = ({
+  initialData,
+  className,
+}: DesktopUserDropdownProps) => {
   const { data: user } = trpc.user.private.get.useQuery(undefined, {
     initialData,
     staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
   return (
     <DropdownMenu>
