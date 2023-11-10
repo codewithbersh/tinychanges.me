@@ -27,7 +27,7 @@ export const waitlistRouter = router({
           });
         }
 
-        return { ok: true, message: "You have been added to the waitlist." };
+        return { ok: true, message: "You'll be notified on launch day. ✨" };
       } catch (error) {
         return { ok: false, message: "An error has occured." };
       }

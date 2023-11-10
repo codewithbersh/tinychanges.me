@@ -1,5 +1,5 @@
 import { UploadButton } from "@/lib/uploadthing";
-import { Camera, Loader } from "lucide-react";
+import { Camera, ImagePlus, Loader } from "lucide-react";
 import { BaseSyntheticEvent } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ interface FieldImageUploadProps {
   trigger: (
     e?: BaseSyntheticEvent<object, any, any> | undefined,
   ) => Promise<void>;
+  disabled: boolean;
 }
 
 export const FieldImageUpload = ({
@@ -19,6 +20,7 @@ export const FieldImageUpload = ({
   onChange,
   email,
   trigger,
+  disabled,
 }: FieldImageUploadProps) => {
   if (!value || value.length === 0) {
     return (
@@ -34,11 +36,13 @@ export const FieldImageUpload = ({
                 <Button
                   className="pointer-events-none z-10"
                   variant="secondary"
+                  disabled={disabled || isUploading}
                 >
                   {isUploading && (
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Upload Image
+                  {!isUploading && <ImagePlus className="mr-2 h-4 w-4" />}
+                  Upload image
                 </Button>
               );
             },
@@ -60,7 +64,11 @@ export const FieldImageUpload = ({
         email={email[0]}
         className="h-24 w-24 text-5xl font-medium"
       />
-      <Button variant="secondary" onClick={() => onChange("")}>
+      <Button
+        variant="secondary"
+        onClick={() => onChange("")}
+        disabled={disabled}
+      >
         Remove Image
       </Button>
     </div>

@@ -1,18 +1,13 @@
 import { PropsWithChildren } from "react";
-import { getCurrentUser } from "@/lib/get-current-user";
-import { redirect } from "next/navigation";
 import { Route } from "@/types/types";
 import { LayoutGrid, Settings } from "lucide-react";
+import { serverTrpc } from "../_trpc/server";
 
 import { DesktopNavigation } from "./_components/desktop-navigation";
 import { MobileNavigation } from "./_components/mobile-navigation";
 
 const MainLayout = async ({ children }: PropsWithChildren) => {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
+  const user = await serverTrpc.user.private.get();
 
   const routes: Route[] = [
     {
@@ -30,7 +25,7 @@ const MainLayout = async ({ children }: PropsWithChildren) => {
   return (
     <div className="relative h-full w-full">
       <div className="left-0 top-0 hidden h-screen w-[60px] border-r bg-background sm:fixed sm:left-0 sm:top-0 sm:block">
-        <DesktopNavigation routes={routes} user={user} />
+        <DesktopNavigation routes={routes} initialData={user} />
       </div>
       <div>
         <MobileNavigation routes={routes} />

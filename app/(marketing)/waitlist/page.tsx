@@ -49,7 +49,7 @@ const WaitlistPage = () => {
 
         <Link
           href="https://twitter.com/codewithbersh"
-          className="flex animate-fade-up flex-col items-center gap-1 text-center text-sm leading-none opacity-0"
+          className="mx-auto flex w-fit animate-fade-up flex-col items-center gap-1 text-center text-sm leading-none opacity-0"
           target="_blank"
           style={{ animationDelay: "1s", animationFillMode: "forwards" }}
         >

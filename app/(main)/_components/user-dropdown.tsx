@@ -1,8 +1,9 @@
 "use client";
 
-import { User } from "next-auth";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { GetPrivateUser } from "@/types/types";
+import { trpc } from "@/app/_trpc/client";
 
 import {
   DropdownMenu,
@@ -15,14 +16,15 @@ import {
 import { UserAvatar } from "@/components/user-avatar";
 
 interface UserPopover {
-  user: User & {
-    id: string;
-    slug: string;
-  };
+  initialData: GetPrivateUser;
   className?: string;
 }
 
-export const UserDropdown = ({ user, className }: UserPopover) => {
+export const UserDropdown = ({ initialData, className }: UserPopover) => {
+  const { data: user } = trpc.user.private.get.useQuery(undefined, {
+    initialData,
+    staleTime: Infinity,
+  });
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={className}>

@@ -1,18 +1,16 @@
 import Link from "next/link";
-import { Route } from "@/types/types";
-import { User } from "next-auth";
-
+import { GetPrivateUser, Route } from "@/types/types";
 import { UserDropdown } from "./user-dropdown";
 
 interface DesktopNavigationProps {
   routes: Route[];
-  user: User & {
-    id: string;
-    slug: string;
-  };
+  initialData: GetPrivateUser;
 }
 
-export const DesktopNavigation = ({ routes, user }: DesktopNavigationProps) => {
+export const DesktopNavigation = ({
+  routes,
+  initialData,
+}: DesktopNavigationProps) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
       {routes.map(({ href, icon: Icon }) => (
@@ -25,7 +23,7 @@ export const DesktopNavigation = ({ routes, user }: DesktopNavigationProps) => {
         </Link>
       ))}
 
-      <UserDropdown user={user} className="absolute bottom-4" />
+      <UserDropdown initialData={initialData} className="absolute bottom-4" />
     </div>
   );
 };

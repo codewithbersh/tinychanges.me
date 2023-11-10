@@ -52,25 +52,25 @@ export const userRouter = router({
         z.object({
           image: z.string().nullable(),
           oldImage: z.string().nullable(),
+          name: z.string().nullable(),
+          bio: z.string().nullable(),
+          slug: z.string(),
         }),
       )
       .mutation(async ({ ctx, input }) => {
         const { userId } = ctx;
-        const { image, oldImage } = input;
-        console.log("oldImage");
+        const { image, oldImage, name, bio, slug } = input;
 
         try {
           if (oldImage) {
             const fileName = extractFileName(oldImage);
-            console.log("asdas");
 
-            if (fileName) {
-              console.log("delte");
-              await utapi.deleteFiles([fileName]);
+            if (fileName && image !== oldImage) {
+              console.log("FILENAME: ", fileName);
+              console.log("FILENAME: ", fileName.trim());
+              await utapi.deleteFiles([fileName.trim()]);
             }
           }
-
-          console.log("heyy");
 
           await db.user.update({
             where: {
@@ -78,6 +78,9 @@ export const userRouter = router({
             },
             data: {
               image,
+              name,
+              bio,
+              slug,
             },
           });
           return { ok: true, message: "Profile updated." };

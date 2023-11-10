@@ -9,11 +9,11 @@ import { useState } from "react";
 //@ts-ignore
 import confetti from "canvas-confetti";
 import { cn } from "@/lib/utils";
+import { useWaitlistStatus } from "@/hooks/use-waitlist-status";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useWaitlistStatus } from "@/hooks/use-waitlist-status";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -80,6 +80,7 @@ export const WaitlistForm = () => {
                   placeholder="Enter your email"
                   {...field}
                   disabled={disabled}
+                  className="h-10"
                 />
               </FormControl>
             </FormItem>
@@ -94,6 +95,7 @@ export const WaitlistForm = () => {
           )}
           style={{ animationDelay: "0.85s", animationFillMode: "forwards" }}
           size="lg"
+          variant="secondary"
         >
           {disabled && <Loader className="mr-2 h-4 w-4 animate-spin" />}
           Get Notified <ArrowRight className="ml-2 h-4 w-4" />
