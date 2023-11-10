@@ -81,6 +81,7 @@ export const WaitlistForm = () => {
                   {...field}
                   disabled={disabled}
                   className="h-10"
+                  autoComplete="off"
                 />
               </FormControl>
             </FormItem>
