@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "./_components/user-profile";
+import { Habits } from "./_components/habits";
+import { Plus } from "lucide-react";
 
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
@@ -17,6 +19,20 @@ const SettingsPage = async () => {
             Update
           </Link>
         </Button>
+      </div>
+      <div>
+        <div>
+          <div className="flex items-center justify-between">
+            <h1>Daily Habits</h1>
+
+            <Button variant="ghost" size="icon">
+              <Link href="/settings/new">
+                <Plus className="h-5 w-5" />
+              </Link>
+            </Button>
+          </div>
+          <Habits />
+        </div>
       </div>
     </div>
   );

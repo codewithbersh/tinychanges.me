@@ -1,12 +1,13 @@
 "use client";
 
-import React, { PropsWithChildren, useState } from "react";
+import React, { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "@/app/_trpc/client";
 import { ThemeProvider } from "./theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import superjson from "superjson";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -22,6 +23,7 @@ export function Providers({ children, session }: ProvidersProps) {
           url: "/api/trpc",
         }),
       ],
+      transformer: superjson,
     }),
   );
 

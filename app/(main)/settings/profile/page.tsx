@@ -1,5 +1,6 @@
 import { serverTrpc } from "@/app/_trpc/server";
 
+import { Header } from "@/app/(main)/settings/_components/header";
 import { FormProfile } from "./_components/form-profile";
 
 const ProfilePage = async () => {
@@ -7,9 +8,7 @@ const ProfilePage = async () => {
 
   return (
     <div className="flex flex-col gap-12">
-      <h1 className="text-lg font-semibold text-muted-foreground">
-        Settings / <span className="text-primary">Profile</span>
-      </h1>
+      <Header route="Profile" />
       <FormProfile initialData={user} />
     </div>
   );

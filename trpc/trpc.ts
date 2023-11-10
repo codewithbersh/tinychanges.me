@@ -1,7 +1,10 @@
 import { getCurrentUser } from "@/lib/get-current-user";
 import { TRPCError, initTRPC } from "@trpc/server";
+import superjson from "superjson";
 
-const t = initTRPC.create({});
+const t = initTRPC.create({
+  transformer: superjson,
+});
 
 const middleware = t.middleware;
 
