@@ -63,7 +63,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
           toast.success(successMessage);
 
           utils.habit.get.all.refetch();
-          router.push("/settings");
+          router.push("/dashboard");
         },
         onError: () => {
           toast.error("An error has occured.");
@@ -78,7 +78,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
       {
         onSuccess: () => {
           toast.info("Habit deleted.");
-          utils.habit.get.all.refetch().then(() => router.push("/settings"));
+          utils.habit.get.all.refetch().then(() => router.push("/dashboard"));
         },
         onError: () => {
           toast.error("An error has occured.");

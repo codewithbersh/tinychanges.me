@@ -11,13 +11,15 @@ import { LoaderHabits } from "./_components/loader-habits";
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
 
+  return null;
+
   return (
     <div className="flex flex-col gap-12">
-      <h1 className="text-lg font-semibold">Settings</h1>
+      <h1 className="text-lg font-semibold">Dashboard</h1>
       <div className="flex items-center gap-4 sm:gap-6">
         <UserProfile initialData={user} />
         <Button asChild variant="secondary">
-          <Link href="/settings/profile" className="ml-auto">
+          <Link href="/dashboard/profile" className="ml-auto">
             Update
           </Link>
         </Button>
@@ -28,7 +30,7 @@ const SettingsPage = async () => {
             <h1>Daily Habits</h1>
 
             <Button variant="ghost" size="icon">
-              <Link href="/settings/new">
+              <Link href="/dashboard/new">
                 <Plus className="h-5 w-5" />
               </Link>
             </Button>

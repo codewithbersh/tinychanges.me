@@ -10,7 +10,9 @@ const WaitlistPage = () => {
       <div className="mx-auto flex max-w-md flex-col gap-12 text-center">
         <div className="flex flex-col gap-4">
           <div className="mx-auto w-fit">
-            <Logo />
+            <Link href="/login">
+              <Logo />
+            </Link>
           </div>
           <div className=" mt-4 text-3xl font-semibold leading-[1.2] sm:text-[40px]">
             <h1

@@ -21,7 +21,7 @@ export const Habits = ({ initialData }: HabitsProps) => {
       {habits.map((habit) => (
         <li key={habit.id}>
           <Link
-            href={`/settings/${habit.id}`}
+            href={`/dashboard/${habit.id}`}
             className="flex h-14 w-full items-center gap-4 rounded-lg border bg-background p-3  transition-colors duration-300 ease-in-out hover:bg-accent"
           >
             <div
