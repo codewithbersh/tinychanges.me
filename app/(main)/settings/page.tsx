@@ -1,10 +1,12 @@
 import { serverTrpc } from "@/app/_trpc/server";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "./_components/user-profile";
-import { Habits } from "./_components/habits";
-import { Plus } from "lucide-react";
+import { ServerHabits } from "./_components/server-habits";
+import { LoaderHabits } from "./_components/loader-habits";
 
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
@@ -21,7 +23,7 @@ const SettingsPage = async () => {
         </Button>
       </div>
       <div>
-        <div>
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h1>Daily Habits</h1>
 
@@ -31,7 +33,10 @@ const SettingsPage = async () => {
               </Link>
             </Button>
           </div>
-          <Habits />
+
+          <Suspense fallback={<LoaderHabits />}>
+            <ServerHabits />
+          </Suspense>
         </div>
       </div>
     </div>

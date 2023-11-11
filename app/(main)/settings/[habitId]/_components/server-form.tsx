@@ -7,7 +7,7 @@ interface ServerFormProps {
 }
 
 export const ServerForm = async ({ habitId }: ServerFormProps) => {
-  const habit = await serverTrpc.habit.get({ id: habitId });
+  const habit = await serverTrpc.habit.get.byId({ id: habitId });
 
   return <FormHabit initialData={habit} />;
 };

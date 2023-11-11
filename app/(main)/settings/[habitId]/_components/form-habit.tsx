@@ -7,7 +7,7 @@ import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { GetPrivateHabit } from "@/types/types";
+import { GetHabit } from "@/types/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,12 +30,13 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface FormHabitProps {
-  initialData: GetPrivateHabit;
+  initialData: GetHabit;
 }
 
 export const FormHabit = ({ initialData }: FormHabitProps) => {
   const router = useRouter();
   const pathname = usePathname();
+
   const utils = trpc.useUtils();
 
   const { mutate, isLoading } = trpc.habit.add.useMutation();
@@ -51,7 +52,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
     },
   });
 
-  const successMessage = initialData ? "Habit updated." : "Habit ";
+  const successMessage = initialData ? "Habit updated." : "Habit added.";
   const submitText = initialData ? "Save Changes" : "Save Habit";
 
   const onSubmit = (values: FormData) => {
@@ -61,15 +62,8 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
         onSuccess: ({ id }) => {
           toast.success(successMessage);
 
-          if (
-            pathname.toLowerCase() !== `/settings/${id.toLowerCase()}` &&
-            !initialData
-          ) {
-            console.log("routed");
-            router.push(`/settings/${id}`);
-          }
-
-          utils.habit.get.invalidate({ id });
+          utils.habit.get.all.refetch();
+          router.push("/settings");
         },
         onError: () => {
           toast.error("An error has occured.");
@@ -83,9 +77,8 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
       { id },
       {
         onSuccess: () => {
-          // invalidate habit queries
           toast.info("Habit deleted.");
-          router.push("/settings");
+          utils.habit.get.all.refetch().then(() => router.push("/settings"));
         },
         onError: () => {
           toast.error("An error has occured.");

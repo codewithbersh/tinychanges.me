@@ -46,30 +46,48 @@ export const habitRouter = router({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
-  get: privateProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
+  get: router({
+    all: privateProcedure.query(async ({ ctx }) => {
       const { userId } = ctx;
-      const { id } = input;
 
       try {
-        if (id.toLowerCase() === "new") {
-          return null;
-        } else {
-          return await db.habit.findFirst({
-            where: {
-              id,
-            },
-          });
-        }
+        return await db.habit.findMany({
+          where: {
+            userId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
+    byId: privateProcedure
+      .input(
+        z.object({
+          id: z.string(),
+        }),
+      )
+      .query(async ({ ctx, input }) => {
+        const { userId } = ctx;
+        const { id } = input;
+
+        try {
+          if (id.toLowerCase() === "new") {
+            return null;
+          } else {
+            return await db.habit.findFirst({
+              where: {
+                id,
+              },
+            });
+          }
+        } catch (error) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        }
+      }),
+  }),
   delete: privateProcedure
     .input(
       z.object({
