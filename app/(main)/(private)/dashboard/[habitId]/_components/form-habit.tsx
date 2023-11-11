@@ -53,7 +53,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
   });
 
   const successMessage = initialData ? "Habit updated." : "Habit added.";
-  const submitText = initialData ? "Save Changes" : "Save Habit";
+  const submitText = initialData ? "Save Changes" : "Add Habit";
 
   const onSubmit = (values: FormData) => {
     mutate(

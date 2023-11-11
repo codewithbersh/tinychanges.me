@@ -11,8 +11,6 @@ import { LoaderHabits } from "./_components/loader-habits";
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
 
-  return null;
-
   return (
     <div className="flex flex-col gap-12">
       <h1 className="text-lg font-semibold">Dashboard</h1>
@@ -29,7 +27,7 @@ const SettingsPage = async () => {
           <div className="flex items-center justify-between">
             <h1>Daily Habits</h1>
 
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" asChild>
               <Link href="/dashboard/new">
                 <Plus className="h-5 w-5" />
               </Link>
