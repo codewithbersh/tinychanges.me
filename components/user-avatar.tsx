@@ -17,7 +17,7 @@ export const UserAvatar = ({ imageUrl, email, className }: UserAvatarProps) => {
       ) : null}
       <AvatarFallback
         className={cn(
-          "h-8 w-8 bg-accent text-lg font-medium text-primary",
+          "h-8 w-8 bg-primary-foreground text-lg font-medium text-primary",
           className,
         )}
       >

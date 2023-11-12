@@ -17,7 +17,6 @@ export const UserProfile = ({ initialData }: UserProfileProps) => {
 
   return (
     <>
-      {" "}
       <UserAvatar
         imageUrl={user.image}
         email={user.email!}
@@ -28,7 +27,7 @@ export const UserProfile = ({ initialData }: UserProfileProps) => {
           {user.name ?? <span className="text-muted-foreground">No name</span>}
         </h2>
         <p className="truncate text-muted-foreground">
-          {user.bio ?? <span className="text-muted-foreground">No bio</span>}
+          {!user.bio || user.bio.length === 0 ? "No bio." : user.bio}
         </p>
       </div>
     </>
