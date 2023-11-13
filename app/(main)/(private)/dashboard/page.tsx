@@ -11,8 +11,6 @@ import { LoaderHabits } from "./_components/loader-habits";
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
 
-  console.log(user);
-
   return (
     <div className="flex flex-col gap-12">
       <h1 className="text-lg font-semibold">Dashboard</h1>

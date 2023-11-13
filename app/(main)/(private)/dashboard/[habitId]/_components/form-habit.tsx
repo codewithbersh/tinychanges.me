@@ -6,7 +6,7 @@ import * as z from "zod";
 import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { GetHabit } from "@/types/types";
 
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,6 @@ interface FormHabitProps {
 
 export const FormHabit = ({ initialData }: FormHabitProps) => {
   const router = useRouter();
-  const pathname = usePathname();
 
   const utils = trpc.useUtils();
 
@@ -55,7 +54,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
   const successMessage = initialData ? "Habit updated." : "Habit added.";
   const submitText = initialData ? "Save Changes" : "Add Habit";
 
-  const onSubmit = (values: FormData) => {
+  const onSubmit = async (values: FormData) => {
     mutate(
       { ...values, initialData: initialData?.id },
       {
@@ -138,6 +137,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
                   {...field}
                   placeholder="Walk 15 minutes daily"
                   disabled={isLoading}
+                  autoComplete="off"
                 />
               </FormControl>
             </FormItem>

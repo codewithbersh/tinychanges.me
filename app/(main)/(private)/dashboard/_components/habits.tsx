@@ -16,6 +16,15 @@ export const Habits = ({ initialData }: HabitsProps) => {
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
+
+  if (!habits || habits.length === 0) {
+    return (
+      <div className="text-center text-sm text-muted-foreground">
+        No habits found.
+      </div>
+    );
+  }
+
   return (
     <ul className="flex flex-col gap-4">
       {habits.map((habit) => (

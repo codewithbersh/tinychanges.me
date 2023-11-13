@@ -18,6 +18,7 @@ export const habitRouter = router({
       const { emoji, color, habit, initialData } = input;
 
       let res;
+
       try {
         if (initialData) {
           res = await db.habit.update({
