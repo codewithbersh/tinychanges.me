@@ -3,6 +3,7 @@ import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import db from "@/lib/prismadb";
 import { utapi } from "@/lib/utapi";
+import { getCurrentUser } from "@/lib/get-current-user";
 
 export const userRouter = router({
   public: router({

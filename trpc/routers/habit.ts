@@ -1,5 +1,5 @@
 import db from "@/lib/prismadb";
-import { privateProcedure, router } from "@/trpc/trpc";
+import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -109,4 +109,27 @@ export const habitRouter = router({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
+  public: router({
+    getAll: publicProcedure
+      .input(
+        z.object({
+          slug: z.string(),
+        }),
+      )
+      .query(async ({ input }) => {
+        const { slug } = input;
+
+        try {
+          return await db.habit.findMany({
+            where: {
+              user: {
+                slug,
+              },
+            },
+          });
+        } catch (error) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        }
+      }),
+  }),
 });

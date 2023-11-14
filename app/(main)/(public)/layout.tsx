@@ -1,7 +1,29 @@
 import { PropsWithChildren } from "react";
+import { getCurrentUser } from "@/lib/get-current-user";
+import { Settings2 } from "lucide-react";
+import Link from "next/link";
 
-const PublicLayout = ({ children }: PropsWithChildren) => {
-  return <div>{children}</div>;
+import { Button } from "@/components/ui/button";
+
+const PublicLayout = async ({ children }: PropsWithChildren) => {
+  const user = await getCurrentUser();
+
+  return (
+    <div>
+      {children}
+
+      <div className="fixed bottom-8 left-8 flex items-center gap-4">
+        {user && (
+          <Link href="/dashboard">
+            <Button className="h-12 rounded-full px-4" variant="secondary">
+              <Settings2 className="mr-2 h-4 w-4" />
+              Dashboard
+            </Button>
+          </Link>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default PublicLayout;

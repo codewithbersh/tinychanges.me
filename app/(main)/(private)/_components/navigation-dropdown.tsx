@@ -51,7 +51,7 @@ export const NavigationDropdown = ({
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={className}>
+      <DropdownMenuTrigger className={className} asChild>
         <Button variant="secondary" className="h-12 w-12 rounded-full p-0">
           <Menu className="h-5 w-5" />
         </Button>

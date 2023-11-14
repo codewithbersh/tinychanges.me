@@ -58,11 +58,13 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
     mutate(
       { ...values, initialData: initialData?.id },
       {
-        onSuccess: ({ id }) => {
+        onSuccess: () => {
           toast.success(successMessage);
 
-          utils.habit.get.all.refetch();
-          router.push("/dashboard");
+          utils.habit.public.getAll.invalidate();
+          utils.habit.get.all
+            .invalidate()
+            .finally(() => router.push("/dashboard"));
         },
         onError: () => {
           toast.error("An error has occured.");
@@ -77,7 +79,10 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
       {
         onSuccess: () => {
           toast.info("Habit deleted.");
-          utils.habit.get.all.refetch().then(() => router.push("/dashboard"));
+          utils.habit.public.getAll.invalidate();
+          utils.habit.get.all
+            .invalidate()
+            .finally(() => router.push("/dashboard"));
         },
         onError: () => {
           toast.error("An error has occured.");
