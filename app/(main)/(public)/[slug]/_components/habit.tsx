@@ -1,16 +1,8 @@
-"use client";
-
 import { GetHabits } from "@/types/types";
-import { Check } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import {
-  cn,
-  formatDay,
-  formatRange,
-  formatRangeParams,
-  formatViewParams,
-} from "@/lib/utils";
-import { format, isToday } from "date-fns";
+import { cn, formatDay } from "@/lib/utils";
+import { format, isToday, startOfToday } from "date-fns";
+import { trpc } from "@/app/_trpc/client";
+import { Loader2 } from "lucide-react";
 
 import { HabitEmoji } from "@/components/habit-emoji";
 import {
@@ -19,16 +11,40 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { UpdateStatus } from "./update-status";
 
 interface HabitProps {
+  isOwner: boolean;
   habit: GetHabits[number];
+  view: "weekly" | "monthly";
+  days: number;
+  viewRange: {
+    from: Date;
+    to: Date;
+  };
 }
 
-export const Habit = ({ habit }: HabitProps) => {
-  const searchParams = useSearchParams();
-  const view = formatViewParams(searchParams.get("view"));
-  const range = formatRangeParams(searchParams.get("range"));
-  const { days, range: viewRange } = formatRange({ view, range });
+export const Habit = ({
+  habit,
+  view,
+  days,
+  viewRange,
+  isOwner,
+}: HabitProps) => {
+  const { data: commitments, isLoading } = trpc.commitment.byHabitId.useQuery(
+    {
+      habitId: habit.id,
+    },
+    {
+      staleTime: Infinity,
+    },
+  );
+
+  const hasToday = commitments?.find(
+    (commitment) =>
+      commitment.date.toDateString() === startOfToday().toDateString(),
+  );
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-4">
@@ -40,9 +56,12 @@ export const Habit = ({ habit }: HabitProps) => {
         <div className="truncate">
           <h1 className="truncate font-medium">{habit.habit}</h1>
         </div>
-        <div className="ml-auto grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-full border bg-accent/25 text-muted-foreground transition hover:bg-primary hover:text-primary-foreground">
-          <Check className="h-5 w-5" />
-        </div>
+        {isLoading && (
+          <Loader2 className="ml-auto h-9 w-9 animate-spin stroke-[1px]" />
+        )}
+        {isOwner && !isLoading && (
+          <UpdateStatus habitId={habit.id} hasToday={hasToday} />
+        )}
       </div>
 
       <div className={cn("flex flex-wrap gap-2", view === "weekly" && "gap-4")}>
@@ -55,6 +74,11 @@ export const Habit = ({ habit }: HabitProps) => {
           const isDayToday = isToday(day);
           const tooltipLabel = format(day, "MMM dd");
           const weekLabel = format(day, "EEE");
+
+          const hasCommitment = commitments?.find(
+            (commitment) =>
+              commitment.date.toDateString() === day.toDateString(),
+          );
           return (
             <TooltipProvider key={index} delayDuration={200}>
               <Tooltip>
@@ -70,7 +94,9 @@ export const Habit = ({ habit }: HabitProps) => {
                         "h-4 w-4 rounded-[2px] bg-accent",
                         view === "weekly" && "h-6 w-6 rounded-[4px]",
                         isDayToday &&
-                          "ring-2 ring-primary/50 ring-offset-2 ring-offset-background",
+                          "ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
+                        hasCommitment?.status === "COMPLETED" && "bg-pink-600",
+                        hasCommitment?.status === "SKIPPED" && "bg-pink-600/25",
                       )}
                     />
                   </div>

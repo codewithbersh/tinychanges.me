@@ -71,12 +71,30 @@ model Habit {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  habit String
-  emoji String
-  color String
+  habit       String
+  emoji       String
+  color       String
+  commitments Commitment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model Commitment {
+  id String @id @default(cuid())
+
+  habitId String
+  habit   Habit            @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date    DateTime
+  status  CommitmentStatus @default(COMPLETED)
+
+  @@unique([date, habitId])
+  @@index([habitId])
+}
+
+enum CommitmentStatus {
+  COMPLETED
+  SKIPPED
 }

@@ -1,5 +1,6 @@
 import { serverTrpc } from "@/app/_trpc/server";
 import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/lib/get-current-user";
 
 import { UserAvatar } from "@/components/user-avatar";
 import { ViewOptions } from "./_components/view-options";
@@ -13,9 +14,11 @@ interface HabitsPageProps {
 }
 
 const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
-  const user = await serverTrpc.user.public.get({ slug });
+  const user = await getCurrentUser();
 
-  if (!user) {
+  const account = await serverTrpc.user.public.get({ slug });
+
+  if (!account) {
     return notFound();
   }
 
@@ -23,15 +26,15 @@ const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
     <div className="flex flex-col gap-12">
       <div className="flex items-center gap-6">
         <UserAvatar
-          email={user.email!}
-          imageUrl={user.image}
+          email={account.email!}
+          imageUrl={account.image}
           className="h-16 w-16 text-4xl"
         />
 
         <div className="flex flex-col gap-1">
-          <h1 className="font-medium">{user.name}</h1>
+          <h1 className="font-medium">{account.name}</h1>
           <p className="text-muted-foreground">
-            {user.bio && user.bio.length > 0 ? user.bio : "No bio."}
+            {account.bio && account.bio.length > 0 ? account.bio : "No bio."}
           </p>
         </div>
       </div>
@@ -49,7 +52,7 @@ const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
         </div>
 
         <div className="mt-2">
-          <ServerHabits slug={slug} />
+          <ServerHabits slug={slug} user={user} />
         </div>
       </div>
     </div>
