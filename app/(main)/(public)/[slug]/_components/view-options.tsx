@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, formatViewParams } from "@/lib/utils";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { buttonVariants } from "@/components/ui/button";
 import {
