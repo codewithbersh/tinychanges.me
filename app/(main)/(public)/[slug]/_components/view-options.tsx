@@ -12,9 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const ViewOptions = () => {
+interface ViewOptionsProps {
+  slug: string;
+}
+
+export const ViewOptions = ({ slug }: ViewOptionsProps) => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const viewParams = formatViewParams(searchParams.get("view"));
 
@@ -29,22 +32,8 @@ export const ViewOptions = () => {
     },
   ];
 
-  const onSelect = (initialValue: string) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-
-    const value = initialValue.toString();
-
-    if (!value) {
-      current.delete("view");
-    } else {
-      current.set("view", value);
-    }
-
-    const search = current.toString();
-
-    const query = search ? `?${search}` : "";
-
-    router.push(`${pathname}${query}`);
+  const onSelect = (view: string) => {
+    router.push(`/${slug}?view=${view}`);
   };
 
   return (

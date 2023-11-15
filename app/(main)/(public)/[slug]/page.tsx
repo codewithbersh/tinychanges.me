@@ -43,7 +43,7 @@ const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
       <div className="flex flex-col gap-6">
         <div className="flex gap-4">
           <div className="ml-auto">
-            <ViewOptions />
+            <ViewOptions slug={slug} />
           </div>
         </div>
 
