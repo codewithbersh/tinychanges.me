@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
-import { Header } from "../_components/header";
 import { PageLoader } from "@/components/page-loader";
+import { Header } from "../_components/header";
 import { ServerForm } from "./_components/server-form";
 
 interface HabitProps {

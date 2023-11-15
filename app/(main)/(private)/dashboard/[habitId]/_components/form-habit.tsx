@@ -33,11 +33,18 @@ interface FormHabitProps {
   initialData: GetHabit;
 }
 
-export const FormHabit = ({ initialData }: FormHabitProps) => {
+export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
   const router = useRouter();
 
   const utils = trpc.useUtils();
 
+  const { data: initialData } = trpc.habit.get.byId.useQuery(
+    { id: habit?.id },
+    {
+      initialData: habit,
+      staleTime: Infinity,
+    },
+  );
   const { mutate, isLoading } = trpc.habit.add.useMutation();
   const { mutate: deleteHabit, isLoading: isDeleting } =
     trpc.habit.delete.useMutation();
@@ -62,6 +69,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
           toast.success(successMessage);
 
           utils.habit.public.getAll.invalidate();
+          utils.habit.get.byId.invalidate({ id: initialData?.id });
           utils.habit.get.all
             .invalidate()
             .finally(() => router.push("/dashboard"));
@@ -80,6 +88,7 @@ export const FormHabit = ({ initialData }: FormHabitProps) => {
         onSuccess: () => {
           toast.info("Habit deleted.");
           utils.habit.public.getAll.invalidate();
+          utils.habit.get.byId.invalidate({ id: initialData?.id });
           utils.habit.get.all
             .invalidate()
             .finally(() => router.push("/dashboard"));

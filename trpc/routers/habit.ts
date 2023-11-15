@@ -67,7 +67,7 @@ export const habitRouter = router({
     byId: privateProcedure
       .input(
         z.object({
-          id: z.string(),
+          id: z.string().optional(),
         }),
       )
       .query(async ({ ctx, input }) => {
@@ -75,12 +75,13 @@ export const habitRouter = router({
         const { id } = input;
 
         try {
-          if (id.toLowerCase() === "new") {
+          if (!id || id?.toLowerCase() === "new") {
             return null;
           } else {
             return await db.habit.findFirst({
               where: {
                 id,
+                userId,
               },
             });
           }
