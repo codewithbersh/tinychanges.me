@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
-import { Loader } from "lucide-react";
+import { ChevronDown, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { GetHabit } from "@/types/types";
 
@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FieldEmoji } from "./field-emoji";
 import { FieldColor } from "./field-color";
+import { ViewCommitments } from "./view-commitments";
 
 const formSchema = z.object({
   emoji: z.string().min(1),
@@ -157,6 +158,11 @@ export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
             </FormItem>
           )}
         />
+        {initialData && (
+          <div>
+            <ViewCommitments habitId={initialData.id} />
+          </div>
+        )}
         <div className="mt-6 flex gap-4">
           <Button
             type="submit"

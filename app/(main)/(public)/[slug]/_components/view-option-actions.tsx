@@ -33,6 +33,7 @@ export const ViewOptionActions = () => {
         variant="secondary"
         className="h-8 w-8 shrink-0 p-0"
         onClick={() => onClick(range - 1)}
+        type="button"
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
@@ -41,6 +42,7 @@ export const ViewOptionActions = () => {
         variant="secondary"
         className="h-8 w-8 shrink-0 p-0"
         onClick={() => onClick(range + 1)}
+        type="button"
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

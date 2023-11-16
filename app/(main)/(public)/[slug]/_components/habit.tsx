@@ -31,14 +31,15 @@ export const Habit = ({
   viewRange,
   isOwner,
 }: HabitProps) => {
-  const { data: commitments, isLoading } = trpc.commitment.byHabitId.useQuery(
-    {
-      habitId: habit.id,
-    },
-    {
-      staleTime: Infinity,
-    },
-  );
+  const { data: commitments, isLoading } =
+    trpc.commitment.public.byHabitId.useQuery(
+      {
+        habitId: habit.id,
+      },
+      {
+        staleTime: Infinity,
+      },
+    );
 
   const hasToday = commitments?.find(
     (commitment) =>

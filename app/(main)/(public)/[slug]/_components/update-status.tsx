@@ -12,14 +12,14 @@ interface UpdateStatus {
 
 export const UpdateStatus = ({ habitId, hasToday }: UpdateStatus) => {
   const utils = trpc.useUtils();
-  const { mutate, isLoading } = trpc.commitment.mutate.useMutation();
+  const { mutate, isLoading } = trpc.commitment.private.mutate.useMutation();
 
   const onClick = () => {
     mutate(
       { habitId },
       {
         onSuccess: () => {
-          utils.commitment.byHabitId.invalidate();
+          utils.commitment.public.byHabitId.invalidate();
         },
       },
     );
