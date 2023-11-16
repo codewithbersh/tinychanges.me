@@ -1,16 +1,16 @@
 import { Suspense } from "react";
 
 import { PageLoader } from "@/components/page-loader";
-import { Header } from "../_components/header";
 import { ServerForm } from "./_components/server-form";
+import { Header } from "../../_components/header";
 
-interface HabitProps {
+interface DailyHabitsPageProps {
   params: {
     habitId: string;
   };
 }
 
-const Habit = ({ params: { habitId } }: HabitProps) => {
+const DailyHabitsPage = ({ params: { habitId } }: DailyHabitsPageProps) => {
   return (
     <div className="flex min-h-full flex-col gap-12">
       <Header route="Daily Habit" />
@@ -21,4 +21,4 @@ const Habit = ({ params: { habitId } }: HabitProps) => {
   );
 };
 
-export default Habit;
+export default DailyHabitsPage;

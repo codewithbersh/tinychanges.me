@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { UserProfile } from "./_components/user-profile";
 import { ServerHabits } from "./_components/server-habits";
 import { LoaderHabits } from "./_components/loader-habits";
+import { ServerChallenges } from "./_components/server-challenges";
 
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
@@ -22,22 +23,36 @@ const SettingsPage = async () => {
           </Link>
         </Button>
       </div>
-      <div>
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h1>Daily Habits</h1>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1>Daily Habits</h1>
 
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/dashboard/new">
-                <Plus className="h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-
-          <Suspense fallback={<LoaderHabits />}>
-            <ServerHabits />
-          </Suspense>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/dashboard/daily-habits/new">
+              <Plus className="h-5 w-5" />
+            </Link>
+          </Button>
         </div>
+
+        <Suspense fallback={<LoaderHabits />}>
+          <ServerHabits />
+        </Suspense>
+      </div>
+
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1>Challenges</h1>
+
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/dashboard/challenges/new">
+              <Plus className="h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+
+        <Suspense fallback={<LoaderHabits />}>
+          <ServerChallenges />
+        </Suspense>
       </div>
     </div>
   );

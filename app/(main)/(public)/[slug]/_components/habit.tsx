@@ -2,7 +2,6 @@ import { GetHabits } from "@/types/types";
 import { cn, formatDay } from "@/lib/utils";
 import { format, isToday, startOfToday } from "date-fns";
 import { trpc } from "@/app/_trpc/client";
-import { Loader2 } from "lucide-react";
 
 import { HabitEmoji } from "@/components/habit-emoji";
 import {
@@ -11,8 +10,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { UpdateStatus } from "./update-status";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UpdateStatus } from "./update-status";
 
 interface HabitProps {
   isOwner: boolean;
@@ -36,6 +35,7 @@ export const Habit = ({
     trpc.commitment.public.byHabitId.useQuery(
       {
         habitId: habit.id,
+        type: "DAILY",
       },
       {
         staleTime: Infinity,
@@ -105,7 +105,6 @@ export const Habit = ({
                 </TooltipTrigger>
                 <TooltipContent sideOffset={8}>
                   <p>
-                    {" "}
                     {hasCommitment && (
                       <span>{hasCommitment.status.toLowerCase()} – </span>
                     )}

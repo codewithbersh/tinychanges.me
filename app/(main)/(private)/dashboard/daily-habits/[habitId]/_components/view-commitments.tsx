@@ -42,7 +42,7 @@ export const ViewCommitments = ({ habitId }: ViewCommitmentsProps) => {
       {
         onSuccess: () => {
           utils.commitment.private.byHabitId.invalidate();
-          utils.commitment.public.byHabitId.invalidate();
+          utils.commitment.public.byHabitId.invalidate({ type: "DAILY" });
         },
       },
     );

@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
-import { ChevronDown, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { GetHabit } from "@/types/types";
 
+import { FieldEmoji } from "@/app/(main)/(private)/dashboard/_components/field-emoji";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,7 +19,6 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FieldEmoji } from "./field-emoji";
 import { FieldColor } from "./field-color";
 import { ViewCommitments } from "./view-commitments";
 

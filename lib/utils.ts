@@ -7,7 +7,6 @@ import {
   endOfWeek,
   format,
   getDaysInMonth,
-  isToday,
   startOfMonth,
   startOfToday,
   startOfWeek,
@@ -65,5 +64,23 @@ export function formatRange({ view, range }: { view: View; range: number }) {
 
 export function formatDay({ from, index }: { from: Date; index: number }) {
   return addDays(from, index);
-  // return { day: format(day, "MMM dd"), isToday: isToday(day) };
+}
+
+export function formatType({
+  type,
+  slug,
+}: {
+  type: string | undefined;
+  slug: string;
+}) {
+  switch (type?.toLowerCase()) {
+    case "challenges":
+      return { label: "Daily Habits", url: `/${slug}`, challenges: true };
+    default:
+      return {
+        label: "Challenges",
+        url: `/${slug}?type=challenges`,
+        challenges: false,
+      };
+  }
 }

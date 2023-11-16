@@ -19,7 +19,7 @@ export const UpdateStatus = ({ habitId, hasToday }: UpdateStatus) => {
       { habitId },
       {
         onSuccess: () => {
-          utils.commitment.public.byHabitId.invalidate();
+          utils.commitment.public.byHabitId.invalidate({ type: "DAILY" });
           utils.commitment.private.byHabitId.invalidate();
         },
       },

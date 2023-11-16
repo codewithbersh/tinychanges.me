@@ -12,7 +12,12 @@ export type Route = {
 };
 
 export type GetPrivateUser = RouterOutput["user"]["private"]["get"];
+
 export type GetHabit = RouterOutput["habit"]["get"]["byId"];
 export type GetHabits = RouterOutput["habit"]["get"]["all"];
+
+export type GetChallenge = RouterOutput["challenge"]["get"]["byId"];
+export type GetChallenges = RouterOutput["challenge"]["get"]["all"];
+
 export type GetCommitmentsByHabitId =
   RouterOutput["commitment"]["public"]["byHabitId"];
