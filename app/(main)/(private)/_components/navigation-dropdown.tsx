@@ -1,9 +1,11 @@
 "use client";
 
-import { LogOut, Menu, Settings2 } from "lucide-react";
+import { LayoutGrid, LogOut, Menu, Settings2 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { GetPrivateUser } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -15,9 +17,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface NavigationDropdownProps {
   initialData: GetPrivateUser;
@@ -78,6 +77,13 @@ export const NavigationDropdown = ({
         >
           <Settings2 className="mr-2 h-4 w-4" />
           Dashboard
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className=" focus:bg-primary/10"
+          onSelect={() => router.push(`/${user.slug}`)}
+        >
+          <LayoutGrid className="mr-2 h-4 w-4" />
+          Habits
         </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer focus:bg-destructive"
