@@ -104,7 +104,13 @@ export const Habit = ({
                   </div>
                 </TooltipTrigger>
                 <TooltipContent sideOffset={8}>
-                  <p>{tooltipLabel}</p>
+                  <p>
+                    {" "}
+                    {hasCommitment && (
+                      <span>{hasCommitment.status.toLowerCase()} – </span>
+                    )}
+                    {tooltipLabel}
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

@@ -127,6 +127,9 @@ export const habitRouter = router({
                 slug,
               },
             },
+            orderBy: {
+              createdAt: "desc",
+            },
           });
         } catch (error) {
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
