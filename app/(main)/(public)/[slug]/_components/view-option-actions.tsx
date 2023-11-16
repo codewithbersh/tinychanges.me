@@ -43,6 +43,7 @@ export const ViewOptionActions = () => {
         className="h-8 w-8 shrink-0 p-0"
         onClick={() => onClick(range + 1)}
         type="button"
+        disabled={range === 0}
       >
         <ChevronRight className="h-4 w-4" />
       </Button>

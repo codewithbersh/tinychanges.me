@@ -3,7 +3,7 @@
 import { trpc } from "@/app/_trpc/client";
 import { cn } from "@/lib/utils";
 import { GetCommitmentsByHabitId } from "@/types/types";
-import { Check, Loader, Loader2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 interface UpdateStatus {
   habitId: string;
@@ -20,6 +20,7 @@ export const UpdateStatus = ({ habitId, hasToday }: UpdateStatus) => {
       {
         onSuccess: () => {
           utils.commitment.public.byHabitId.invalidate();
+          utils.commitment.private.byHabitId.invalidate();
         },
       },
     );

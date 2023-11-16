@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { UpdateStatus } from "./update-status";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface HabitProps {
   isOwner: boolean;
@@ -57,8 +58,8 @@ export const Habit = ({
         <div className="truncate">
           <h1 className="truncate font-medium">{habit.habit}</h1>
         </div>
-        {isLoading && (
-          <Loader2 className="ml-auto h-9 w-9 animate-spin stroke-[1px]" />
+        {isOwner && isLoading && (
+          <Skeleton className="ml-auto h-9 w-9 rounded-full bg-accent" />
         )}
         {isOwner && !isLoading && (
           <UpdateStatus habitId={habit.id} hasToday={hasToday} />

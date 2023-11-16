@@ -1,28 +1,24 @@
 import db from "@/lib/prismadb";
-import { privateProcedure, router } from "@/trpc/trpc";
+import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import { startOfToday } from "date-fns";
 import { z } from "zod";
 
 export const commitmentRouter = router({
   public: router({
-    byHabitId: privateProcedure
+    byHabitId: publicProcedure
       .input(
         z.object({
           habitId: z.string(),
         }),
       )
-      .query(async ({ ctx, input }) => {
-        const { userId } = ctx;
+      .query(async ({ input }) => {
         const { habitId } = input;
 
         try {
           return await db.commitment.findMany({
             where: {
               habitId,
-              habit: {
-                userId,
-              },
             },
           });
         } catch (error) {
@@ -45,7 +41,10 @@ export const commitmentRouter = router({
         try {
           const update = await db.commitment.findFirst({
             where: {
-              habitId,
+              habit: {
+                id: habitId,
+                userId,
+              },
               date,
             },
           });

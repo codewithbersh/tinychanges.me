@@ -14,4 +14,5 @@ export type Route = {
 export type GetPrivateUser = RouterOutput["user"]["private"]["get"];
 export type GetHabit = RouterOutput["habit"]["get"]["byId"];
 export type GetHabits = RouterOutput["habit"]["get"]["all"];
-export type GetCommitmentsByHabitId = RouterOutput["commitment"]["byHabitId"];
+export type GetCommitmentsByHabitId =
+  RouterOutput["commitment"]["public"]["byHabitId"];
