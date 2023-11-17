@@ -1,33 +1,25 @@
 import { serverTrpc } from "@/app/_trpc/server";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "@/lib/get-current-user";
-import { formatType } from "@/lib/utils";
 
 import { UserAvatar } from "@/components/user-avatar";
 import { ViewOptions } from "./_components/view-options";
-import { ViewOptionActions } from "./_components/view-option-actions";
-import { ServerHabits } from "./_components/server-habits";
-import { Type } from "./_components/type";
+import { HabitRangeFilter } from "./_components/habit-range-filter";
+import { HabitsServer } from "./_components/habits-server";
 
 interface HabitsPageProps {
   params: {
     slug: string;
   };
-  searchParams: { [key: string]: string | undefined };
 }
 
-const HabitsPage = async ({
-  params: { slug },
-  searchParams,
-}: HabitsPageProps) => {
+const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
   const user = await getCurrentUser();
   const account = await serverTrpc.user.public.get({ slug });
 
   if (!account) {
     return notFound();
   }
-
-  const type = formatType({ type: searchParams.type, slug });
 
   return (
     <div className="flex flex-col gap-12">
@@ -49,21 +41,15 @@ const HabitsPage = async ({
 
       <div className="flex flex-col gap-6">
         <div className="flex gap-4">
-          <Type type={type} />
           <div className="ml-auto">
-            <ViewOptions slug={slug} hidden={type.challenges} />
+            <ViewOptions slug={slug} />
           </div>
         </div>
 
         <div className="mt-4 space-y-8">
-          {!type.challenges && (
-            <>
-              <ViewOptionActions />
-              <ServerHabits slug={slug} user={user} />
-            </>
-          )}
-
-          {type.challenges && <></>}
+          <HabitRangeFilter />
+          {/* add suspense */}
+          <HabitsServer slug={slug} user={user} />
         </div>
       </div>
     </div>

@@ -40,17 +40,16 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?     @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  slug          String      @unique @default(cuid())
+  slug          String    @unique @default(cuid())
   bio           String?
   accounts      Account[]
   sessions      Session[]
   habits        Habit[]
-  challenges    Challenge[]
 }
 
 model VerificationToken {
@@ -83,45 +82,17 @@ model Habit {
   @@index([userId])
 }
 
-model Challenge {
-  id String @id @default(cuid())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  challenge   String
-  emoji       String
-  commitments Commitment[]
-  duration    Int
-  startDate   DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
-}
-
 model Commitment {
   id String @id @default(cuid())
 
-  habitId String?
-  habit   Habit?  @relation(fields: [habitId], references: [id], onDelete: Cascade)
-
-  challengeId String?
-  challenge   Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  habitId String
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
 
   date   DateTime
   status CommitmentStatus @default(COMPLETED)
-  type   CommitmentType   @default(DAILY)
 
   @@unique([date, habitId])
   @@index([habitId])
-  @@index([challengeId])
-}
-
-enum CommitmentType {
-  DAILY
-  CHALLENGE
 }
 
 enum CommitmentStatus {

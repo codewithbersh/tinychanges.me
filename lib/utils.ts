@@ -28,6 +28,17 @@ export function formatViewParams(params: string | null) {
   }
 }
 
+export function formatStatusParams(params: string | null) {
+  switch (params?.toLowerCase()) {
+    case "in-progress":
+      return "in-progress";
+    case "completed":
+      return "completed";
+    default:
+      return "all";
+  }
+}
+
 export function formatRangeParams(params: string | null) {
   const num = Number(params);
 
@@ -64,23 +75,4 @@ export function formatRange({ view, range }: { view: View; range: number }) {
 
 export function formatDay({ from, index }: { from: Date; index: number }) {
   return addDays(from, index);
-}
-
-export function formatType({
-  type,
-  slug,
-}: {
-  type: string | undefined;
-  slug: string;
-}) {
-  switch (type?.toLowerCase()) {
-    case "challenges":
-      return { label: "Daily Habits", url: `/${slug}`, challenges: true };
-    default:
-      return {
-        label: "Challenges",
-        url: `/${slug}?type=challenges`,
-        challenges: false,
-      };
-  }
 }

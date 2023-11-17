@@ -43,15 +43,14 @@ export const Habits = ({ initialData, slug }: HabitsProps) => {
   return (
     <div className="flex flex-col gap-4">
       {habits.map((habit) => (
-        <div key={habit.id} className="w-full rounded-lg border p-4">
-          <Habit
-            habit={habit}
-            view={view}
-            days={days}
-            viewRange={viewRange}
-            isOwner={isOwner}
-          />
-        </div>
+        <Habit
+          habit={habit}
+          view={view}
+          days={days}
+          viewRange={viewRange}
+          isOwner={isOwner}
+          key={habit.id}
+        />
       ))}
     </div>
   );

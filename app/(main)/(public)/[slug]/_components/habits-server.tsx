@@ -3,12 +3,12 @@ import { User } from "next-auth";
 
 import { Habits } from "./habits";
 
-interface ServerHabitsProps {
+interface HabitsServerProps {
   slug: string;
   user: User | undefined;
 }
 
-export const ServerHabits = async ({ slug, user }: ServerHabitsProps) => {
+export const HabitsServer = async ({ slug, user }: HabitsServerProps) => {
   const habits = await serverTrpc.habit.public.getAll({ slug });
 
   return <Habits initialData={habits} slug={slug} user={user} />;

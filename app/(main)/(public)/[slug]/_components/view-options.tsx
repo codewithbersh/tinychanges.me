@@ -14,7 +14,6 @@ import {
 
 interface ViewOptionsProps {
   slug: string;
-  hidden: boolean;
 }
 
 export const ViewOptions = ({ slug }: ViewOptionsProps) => {

@@ -10,17 +10,15 @@ export const commitmentRouter = router({
       .input(
         z.object({
           habitId: z.string(),
-          type: z.enum(["CHALLENGE", "DAILY"]),
         }),
       )
       .query(async ({ input }) => {
-        const { habitId, type } = input;
+        const { habitId } = input;
 
         try {
           return await db.commitment.findMany({
             where: {
               habitId,
-              type,
             },
           });
         } catch (error) {

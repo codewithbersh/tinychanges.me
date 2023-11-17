@@ -5,7 +5,7 @@ import { GetHabits } from "@/types/types";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { HabitEmoji } from "@/components/habit-emoji";
+import { Emoji } from "@/components/emoji";
 
 interface HabitsProps {
   initialData: GetHabits;
@@ -30,10 +30,10 @@ export const Habits = ({ initialData }: HabitsProps) => {
       {habits.map((habit) => (
         <li key={habit.id}>
           <Link
-            href={`/dashboard/daily-habits/${habit.id}`}
+            href={`/dashboard/${habit.id}`}
             className="flex h-14 w-full items-center gap-4 rounded-lg border bg-background p-3  transition-colors duration-300 ease-in-out hover:bg-accent"
           >
-            <HabitEmoji color={habit.color} emoji={habit.emoji} />
+            <Emoji color={habit.color} emoji={habit.emoji} />
             <div className="font-medium">{habit.habit}</div>
             <ArrowRight className="ml-auto h-4 w-4" />
           </Link>

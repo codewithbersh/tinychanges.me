@@ -7,10 +7,15 @@ import { Check } from "lucide-react";
 
 interface UpdateStatus {
   habitId: string;
-  hasToday: GetCommitmentsByHabitId[number] | undefined;
+  commitmentToday: GetCommitmentsByHabitId[number] | undefined;
+  className?: string;
 }
 
-export const UpdateStatus = ({ habitId, hasToday }: UpdateStatus) => {
+export const UpdateStatus = ({
+  habitId,
+  commitmentToday,
+  className,
+}: UpdateStatus) => {
   const utils = trpc.useUtils();
   const { mutate, isLoading } = trpc.commitment.private.mutate.useMutation();
 
@@ -29,13 +34,14 @@ export const UpdateStatus = ({ habitId, hasToday }: UpdateStatus) => {
   return (
     <button
       className={cn(
-        "ml-auto grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-full border   bg-accent   text-muted-foreground transition disabled:animate-pulse disabled:opacity-50",
-        hasToday &&
-          hasToday.status === "COMPLETED" &&
+        "grid h-9 w-9 shrink-0 cursor-pointer place-items-center rounded-full border   bg-accent   text-muted-foreground transition disabled:animate-pulse disabled:opacity-50",
+        commitmentToday &&
+          commitmentToday.status === "COMPLETED" &&
           "bg-green-500 text-primary-foreground ",
-        hasToday &&
-          hasToday.status === "SKIPPED" &&
+        commitmentToday &&
+          commitmentToday.status === "SKIPPED" &&
           "bg-amber-400 text-primary-foreground",
+        className,
       )}
       onClick={() => {
         if (!isLoading) {

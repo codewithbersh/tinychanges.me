@@ -1,6 +1,6 @@
 "use client";
 
-import { ViewOptionActions } from "@/app/(main)/(public)/[slug]/_components/view-option-actions";
+import { HabitRangeFilter } from "@/app/(main)/(public)/[slug]/_components/habit-range-filter";
 import { trpc } from "@/app/_trpc/client";
 import {
   cn,
@@ -59,7 +59,7 @@ export const ViewCommitments = ({ habitId }: ViewCommitmentsProps) => {
   if (commitments) {
     return (
       <div className="mt-8 flex flex-col gap-8">
-        <ViewOptionActions />
+        <HabitRangeFilter />
         <div className="grid grid-cols-7 gap-2">
           {names.map((name) => (
             <div

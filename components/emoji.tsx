@@ -6,7 +6,7 @@ interface HabitEmojiProps {
   className?: string;
 }
 
-export const HabitEmoji = ({ color, emoji, className }: HabitEmojiProps) => {
+export const Emoji = ({ color, emoji, className }: HabitEmojiProps) => {
   return (
     <div
       className={cn("grid h-7 w-7 place-items-center rounded-md", className)}
