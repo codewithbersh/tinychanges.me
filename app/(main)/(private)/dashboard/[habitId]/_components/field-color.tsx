@@ -9,7 +9,7 @@ interface FieldColorProps {
 
 export const FieldColor = ({ value, onChange, disabled }: FieldColorProps) => {
   return (
-    <div className="flex justify-between gap-1">
+    <div className="flex gap-4">
       {habitConfig.colors.map((color) => (
         <div
           key={color.id}

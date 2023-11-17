@@ -160,7 +160,10 @@ export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
         />
         {initialData && (
           <div>
-            <ViewCommitments habitId={initialData.id} />
+            <ViewCommitments
+              habitId={initialData.id}
+              color={initialData.color}
+            />
           </div>
         )}
         <div className="mt-6 flex gap-4">

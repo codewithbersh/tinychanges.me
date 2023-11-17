@@ -17,9 +17,10 @@ const names = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 interface ViewCommitmentsProps {
   habitId: string;
+  color: string;
 }
 
-export const ViewCommitments = ({ habitId }: ViewCommitmentsProps) => {
+export const ViewCommitments = ({ habitId, color }: ViewCommitmentsProps) => {
   const searchParams = useSearchParams();
   const view = formatViewParams(searchParams.get("view"));
   const range = formatRangeParams(searchParams.get("range"));
@@ -42,7 +43,7 @@ export const ViewCommitments = ({ habitId }: ViewCommitmentsProps) => {
       {
         onSuccess: () => {
           utils.commitment.private.byHabitId.invalidate();
-          utils.commitment.public.byHabitId.invalidate({ type: "DAILY" });
+          utils.commitment.public.byHabitId.invalidate();
         },
       },
     );
@@ -88,13 +89,13 @@ export const ViewCommitments = ({ habitId }: ViewCommitmentsProps) => {
                 className={cn(
                   "grid aspect-square w-full cursor-pointer place-items-center rounded-md border bg-input-background text-lg font-bold transition hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-50",
                   index === 0 && `col-start-${getDay(viewRange.from) + 1}`,
-                  hasCommitment?.status === "COMPLETED" && "bg-pink-600",
-                  hasCommitment?.status === "SKIPPED" && "bg-pink-600/25",
+                  hasCommitment?.status === "SKIPPED" && "opacity-25",
                 )}
                 key={index}
                 type="button"
                 onClick={() => onClick(day)}
                 disabled={new Date() < day}
+                style={{ backgroundColor: hasCommitment ? color : "" }}
               >
                 {index + 1}
               </button>

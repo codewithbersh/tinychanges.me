@@ -41,7 +41,7 @@ export const ViewOptions = ({ slug }: ViewOptionsProps) => {
       <SelectTrigger
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "h-[35px] border-none text-muted-foreground",
+          "h-[35px] border-none bg-background text-muted-foreground",
         )}
       >
         <SelectValue placeholder="Select habit view" />

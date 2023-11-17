@@ -59,6 +59,7 @@ export const Habit = ({
             habitId={habit.id}
             commitmentToday={commitmentToday}
             className="ml-auto"
+            color={habit.color}
           />
         )}
       </CardHeader>
@@ -67,39 +68,41 @@ export const Habit = ({
         className={cn("flex flex-wrap gap-2", view === "weekly" && "gap-4")}
       >
         {Array.from({ length: days }, (_, index) => {
-          const day = formatDay({
+          const grid = formatDay({
             from: viewRange.from,
             index,
           });
+          const gridLabel = format(grid, "EEE");
+          const isGridToday = isToday(grid);
 
-          const hasCommitment = commitments?.find(
+          const gridCommitStatus = commitments?.find(
             (commitment) =>
-              commitment.date.toDateString() === day.toDateString(),
-          );
+              commitment.date.toDateString() === grid.toDateString(),
+          )?.status;
 
-          const isDayToday = isToday(day);
-          const weekLabel = format(day, "EEE");
-          const tooltipLabel = hasCommitment
-            ? `${hasCommitment.status.toLowerCase()} - ${format(day, "MMM dd")}`
-            : format(day, "MMM dd");
+          const tooltip = gridCommitStatus
+            ? `${gridCommitStatus.toLowerCase()} - ${format(grid, "MMM dd")}`
+            : format(grid, "MMM dd");
 
           return (
-            <CommitmentTooltip label={tooltipLabel} key={day.toDateString()}>
+            <CommitmentTooltip label={tooltip} key={grid.toDateString()}>
               <div className="flex flex-col items-center justify-center gap-2">
                 {view === "weekly" && (
                   <div className="text-xs text-muted-foreground">
-                    {weekLabel}
+                    {gridLabel}
                   </div>
                 )}
                 <div
                   className={cn(
                     "h-4 w-4 rounded-[2px] bg-accent",
                     view === "weekly" && "h-6 w-6 rounded-[4px]",
-                    isDayToday &&
+                    isGridToday &&
                       "ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
-                    hasCommitment?.status === "COMPLETED" && "bg-pink-600",
-                    hasCommitment?.status === "SKIPPED" && "bg-pink-600/25",
+                    gridCommitStatus === "SKIPPED" && " opacity-25",
                   )}
+                  style={{
+                    backgroundColor: gridCommitStatus ? habit.color : "",
+                  }}
                 />
               </div>
             </CommitmentTooltip>
