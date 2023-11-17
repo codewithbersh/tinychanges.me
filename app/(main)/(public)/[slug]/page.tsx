@@ -6,6 +6,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { ViewOptions } from "./_components/view-options";
 import { HabitRangeFilter } from "./_components/habit-range-filter";
 import { HabitsServer } from "./_components/habits-server";
+import { Streaks } from "./_components/streaks";
 
 interface HabitsPageProps {
   params: {
@@ -23,21 +24,24 @@ const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
 
   return (
     <div className="flex flex-col gap-12">
-      <div className="flex items-center gap-6">
-        <UserAvatar
-          email={account.email!}
-          imageUrl={account.image}
-          className="h-16 w-16 text-4xl"
-        />
+      <div className="space-y-4">
+        <div className="flex items-center gap-6">
+          <UserAvatar
+            email={account.email!}
+            imageUrl={account.image}
+            className="h-16 w-16 text-4xl"
+          />
 
-        <div className="flex flex-col gap-1">
-          <h1 className="font-medium">{account.name}</h1>
-          <p className="text-muted-foreground">
-            {account.bio && account.bio.length > 0 ? account.bio : "No bio."}
-          </p>
+          <div className="flex flex-col gap-1">
+            <h1 className="font-medium">{account.name}</h1>
+            <p className="text-muted-foreground">
+              {account.bio && account.bio.length > 0 ? account.bio : "No bio."}
+            </p>
+          </div>
         </div>
+
+        <Streaks slug={account.slug} />
       </div>
-      {/* add status */}
 
       <div className="flex flex-col gap-6">
         <div className="flex gap-4">

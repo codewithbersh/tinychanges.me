@@ -28,6 +28,7 @@ export const UpdateStatus = ({
         onSuccess: () => {
           utils.commitment.public.byHabitId.invalidate();
           utils.commitment.private.byHabitId.invalidate();
+          utils.analytic.getStreaks.invalidate();
         },
       },
     );

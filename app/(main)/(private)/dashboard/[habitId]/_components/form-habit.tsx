@@ -71,9 +71,10 @@ export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
 
           utils.habit.public.getAll.invalidate();
           utils.habit.get.byId.invalidate({ id: initialData?.id });
-          utils.habit.get.all
-            .invalidate()
-            .finally(() => router.push("/dashboard"));
+          utils.habit.get.all.invalidate();
+          utils.analytic.getStreaks.invalidate();
+
+          router.push("/dashboard");
         },
         onError: () => {
           toast.error("An error has occured.");
@@ -90,9 +91,10 @@ export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
           toast.info("Habit deleted.");
           utils.habit.public.getAll.invalidate();
           utils.habit.get.byId.invalidate({ id: initialData?.id });
-          utils.habit.get.all
-            .invalidate()
-            .finally(() => router.push("/dashboard"));
+          utils.habit.get.all.invalidate();
+
+          utils.analytic.getStreaks.invalidate();
+          router.push("/dashboard");
         },
         onError: () => {
           toast.error("An error has occured.");
@@ -162,7 +164,7 @@ export const FormHabit = ({ initialData: habit }: FormHabitProps) => {
           <div>
             <ViewCommitments
               habitId={initialData.id}
-              color={initialData.color}
+              color={form.watch("color")}
             />
           </div>
         )}

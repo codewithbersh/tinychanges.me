@@ -44,6 +44,7 @@ export const ViewCommitments = ({ habitId, color }: ViewCommitmentsProps) => {
         onSuccess: () => {
           utils.commitment.private.byHabitId.invalidate();
           utils.commitment.public.byHabitId.invalidate();
+          utils.analytic.getStreaks.invalidate();
         },
       },
     );

@@ -34,6 +34,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
+    "date-streaks": "^1.2.1",
     "emoji-mart": "^5.5.2",
     "geist": "^1.0.0",
     "lucide-react": "^0.291.0",

@@ -42,7 +42,7 @@ export const Habit = ({
   );
 
   return (
-    <Card className="space-y-6">
+    <Card className="space-y-6 overflow-hidden bg-background">
       <CardHeader className="flex-row items-center gap-4">
         <Emoji
           color={habit.color}
@@ -65,7 +65,11 @@ export const Habit = ({
       </CardHeader>
 
       <CardContent
-        className={cn("flex flex-wrap gap-2", view === "weekly" && "gap-4")}
+        className={cn(
+          view === "weekly" && "flex flex-wrap gap-4",
+          view === "monthly" &&
+            "grid  w-fit grid-flow-col grid-rows-2 gap-1 min-[480px]:gap-2",
+        )}
       >
         {Array.from({ length: days }, (_, index) => {
           const grid = formatDay({
