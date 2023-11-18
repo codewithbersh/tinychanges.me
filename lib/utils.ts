@@ -3,17 +3,21 @@ import {
   addDays,
   addMonths,
   addWeeks,
+  addYears,
   endOfMonth,
   endOfWeek,
+  endOfYear,
   format,
   getDaysInMonth,
+  getDaysInYear,
   startOfMonth,
   startOfToday,
   startOfWeek,
+  startOfYear,
 } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
-type View = "weekly" | "monthly";
+type View = "weekly" | "monthly" | "yearly";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,7 +66,7 @@ export function formatRange({ view, range }: { view: View; range: number }) {
     const days = getDaysInMonth(from);
 
     return { range: currentRange, label: currentLabel, days };
-  } else {
+  } else if (view === "weekly") {
     const current = addWeeks(today, range);
     const from = startOfWeek(current);
     const to = endOfWeek(current);
@@ -70,6 +74,15 @@ export function formatRange({ view, range }: { view: View; range: number }) {
     const currentLabel = `${format(from, "MMM dd")} – ${format(to, "MMM dd")}`;
 
     return { range: currentRange, label: currentLabel, days: 7 };
+  } else {
+    const current = addYears(today, range);
+    const from = startOfYear(current);
+    const to = endOfYear(current);
+    const currentRange = { from, to };
+    const currentLabel = `${format(from, "yyyy")}`;
+    const days = getDaysInYear(from);
+
+    return { range: currentRange, label: currentLabel, days: days };
   }
 }
 

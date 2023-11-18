@@ -1,15 +1,8 @@
 import { Streaks } from "@/app/(main)/(public)/[slug]/_components/streaks";
 import db from "@/lib/prismadb";
 import { publicProcedure, router } from "@/trpc/trpc";
-import { Commitment, CommitmentStatus } from "@prisma/client";
+import { CommitmentStatus } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import {
-  differenceInDays,
-  isToday,
-  isYesterday,
-  startOfToday,
-  subDays,
-} from "date-fns";
 import { z } from "zod";
 import { summary } from "date-streaks";
 
