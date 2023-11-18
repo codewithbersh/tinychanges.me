@@ -13,12 +13,6 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
       <div>{children}</div>
       <div className="fixed bottom-8 left-8 flex items-center gap-4">
         <NavigationDropdown initialData={user} />
-        <Link href={`/${user.slug}`} passHref>
-          <Button className="h-12 rounded-full px-4" variant="secondary">
-            <LayoutGrid className="mr-2 h-4 w-4" />
-            Habits
-          </Button>
-        </Link>
       </div>
     </div>
   );

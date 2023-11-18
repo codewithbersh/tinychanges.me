@@ -6,6 +6,7 @@ import { GetPrivateUser } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -37,8 +38,6 @@ export const NavigationDropdown = ({
   const { data: user } = trpc.user.private.get.useQuery(undefined, {
     initialData,
     staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
   });
 
   if (!isMounted) {
@@ -49,50 +48,59 @@ export const NavigationDropdown = ({
     );
   }
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className={className} asChild>
-        <Button variant="secondary" className="h-12 w-12 rounded-full p-0">
-          <Menu className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        className="w-[260px] bg-secondary shadow-sm"
-        sideOffset={8}
-      >
-        <DropdownMenuLabel className="flex items-center gap-2">
-          <UserAvatar
-            imageUrl={user.image}
-            email={user.email!}
-            className="h-8 w-8"
-          />
-
-          <h1 className="truncate">{user.name ? user.name : "Anonymous"}</h1>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-primary/5" />
-
-        <DropdownMenuItem
-          className=" focus:bg-primary/10"
-          onSelect={() => router.push("/dashboard")}
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger className={className} asChild>
+          <Button variant="secondary" className="h-12 w-12 rounded-full p-0">
+            <Menu className="h-5 w-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="start"
+          className="w-[260px] bg-secondary shadow-sm"
+          sideOffset={8}
         >
-          <Settings2 className="mr-2 h-4 w-4" />
-          Dashboard
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className=" focus:bg-primary/10"
-          onSelect={() => router.push(`/${user.slug}`)}
-        >
+          <DropdownMenuLabel className="flex items-center gap-2">
+            <UserAvatar
+              imageUrl={user.image}
+              email={user.email!}
+              className="h-8 w-8"
+            />
+
+            <h1 className="truncate">{user.name ? user.name : "Anonymous"}</h1>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-primary/5" />
+
+          <DropdownMenuItem
+            className=" focus:bg-primary/10"
+            onSelect={() => router.push("/dashboard")}
+          >
+            <Settings2 className="mr-2 h-4 w-4" />
+            Dashboard
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className=" focus:bg-primary/10"
+            onSelect={() => router.push(`/${user.slug}`)}
+          >
+            <LayoutGrid className="mr-2 h-4 w-4" />
+            Habits
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer focus:bg-destructive"
+            onSelect={() => signOut({ callbackUrl: "/login" })}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <Link href={`/${user.slug}`} passHref>
+        <Button className="h-12 rounded-full px-4" variant="secondary">
           <LayoutGrid className="mr-2 h-4 w-4" />
           Habits
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="cursor-pointer focus:bg-destructive"
-          onSelect={() => signOut({ callbackUrl: "/login" })}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </Button>
+      </Link>
+    </>
   );
 };

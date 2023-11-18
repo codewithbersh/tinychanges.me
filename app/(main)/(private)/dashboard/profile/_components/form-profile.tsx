@@ -143,7 +143,7 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
                   value={field.value ?? undefined}
                   placeholder="Unique link"
                   autoComplete="off"
-                  disabled={true}
+                  // disabled={true}
                 />
               </FormControl>
               <FormDescription>
