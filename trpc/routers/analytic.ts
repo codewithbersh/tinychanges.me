@@ -28,9 +28,14 @@ type GroupedCommitments = {
   [habitId: string]: CommitmentWithHabit[];
 };
 
+type Habit = {
+  emoji: string;
+  color: string;
+};
+
 type Streaks = {
   [habitId: string]: {
-    habit: { emoji: string; color: string };
+    habit: Habit;
     streak: number;
   };
 };
@@ -82,7 +87,7 @@ export const analyticRouter = router({
           }
         });
 
-        return streaks;
+        return sortStreaks(streaks);
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
@@ -105,4 +110,19 @@ function groupByHabitId(
   });
 
   return groupedResults;
+}
+
+function sortStreaks(habits: Streaks): Streaks {
+  const sortedHabits: Streaks = {};
+
+  const habitArray: [string, { habit: Habit; streak: number }][] =
+    Object.entries(habits);
+
+  habitArray.sort((a, b) => b[1].streak - a[1].streak);
+
+  habitArray.forEach(([key, value]) => {
+    sortedHabits[key] = value;
+  });
+
+  return sortedHabits;
 }
