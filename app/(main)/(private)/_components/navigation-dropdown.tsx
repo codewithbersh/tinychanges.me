@@ -52,7 +52,10 @@ export const NavigationDropdown = ({
 
   if (!isMounted) {
     return (
-      <Button variant="secondary" className="h-12 w-12 rounded-full p-0">
+      <Button
+        variant="secondary"
+        className="h-12 w-12 rounded-full p-0 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+      >
         <Menu className="h-5 w-5" />
       </Button>
     );
@@ -61,7 +64,10 @@ export const NavigationDropdown = ({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className={className} asChild>
-          <Button variant="secondary" className="h-12 w-12 rounded-full p-0">
+          <Button
+            variant="secondary"
+            className="h-12 w-12 rounded-full p-0 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+          >
             <Menu className="h-5 w-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -106,7 +112,10 @@ export const NavigationDropdown = ({
       </DropdownMenu>
 
       <Link href={`/${user.slug}`} passHref>
-        <Button className="h-12 rounded-full px-4" variant="secondary">
+        <Button
+          className="h-12 rounded-full px-4 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+          variant="secondary"
+        >
           <LayoutGrid className="mr-2 h-4 w-4" />
           Habits
         </Button>
