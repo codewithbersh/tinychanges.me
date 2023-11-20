@@ -47,7 +47,7 @@ export const FieldImageUpload = ({
               );
             },
           }}
-          className="ut-button:w-fit ut-button:h-fit ut-button:bg-background ut-allowed-content:hidden ut-button:ring-0 w-fit p-0"
+          className="w-fit p-0 ut-button:h-fit ut-button:w-fit ut-button:bg-background ut-button:ring-0 ut-allowed-content:hidden"
           onClientUploadComplete={(res) => {
             onChange(res![0].url);
             trigger();

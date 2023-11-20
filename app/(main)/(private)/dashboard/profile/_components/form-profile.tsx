@@ -21,10 +21,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FieldImageUpload } from "./field-image-upload";
 
 const formSchema = z.object({
-  image: z.string().nullable(),
   name: z.string().trim().min(1, "Name should not be left blank.").nullable(),
   bio: z.string().max(128, "Bio should not exceed 128 characters.").nullable(),
   slug: z
@@ -61,42 +59,21 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
   });
 
   const onSubmit = (values: FormData) => {
-    update(
-      { ...values, oldImage: user.image },
-      {
-        onSuccess: (res) => {
-          if (res.ok) {
-            toast.success(res.message);
-            utils.user.private.get.invalidate();
-          } else {
-            toast.error(res.message);
-          }
-        },
+    update(values, {
+      onSuccess: (res) => {
+        if (res.ok) {
+          toast.success(res.message);
+          utils.user.private.get.invalidate();
+        } else {
+          toast.error(res.message);
+        }
       },
-    );
+    });
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <FieldImageUpload
-                  value={field.value}
-                  onChange={field.onChange}
-                  email={user.email!}
-                  trigger={form.handleSubmit(onSubmit)}
-                  disabled={isLoading}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="name"

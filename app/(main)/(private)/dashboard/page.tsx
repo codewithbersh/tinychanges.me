@@ -11,12 +11,13 @@ import { Header } from "./_components/header";
 
 const SettingsPage = async () => {
   const user = await serverTrpc.user.private.get();
+  const data = await serverTrpc.user.private.getImage();
 
   return (
     <div className="flex flex-col gap-12">
       <Header />
       <div className="flex items-center gap-4 sm:gap-6">
-        <UserProfile initialData={user} />
+        <UserProfile initialData={user} initialDataImage={data} />
         <Button asChild variant="secondary">
           <Link href="/dashboard/profile" className="ml-auto">
             Update

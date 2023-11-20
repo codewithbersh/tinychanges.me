@@ -3,7 +3,6 @@ import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import db from "@/lib/prismadb";
 import { utapi } from "@/lib/utapi";
-import { getCurrentUser } from "@/lib/get-current-user";
 
 export const userRouter = router({
   public: router({
@@ -42,8 +41,28 @@ export const userRouter = router({
           throw new TRPCError({ code: "UNAUTHORIZED" });
         }
 
-        const { id, name, email, image, slug, bio } = user;
-        return { id, name, email, image, slug, bio };
+        const { id, name, email, slug, bio } = user;
+        return { id, name, email, slug, bio };
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+    getImage: privateProcedure.query(async ({ ctx }) => {
+      const { userId } = ctx;
+
+      try {
+        const user = await db.user.findFirst({
+          where: {
+            id: userId,
+          },
+        });
+
+        if (!user) {
+          throw new TRPCError({ code: "UNAUTHORIZED" });
+        }
+
+        const { image, email } = user;
+        return { image, email };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
@@ -51,8 +70,6 @@ export const userRouter = router({
     update: privateProcedure
       .input(
         z.object({
-          image: z.string().nullable(),
-          oldImage: z.string().nullable(),
           name: z.string().nullable(),
           bio: z.string().nullable(),
           slug: z.string(),
@@ -60,7 +77,34 @@ export const userRouter = router({
       )
       .mutation(async ({ ctx, input }) => {
         const { userId } = ctx;
-        const { image, oldImage, name, bio, slug } = input;
+        const { name, bio, slug } = input;
+
+        try {
+          await db.user.update({
+            where: {
+              id: userId,
+            },
+            data: {
+              name,
+              bio,
+              slug,
+            },
+          });
+          return { ok: true, message: "Profile updated." };
+        } catch (error) {
+          return { ok: false, message: "An error has occured." };
+        }
+      }),
+    updateImage: privateProcedure
+      .input(
+        z.object({
+          image: z.string().nullable(),
+          oldImage: z.string().nullable(),
+        }),
+      )
+      .mutation(async ({ ctx, input }) => {
+        const { userId } = ctx;
+        const { image, oldImage } = input;
 
         try {
           if (oldImage) {
@@ -77,12 +121,9 @@ export const userRouter = router({
             },
             data: {
               image,
-              name,
-              bio,
-              slug,
             },
           });
-          return { ok: true, message: "Profile updated." };
+          return { ok: true, message: "Image uploaded." };
         } catch (error) {
           return { ok: false, message: "An error has occured." };
         }
