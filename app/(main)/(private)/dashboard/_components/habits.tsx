@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { Emoji } from "@/components/emoji";
+import { EmptyHabits } from "@/components/empty-habits";
 
 interface HabitsProps {
   initialData: GetHabits;
@@ -18,11 +19,7 @@ export const Habits = ({ initialData }: HabitsProps) => {
   });
 
   if (!habits || habits.length === 0) {
-    return (
-      <div className="text-center text-sm text-muted-foreground">
-        No habits found.
-      </div>
-    );
+    return <EmptyHabits />;
   }
 
   return (

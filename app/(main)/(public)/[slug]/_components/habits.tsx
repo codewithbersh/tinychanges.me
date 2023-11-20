@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { formatRange, formatRangeParams, formatViewParams } from "@/lib/utils";
 
+import { EmptyHabits } from "@/components/empty-habits";
 import { Habit } from "./habit";
 
 interface HabitsProps {
@@ -33,11 +34,7 @@ export const Habits = ({ initialData, slug }: HabitsProps) => {
   const isOwner = slug === session?.user.slug;
 
   if (!habits || habits.length === 0) {
-    return (
-      <div className="text-center text-sm text-muted-foreground">
-        No habits found.
-      </div>
-    );
+    return <EmptyHabits />;
   }
 
   return (
