@@ -12,7 +12,7 @@ const PublicLayout = async ({ children }: PropsWithChildren) => {
     <div>
       {children}
 
-      <div className="fixed bottom-8 left-8 flex items-center gap-4">
+      <div className="fixed bottom-4 left-4 flex items-center gap-4 md:bottom-8 md:left-8">
         {user && (
           <Link href="/dashboard">
             <Button className="h-12 rounded-full px-4" variant="secondary">

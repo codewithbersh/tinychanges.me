@@ -7,7 +7,7 @@ import { trpc } from "@/app/_trpc/client";
 import { GetPrivateUser } from "@/types/types";
 import { toast } from "sonner";
 import slugify from "@sindresorhus/slugify";
-import { Loader, Lock } from "lucide-react";
+import { Loader } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,9 +25,13 @@ import { FieldImageUpload } from "./field-image-upload";
 
 const formSchema = z.object({
   image: z.string().nullable(),
-  name: z.string().trim().nullable(),
-  bio: z.string().nullable(),
-  slug: z.string().trim(),
+  name: z.string().trim().min(1, "Name should not be left blank.").nullable(),
+  bio: z.string().max(128, "Bio should not exceed 128 characters.").nullable(),
+  slug: z
+    .string()
+    .trim()
+    .min(6, { message: "Link should be at least 6 characters." })
+    .max(16, { message: "Link should not exceed 12 characters." }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -106,6 +111,7 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
                   disabled={isLoading}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -115,7 +121,12 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel className="flex justify-between">
+                Bio{" "}
+                <div className="text-muted-foreground/50">
+                  {field.value?.length}/128
+                </div>
+              </FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
@@ -125,6 +136,7 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
                   disabled={isLoading}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -134,18 +146,16 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
           name="slug"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center gap-2">
-                Link <Lock className="h-3 w-3" />
-              </FormLabel>
+              <FormLabel className="flex items-center gap-2">Link</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   value={field.value ?? undefined}
                   placeholder="Unique link"
                   autoComplete="off"
-                  // disabled={true}
                 />
               </FormControl>
+              <FormMessage />
               <FormDescription>
                 tinychanges.me/{slugify(field.value ?? "")}
               </FormDescription>

@@ -1,9 +1,6 @@
-import { PropsWithChildren } from "react";
-import { LayoutGrid } from "lucide-react";
-import Link from "next/link";
 import { serverTrpc } from "@/app/_trpc/server";
+import { PropsWithChildren } from "react";
 
-import { Button } from "@/components/ui/button";
 import { NavigationDropdown } from "./_components/navigation-dropdown";
 
 const PrivateLayout = async ({ children }: PropsWithChildren) => {
@@ -11,7 +8,7 @@ const PrivateLayout = async ({ children }: PropsWithChildren) => {
   return (
     <div>
       <div>{children}</div>
-      <div className="fixed bottom-8 left-8 flex items-center gap-4">
+      <div className="fixed bottom-4 left-4 flex items-center gap-4 md:bottom-8 md:left-8">
         <NavigationDropdown initialData={user} />
       </div>
     </div>
