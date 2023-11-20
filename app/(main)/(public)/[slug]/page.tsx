@@ -34,7 +34,7 @@ const HabitsPage = async ({ params: { slug } }: HabitsPageProps) => {
 
           <div className="flex flex-col gap-1">
             <h1 className="font-medium">{account.name}</h1>
-            <p className="text-muted-foreground">
+            <p className="text-sm text-muted-foreground sm:text-base">
               {account.bio && account.bio.length > 0 ? account.bio : "No bio."}
             </p>
           </div>

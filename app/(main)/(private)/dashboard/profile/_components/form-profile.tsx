@@ -8,6 +8,8 @@ import { GetPrivateUser } from "@/types/types";
 import { toast } from "sonner";
 import slugify from "@sindresorhus/slugify";
 import { Loader } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "Name should not be left blank.").nullable(),
-  bio: z.string().max(128, "Bio should not exceed 128 characters.").nullable(),
+  bio: z.string().max(64, "Bio should not exceed 64 characters.").nullable(),
   slug: z
     .string()
     .trim()
@@ -40,6 +42,7 @@ interface FormProfileProps {
 
 export const FormProfile = ({ initialData }: FormProfileProps) => {
   const utils = trpc.useUtils();
+  const router = useRouter();
 
   const { data: user } = trpc.user.private.get.useQuery(undefined, {
     initialData,
@@ -64,6 +67,7 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
         if (res.ok) {
           toast.success(res.message);
           utils.user.private.get.invalidate();
+          router.push("/dashboard");
         } else {
           toast.error(res.message);
         }
@@ -100,8 +104,15 @@ export const FormProfile = ({ initialData }: FormProfileProps) => {
             <FormItem>
               <FormLabel className="flex justify-between">
                 Bio{" "}
-                <div className="text-muted-foreground/50">
-                  {field.value?.length}/128
+                <div
+                  className={cn(
+                    "text-muted-foreground/50",
+                    field.value &&
+                      field.value.length > 64 &&
+                      "text-destructive",
+                  )}
+                >
+                  {field.value?.length}/64
                 </div>
               </FormLabel>
               <FormControl>
