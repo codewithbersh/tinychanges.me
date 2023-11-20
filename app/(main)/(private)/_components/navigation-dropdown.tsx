@@ -21,11 +21,16 @@ import { Button } from "@/components/ui/button";
 
 interface NavigationDropdownProps {
   initialData: GetPrivateUser;
+  initialDataImage: {
+    image: string | null;
+    email: string | null;
+  };
   className?: string;
 }
 
 export const NavigationDropdown = ({
   initialData,
+  initialDataImage,
   className,
 }: NavigationDropdownProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -37,6 +42,11 @@ export const NavigationDropdown = ({
 
   const { data: user } = trpc.user.private.get.useQuery(undefined, {
     initialData,
+    staleTime: Infinity,
+  });
+
+  const { data } = trpc.user.private.getImage.useQuery(undefined, {
+    initialData: initialDataImage,
     staleTime: Infinity,
   });
 
@@ -62,7 +72,7 @@ export const NavigationDropdown = ({
         >
           <DropdownMenuLabel className="flex items-center gap-2">
             <UserAvatar
-              imageUrl={user.image}
+              imageUrl={data.image}
               email={user.email!}
               className="h-8 w-8"
             />
