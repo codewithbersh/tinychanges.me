@@ -3,9 +3,15 @@ import { habitConfig } from "@/config/habit";
 import { cn } from "@/lib/utils";
 import { marketingConfig } from "@/config/marketing";
 
+import { RotateCw } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { EmojiPopover } from "./emoji-popover";
 import { DemoLabel } from "./demo-label";
+import { habits } from "./demo";
+
+var randomEmoji = require("random-unicode-emoji");
 
 interface CreateProps {
   color: string;
@@ -25,6 +31,14 @@ export const Create = ({
   setEmoji,
 }: CreateProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const colors = habitConfig.colors;
+  const randomColor = colors[Math.floor(colors.length * Math.random())].hex;
+
+  const random = () => {
+    setColor(randomColor);
+    setEmoji(randomEmoji.random({ count: 1 })[0]);
+    setHabit(habits[Math.floor(habits.length * Math.random())]);
+  };
   return (
     <div
       className="animate-fade-up space-y-6 opacity-0"
@@ -62,13 +76,20 @@ export const Create = ({
             ))}
           </div>
 
-          <div className="h-full">
+          <div className="relative h-full">
             <Input
-              className="h-full text-center"
+              className="h-full truncate pr-8 text-center"
               placeholder="Add a habit"
               value={habit}
               onChange={(val) => setHabit(val.target.value)}
             />
+            <Button
+              variant="ghost"
+              className="absolute right-0 top-0 h-10 w-10 bg-none text-muted-foreground hover:text-primary"
+              onClick={random}
+            >
+              <RotateCw className="h-4 w-4 bg-none" />
+            </Button>
           </div>
         </div>
       </div>

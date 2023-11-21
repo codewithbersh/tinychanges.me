@@ -8,6 +8,7 @@ import {
   isToday,
   startOfMonth,
   startOfToday,
+  startOfYesterday,
 } from "date-fns";
 import { useEffectOnce } from "usehooks-ts";
 import { Check } from "lucide-react";
@@ -42,7 +43,7 @@ export const Track = ({
 
   const pastDays = eachDayOfInterval({
     start: startOfMonth(today),
-    end: today,
+    end: startOfYesterday(),
   });
 
   useEffectOnce(() => {
