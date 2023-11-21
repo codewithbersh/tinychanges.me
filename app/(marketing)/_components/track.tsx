@@ -23,6 +23,10 @@ import {
 } from "@/components/ui/tooltip";
 import { DemoLabel } from "./demo-label";
 
+//@ts-ignore
+import confetti from "canvas-confetti";
+import { useState } from "react";
+
 interface TrackProps {
   color: string;
   habit: string;
@@ -38,6 +42,8 @@ export const Track = ({
   commitments,
   setCommitments,
 }: TrackProps) => {
+  const [audio, setAudio] = useState<any>(null);
+
   const today = startOfToday();
   const days = getDaysInMonth(today);
 
@@ -48,7 +54,22 @@ export const Track = ({
 
   useEffectOnce(() => {
     setCommitments(pastDays);
+    setAudio(new Audio("/success.mp3"));
   });
+
+  const onToggle = () => {
+    toggleCommit(today, commitments, setCommitments);
+
+    if (!isInCommitments(today, commitments)) {
+      audio.play();
+      confetti({
+        particleCount: 200,
+        spread: 360,
+        origin: { y: 0.4 },
+        colors: [color],
+      });
+    }
+  };
 
   return (
     <div
@@ -77,7 +98,7 @@ export const Track = ({
             style={{
               backgroundColor: isInCommitments(today, commitments) ? color : "",
             }}
-            onClick={() => toggleCommit(today, commitments, setCommitments)}
+            onClick={onToggle}
           >
             <Check className="h-6 w-6" />
           </div>
