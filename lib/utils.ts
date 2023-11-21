@@ -10,6 +10,7 @@ import {
   format,
   getDaysInMonth,
   getDaysInYear,
+  isSameDay,
   startOfMonth,
   startOfToday,
   startOfWeek,
@@ -88,4 +89,24 @@ export function formatRange({ view, range }: { view: View; range: number }) {
 
 export function formatDay({ from, index }: { from: Date; index: number }) {
   return addDays(from, index);
+}
+
+export function toggleCommit(
+  day: Date,
+  commitments: Date[] | null,
+  setCommitment: (values: Date[]) => void,
+) {
+  if (!commitments) {
+    return null;
+  }
+
+  if (commitments.some((date) => isSameDay(date, day))) {
+    setCommitment(commitments.filter((date) => !isSameDay(day, date)));
+  } else {
+    setCommitment([...commitments, day]);
+  }
+}
+
+export function isInCommitments(day: Date, days: Date[] | null) {
+  return days?.some((date) => isSameDay(date, day));
 }
