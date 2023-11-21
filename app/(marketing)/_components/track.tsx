@@ -84,7 +84,7 @@ export const Track = ({
       <div className="space-y-4 rounded-lg border bg-input-background p-4">
         <div className="flex items-center gap-2">
           <div
-            className="grid aspect-square h-12 place-items-center rounded-md text-xl leading-none"
+            className="grid aspect-square h-12 place-items-center rounded-md text-2xl leading-none"
             style={{ backgroundColor: color }}
           >
             {emoji}
