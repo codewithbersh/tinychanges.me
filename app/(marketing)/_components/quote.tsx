@@ -16,8 +16,12 @@ export const Quote = async () => {
   const user = await getCurrentUser();
   const quotes = marketingConfig.quotes;
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className="flex animate-fade-up flex-col gap-4 opacity-0"
+      style={{ animationFillMode: "forwards", animationDelay: "1.05s" }}
+    >
       <div className="flex gap-2">
         <QuoteIcon className="h-6 w-6 text-muted-foreground" />
         <p className={cn(font.className, "text-xl", "text-center")}>

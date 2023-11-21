@@ -50,7 +50,10 @@ export const Track = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div
+      className="animate-fade-up space-y-6 opacity-0"
+      style={{ animationFillMode: "forwards", animationDelay: "0.75s" }}
+    >
       <DemoLabel
         title={marketingConfig.track.title}
         description={marketingConfig.track.description}

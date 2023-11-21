@@ -27,7 +27,10 @@ export const Update = ({ color, commitments, setCommitments }: UpdateProps) => {
   const daysInMonth = getDaysInMonth(today);
 
   return (
-    <div className="space-y-6">
+    <div
+      className="animate-fade-up space-y-6 opacity-0"
+      style={{ animationFillMode: "forwards", animationDelay: "0.90s" }}
+    >
       <DemoLabel
         title={marketingConfig.update.title}
         description={marketingConfig.update.description}

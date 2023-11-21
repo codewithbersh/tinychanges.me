@@ -26,7 +26,10 @@ export const Create = ({
 }: CreateProps) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <div className="space-y-6">
+    <div
+      className="animate-fade-up space-y-6 opacity-0"
+      style={{ animationFillMode: "forwards", animationDelay: "0.60s" }}
+    >
       <DemoLabel
         title={marketingConfig.create.title}
         description={marketingConfig.create.description}
