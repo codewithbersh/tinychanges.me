@@ -10,6 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   title: siteConfig.title,
   description: siteConfig.url,
   icons: {

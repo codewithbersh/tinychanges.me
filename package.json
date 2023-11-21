@@ -40,6 +40,7 @@
     "lucide-react": "^0.291.0",
     "next": "14.0.1",
     "next-auth": "^4.24.4",
+    "next-pwa": "^5.6.0",
     "next-themes": "^0.2.1",
     "nodemailer": "^6.9.7",
     "random-unicode-emoji": "^1.0.5",
