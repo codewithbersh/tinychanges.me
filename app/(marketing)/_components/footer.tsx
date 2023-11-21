@@ -1,5 +1,6 @@
-import { Icons } from "@/components/ui/icons";
 import Link from "next/link";
+
+import { Icons } from "@/components/ui/icons";
 
 export const Footer = () => {
   return (
