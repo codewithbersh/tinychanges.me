@@ -31,4 +31,16 @@ export const marketingConfig = {
       author: "James Clear",
     },
   ],
+  create: {
+    title: "Create.",
+    description: "Pick an emoji, a color, and enter your new habit.",
+  },
+  track: {
+    title: "Track.",
+    description: "Click the check icon to mark today's completion.",
+  },
+  update: {
+    title: "Update.",
+    description: "Review and mark past days by clicking on each date.",
+  },
 };

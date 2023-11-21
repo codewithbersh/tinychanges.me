@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { habitConfig } from "@/config/habit";
 import { cn } from "@/lib/utils";
+import { marketingConfig } from "@/config/marketing";
 
 import { Input } from "@/components/ui/input";
 import { EmojiPopover } from "./emoji-popover";
@@ -27,8 +28,8 @@ export const Create = ({
   return (
     <div className="space-y-6">
       <DemoLabel
-        title="Create."
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
+        title={marketingConfig.create.title}
+        description={marketingConfig.create.description}
       />
       <div className="grid grid-cols-12 gap-2">
         <EmojiPopover setEmoji={setEmoji} open={open} setOpen={setOpen}>

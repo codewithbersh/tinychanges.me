@@ -10,6 +10,7 @@ import {
   startOfToday,
 } from "date-fns";
 import { cn, isInCommitments, toggleCommit } from "@/lib/utils";
+import { marketingConfig } from "@/config/marketing";
 
 import { DemoLabel } from "./demo-label";
 
@@ -28,11 +29,11 @@ export const Update = ({ color, commitments, setCommitments }: UpdateProps) => {
   return (
     <div className="space-y-6">
       <DemoLabel
-        title="Update."
-        description="Lorem ipsum dolor sit amet consectur lorem ipsum dolor."
+        title={marketingConfig.update.title}
+        description={marketingConfig.update.description}
       />
 
-      <div className="grid grid-cols-7 gap-2 rounded-lg border p-4">
+      <div className="grid grid-cols-7 gap-2 rounded-lg border bg-input-background p-4">
         {labels.map((label) => (
           <div
             key={label}

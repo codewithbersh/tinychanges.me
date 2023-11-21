@@ -18,7 +18,7 @@ export const Quote = async () => {
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex">
+      <div className="flex gap-2">
         <QuoteIcon className="h-6 w-6 text-muted-foreground" />
         <p className={cn(font.className, "text-xl", "text-center")}>
           {quote.quote}

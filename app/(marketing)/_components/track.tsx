@@ -5,12 +5,14 @@ import {
   eachDayOfInterval,
   format,
   getDaysInMonth,
+  isToday,
   startOfMonth,
   startOfToday,
 } from "date-fns";
 import { useEffectOnce } from "usehooks-ts";
 import { Check } from "lucide-react";
 import { cn, isInCommitments, toggleCommit } from "@/lib/utils";
+import { marketingConfig } from "@/config/marketing";
 
 import {
   Tooltip,
@@ -50,8 +52,8 @@ export const Track = ({
   return (
     <div className="space-y-6">
       <DemoLabel
-        title="Track."
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."
+        title={marketingConfig.track.title}
+        description={marketingConfig.track.description}
       />
 
       <div className="space-y-4 rounded-lg border bg-input-background p-4">
@@ -87,6 +89,8 @@ export const Track = ({
                     <div
                       className={cn(
                         "h-4 w-4 rounded-[2px] bg-neutral-300 dark:bg-neutral-800",
+                        isToday(day) &&
+                          "ring-1 ring-primary ring-offset-1 ring-offset-background",
                       )}
                       style={{
                         backgroundColor: isInCommitments(day, commitments)
