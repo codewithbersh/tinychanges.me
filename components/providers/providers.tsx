@@ -32,9 +32,10 @@ export function Providers({ children, session }: ProvidersProps) {
       <ThemeProvider
         attribute="class"
         defaultTheme="dark"
-        enableSystem={true}
+        enableSystem={false}
         disableTransitionOnChange
         storageKey="my-theme"
+        forcedTheme="dark"
       >
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
