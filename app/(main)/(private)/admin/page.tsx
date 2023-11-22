@@ -1,11 +1,17 @@
 import { serverTrpc } from "@/app/_trpc/server";
-import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/get-current-user";
+import { notFound, redirect } from "next/navigation";
 
 const AdminPage = async () => {
+  const user = await getCurrentUser();
   const res = await serverTrpc.admin.get.waitlist();
 
   if (!res.ok) {
     return redirect("/login");
+  }
+
+  if (!user || user.slug !== "codewithbersh") {
+    return notFound();
   }
 
   const { waitlists } = res;
