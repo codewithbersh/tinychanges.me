@@ -31,7 +31,10 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(6, { message: "Link should be at least 6 characters." })
-    .max(16, { message: "Link should not exceed 12 characters." }),
+    .max(16, { message: "Link should not exceed 12 characters." })
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: "Link should only contain letters and spaces.",
+    }),
 });
 
 type FormData = z.infer<typeof formSchema>;

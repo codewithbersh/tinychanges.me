@@ -3,6 +3,7 @@ import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import db from "@/lib/prismadb";
 import { utapi } from "@/lib/utapi";
+import slugify from "@sindresorhus/slugify";
 
 export const userRouter = router({
   public: router({
@@ -80,6 +81,19 @@ export const userRouter = router({
         const { name, bio, slug } = input;
 
         try {
+          const hasDuplicate = await db.user.findFirst({
+            where: {
+              NOT: {
+                id: userId,
+              },
+              slug,
+            },
+          });
+
+          if (hasDuplicate) {
+            return { ok: false, message: "Link is taken." };
+          }
+
           await db.user.update({
             where: {
               id: userId,
@@ -87,7 +101,7 @@ export const userRouter = router({
             data: {
               name,
               bio,
-              slug,
+              slug: slugify(slug),
             },
           });
           return { ok: true, message: "Profile updated." };
