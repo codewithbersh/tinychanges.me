@@ -4,10 +4,10 @@ import { GeistSans } from "geist/font";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
 import { siteConfig } from "@/config/site";
-
-import { Providers } from "@/components/providers/providers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+
+import { Providers } from "@/components/providers/providers";
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",

@@ -39,8 +39,8 @@ export const Quote = async () => {
       </p>
       <Button className="mx-auto mt-4 h-[40px] px-4" asChild>
         {user ? (
-          <Link href="/dashboard">
-            Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+          <Link href={`/${user.slug}`}>
+            View Habits <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         ) : (
           <Link href="/login">

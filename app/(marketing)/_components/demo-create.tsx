@@ -13,7 +13,7 @@ import { habits } from "./demo";
 
 var randomEmoji = require("random-unicode-emoji");
 
-interface CreateProps {
+interface DemoCreateProps {
   color: string;
   setColor: (val: string) => void;
   habit: string;
@@ -22,14 +22,14 @@ interface CreateProps {
   setEmoji: (val: string) => void;
 }
 
-export const Create = ({
+export const DemoCreate = ({
   color,
   setColor,
   habit,
   setHabit,
   emoji,
   setEmoji,
-}: CreateProps) => {
+}: DemoCreateProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const colors = habitConfig.colors;
   const randomColor = colors[Math.floor(colors.length * Math.random())].hex;
@@ -51,7 +51,7 @@ export const Create = ({
       <div className="grid grid-cols-12 gap-2">
         <EmojiPopover setEmoji={setEmoji} open={open} setOpen={setOpen}>
           <div
-            className="col-span-3 grid aspect-square place-items-center rounded-lg"
+            className="col-span-3 flex aspect-square items-center justify-center rounded-lg"
             onClick={() => setOpen(!open)}
             role="button"
             style={{ backgroundColor: color }}

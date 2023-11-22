@@ -4,9 +4,9 @@ import { useState } from "react";
 import { habitConfig } from "@/config/habit";
 import { useEffectOnce } from "usehooks-ts";
 
-import { Create } from "./create";
-import { Track } from "./track";
-import { Update } from "./update";
+import { DemoCreate } from "./demo-create";
+import { DemoTrack } from "./demo-track";
+import { DemoUpdate } from "./demo-update";
 
 var randomEmoji = require("random-unicode-emoji");
 
@@ -67,7 +67,7 @@ export const Demo = () => {
 
   return (
     <>
-      <Create
+      <DemoCreate
         color={color}
         setColor={setColor}
         habit={habit}
@@ -75,14 +75,14 @@ export const Demo = () => {
         emoji={emoji}
         setEmoji={setEmoji}
       />
-      <Track
+      <DemoTrack
         color={color}
         habit={habit}
         emoji={emoji}
         commitments={commitments}
         setCommitments={setCommitments}
       />
-      <Update
+      <DemoUpdate
         color={color}
         commitments={commitments}
         setCommitments={setCommitments}

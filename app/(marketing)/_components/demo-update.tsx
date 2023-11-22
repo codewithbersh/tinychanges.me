@@ -16,13 +16,17 @@ import { DemoLabel } from "./demo-label";
 
 const labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-interface UpdateProps {
+interface DemoUpdateProps {
   color: string;
   commitments: Date[] | null;
   setCommitments: (values: Date[]) => void;
 }
 
-export const Update = ({ color, commitments, setCommitments }: UpdateProps) => {
+export const DemoUpdate = ({
+  color,
+  commitments,
+  setCommitments,
+}: DemoUpdateProps) => {
   const today = startOfToday();
   const daysInMonth = getDaysInMonth(today);
 
@@ -53,7 +57,7 @@ export const Update = ({ color, commitments, setCommitments }: UpdateProps) => {
           return (
             <button
               className={cn(
-                " grid aspect-square cursor-pointer place-items-center rounded-lg bg-accent text-lg font-bold disabled:opacity-50",
+                "flex aspect-square cursor-pointer  items-center justify-center  rounded-lg bg-accent text-lg font-bold disabled:opacity-50",
                 index === 0 && `col-start-${getDay(startOfMonth(today)) + 1}`,
                 isSameDay(day, today) &&
                   "ring-2 ring-primary ring-offset-2 ring-offset-background ",

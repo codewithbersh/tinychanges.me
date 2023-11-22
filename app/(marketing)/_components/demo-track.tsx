@@ -27,7 +27,7 @@ import { DemoLabel } from "./demo-label";
 import confetti from "canvas-confetti";
 import { useState } from "react";
 
-interface TrackProps {
+interface DemoTrackProps {
   color: string;
   habit: string;
   emoji: string;
@@ -35,13 +35,13 @@ interface TrackProps {
   setCommitments: (values: Date[]) => void;
 }
 
-export const Track = ({
+export const DemoTrack = ({
   color,
   habit,
   emoji,
   commitments,
   setCommitments,
-}: TrackProps) => {
+}: DemoTrackProps) => {
   const [audio, setAudio] = useState<any>(null);
 
   const today = startOfToday();
@@ -84,7 +84,7 @@ export const Track = ({
       <div className="space-y-4 rounded-lg border bg-input-background p-4">
         <div className="flex items-center gap-2">
           <div
-            className="grid aspect-square h-12 place-items-center rounded-md text-2xl leading-none"
+            className=" flex aspect-square h-12 items-center justify-center rounded-md text-2xl leading-none"
             style={{ backgroundColor: color }}
           >
             {emoji}
