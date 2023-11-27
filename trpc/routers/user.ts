@@ -143,6 +143,26 @@ export const userRouter = router({
         }
       }),
   }),
+
+  getUserBySlug: publicProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { slug } = input;
+
+      try {
+        return await db.user.findFirst({
+          where: {
+            slug,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
 });
 
 function extractFileName(url: string) {
