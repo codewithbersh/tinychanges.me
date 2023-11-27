@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Loader, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +38,7 @@ interface HabitFormProps {
 
 export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
   const router = useRouter();
+  const utils = trpc.useUtils();
 
   const { data: initialData, isLoading } = trpc.habit.getByHabitId.useQuery(
     {
@@ -58,12 +60,20 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
     },
   });
 
+  useEffect(() => {
+    console.log("im running");
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
+
   const onSubmit = (values: FormData) => {
     mutate(
       { ...values, id: initialData?.id },
       {
         onSuccess: (habit) => {
           toast.success(successMessage);
+          utils.habit.getByHabitId.invalidate({ habitId: habit.id });
           router.push(`/${slug}`);
         },
       },
@@ -76,6 +86,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
 
   const successMessage = initialData ? "Habit updated" : "Habit created";
   const submittingMessage = initialData ? "Saving habit" : "Adding habit";
+  const submitText = initialData ? "Save habit" : "Add habit";
   const isSubmitting = form.formState.isSubmitting || isMutating;
   return (
     <Form {...form}>
@@ -148,7 +159,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
           ) : (
             <>
               <Plus className="mr-2 h-4 w-4" />
-              Add Habit
+              {submitText}
             </>
           )}
         </Button>
