@@ -1,13 +1,18 @@
 import { getCurrentUser } from "@/lib/get-current-user";
 
 import { Navbar } from "./navbar";
+import { Profile } from "./profile";
 
 export type Route = {
   label: string;
   href: string;
 };
 
-export const Header = async () => {
+interface HeaderProps {
+  slug: string;
+}
+
+export const Header = async ({ slug }: HeaderProps) => {
   const user = await getCurrentUser();
 
   const routes = [
@@ -26,8 +31,11 @@ export const Header = async () => {
   ];
 
   return (
-    <div className="p-4 md:p-8">
-      <Navbar routes={routes} isAuthenticated={!!user} />
+    <div className="border-b border-neutral-700 bg-neutral-800 p-4 md:p-8">
+      <div className="mx-auto flex max-w-2xl flex-col gap-6">
+        <Navbar routes={routes} isAuthenticated={!!user} />
+        <Profile slug={slug} />
+      </div>
     </div>
   );
 };

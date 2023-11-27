@@ -11,12 +11,10 @@ interface NavbarProps {
 
 export const Navbar = ({ routes, isAuthenticated }: NavbarProps) => {
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="flex items-center justify-between">
-        <Logo />
-        <MobileNav routes={routes} isAuthenticated={isAuthenticated} />
-        <DesktopNav routes={routes} isAuthenticated={isAuthenticated} />
-      </div>
+    <div className="flex items-center justify-between">
+      <Logo />
+      <MobileNav routes={routes} isAuthenticated={isAuthenticated} />
+      <DesktopNav routes={routes} isAuthenticated={isAuthenticated} />
     </div>
   );
 };

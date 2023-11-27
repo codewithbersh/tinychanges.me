@@ -9,7 +9,7 @@ interface SlugLayoutProps {
 const SlugLayout = ({ params: { slug }, children }: SlugLayoutProps) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <Header slug={slug} />
       <main>{children}</main>
     </div>
   );
