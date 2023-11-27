@@ -47,6 +47,7 @@ model User {
   image         String?
   slug          String    @unique @default(cuid())
   bio           String?
+  joinedAt      DateTime  @default(now())
   accounts      Account[]
   sessions      Session[]
   habits        Habit[]
@@ -71,10 +72,10 @@ model Habit {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  habit       String
-  emoji       String
-  color       String
-  commitments Commitment[]
+  habit         String
+  emoji         String
+  color         String
+  contributions Contribution[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,20 +83,13 @@ model Habit {
   @@index([userId])
 }
 
-model Commitment {
+model Contribution {
   id String @id @default(cuid())
 
   habitId String
-  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
-
-  date   DateTime
-  status CommitmentStatus @default(COMPLETED)
+  habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date    DateTime
 
   @@unique([date, habitId])
   @@index([habitId])
-}
-
-enum CommitmentStatus {
-  COMPLETED
-  SKIPPED
 }

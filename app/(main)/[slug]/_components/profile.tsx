@@ -13,7 +13,12 @@ interface ProfileProps {
 }
 
 export const Profile = ({ slug }: ProfileProps) => {
-  const { data: user, isLoading } = trpc.user.getUserBySlug.useQuery({ slug });
+  const { data: user, isLoading } = trpc.user.getUserBySlug.useQuery(
+    { slug },
+    {
+      staleTime: Infinity,
+    },
+  );
 
   if (isLoading) {
     return <Profile.Skeleton />;

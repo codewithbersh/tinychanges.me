@@ -4,136 +4,64 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const habitRouter = router({
-  add: privateProcedure
+  create: privateProcedure
     .input(
       z.object({
         emoji: z.string(),
-        color: z.string(),
         habit: z.string(),
-        initialData: z.string().optional(),
+        color: z.string(),
+        id: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
-      const { emoji, color, habit, initialData } = input;
-
-      let res;
+      const { emoji, habit, color, id } = input;
 
       try {
-        if (initialData) {
-          res = await db.habit.update({
+        if (id) {
+          return await db.habit.update({
             where: {
-              id: initialData,
+              id,
             },
             data: {
+              userId,
               emoji,
-              color,
               habit,
+              color,
             },
           });
         } else {
-          res = await db.habit.create({
+          return await db.habit.create({
             data: {
-              emoji,
-              color,
-              habit,
               userId,
+              emoji,
+              habit,
+              color,
             },
           });
         }
-
-        return { id: res.id };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
     }),
-  get: router({
-    all: privateProcedure.query(async ({ ctx }) => {
-      const { userId } = ctx;
-
-      try {
-        return await db.habit.findMany({
-          where: {
-            userId,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        });
-      } catch (error) {
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      }
-    }),
-    byId: privateProcedure
-      .input(
-        z.object({
-          id: z.string().optional(),
-        }),
-      )
-      .query(async ({ ctx, input }) => {
-        const { userId } = ctx;
-        const { id } = input;
-
-        try {
-          if (!id || id?.toLowerCase() === "new") {
-            return null;
-          } else {
-            return await db.habit.findFirst({
-              where: {
-                id,
-                userId,
-              },
-            });
-          }
-        } catch (error) {
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-        }
-      }),
-  }),
-  delete: privateProcedure
+  getByHabitId: privateProcedure
     .input(
       z.object({
-        id: z.string(),
+        habitId: z.string(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
+      const { habitId } = input;
       const { userId } = ctx;
-      const { id } = input;
-
       try {
-        await db.habit.delete({
+        return await db.habit.findFirst({
           where: {
-            id,
+            id: habitId,
+            userId,
           },
         });
       } catch (error) {
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        throw new TRPCError({ code: "UNAUTHORIZED" });
       }
     }),
-  public: router({
-    getAll: publicProcedure
-      .input(
-        z.object({
-          slug: z.string(),
-        }),
-      )
-      .query(async ({ input }) => {
-        const { slug } = input;
-
-        try {
-          return await db.habit.findMany({
-            where: {
-              user: {
-                slug,
-              },
-            },
-            orderBy: {
-              createdAt: "desc",
-            },
-          });
-        } catch (error) {
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-        }
-      }),
-  }),
 });

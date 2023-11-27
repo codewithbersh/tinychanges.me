@@ -31,11 +31,9 @@ export const Header = async ({ slug }: HeaderProps) => {
   ];
 
   return (
-    <div className="border-b border-neutral-700 bg-neutral-800 p-4 md:p-8">
-      <div className="mx-auto flex max-w-2xl flex-col gap-6">
-        <Navbar routes={routes} isAuthenticated={!!user} />
-        <Profile slug={slug} />
-      </div>
+    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+      <Navbar routes={routes} isAuthenticated={!!user} />
+      <Profile slug={slug} />
     </div>
   );
 };

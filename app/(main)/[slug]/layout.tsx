@@ -9,8 +9,13 @@ interface SlugLayoutProps {
 const SlugLayout = ({ params: { slug }, children }: SlugLayoutProps) => {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header slug={slug} />
-      <main>{children}</main>
+      <div className="border-b border-neutral-700 bg-neutral-800 p-4 md:p-8">
+        <Header slug={slug} />
+      </div>
+
+      <div className="p-4 py-8 md:p-8 md:py-16">
+        <div className="mx-auto max-w-2xl">{children}</div>
+      </div>
     </div>
   );
 };
