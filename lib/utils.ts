@@ -18,13 +18,13 @@ import {
 } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
-export type Type = "week" | "month" | "year";
+export type View = "week" | "month" | "year";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function validateTypeParams(text: string | undefined) {
+export function validateViewParams(text: string | undefined) {
   switch (text?.toLowerCase()) {
     case "month":
       return "month";
@@ -47,15 +47,15 @@ export function validateRangeParams(text: string | undefined) {
 }
 
 export function formatRangeFilter({
-  type,
+  view,
   range,
 }: {
-  type: Type;
+  view: View;
   range: number;
 }) {
   const today = startOfToday();
 
-  switch (type) {
+  switch (view) {
     case "month":
       var current = addMonths(today, range);
       var from = startOfMonth(current);

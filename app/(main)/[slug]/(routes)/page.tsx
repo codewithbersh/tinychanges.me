@@ -1,4 +1,4 @@
-import { validateRangeParams, validateTypeParams } from "@/lib/utils";
+import { validateRangeParams, validateViewParams } from "@/lib/utils";
 import { getCurrentUser } from "@/lib/get-current-user";
 
 import { Filters } from "./_components/filters";
@@ -12,14 +12,15 @@ interface SlugPageProps {
 }
 
 const SlugPage = async ({ params: { slug }, searchParams }: SlugPageProps) => {
-  const typeParams = validateTypeParams(searchParams.type);
-  const rangeParams = validateRangeParams(searchParams.range);
   const user = await getCurrentUser();
   const isOwner = user?.slug === slug;
 
+  const view = validateViewParams(searchParams.view);
+  const range = validateRangeParams(searchParams.range);
+
   return (
     <div className="flex flex-col gap-8">
-      <Filters type={typeParams} range={rangeParams} slug={slug} />
+      <Filters view={view} range={range} slug={slug} />
       <Habits slug={slug} isOwner={isOwner} />
     </div>
   );

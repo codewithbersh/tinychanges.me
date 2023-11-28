@@ -2,7 +2,6 @@
 
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
-import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
@@ -16,24 +15,22 @@ interface HabitProps {
 export const Habit = ({ habit, isOwner }: HabitProps) => {
   const totalContributions = 25;
   const streakCount = 4;
-  const { data: contributons, isLoading } =
-    trpc.contribution.getAllByHabitId.useQuery(
-      {
-        habitId: habit.id,
-      },
-      {
-        staleTime: Infinity,
-      },
-    );
+  const { data: contributions } = trpc.contribution.getAllByHabitId.useQuery(
+    {
+      habitId: habit.id,
+    },
+    {
+      staleTime: Infinity,
+    },
+  );
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 truncate">
           <div
-            className={cn(
-              `text-2l grid h-10 w-10 place-items-center rounded-sm !bg-[${habit.color}] !bg-opacity-25 leading-none`,
-            )}
+            className="text-2l grid h-10 w-10 place-items-center rounded-sm  !bg-opacity-25 leading-none"
+            style={{ backgroundColor: habit.color }}
           >
             {habit.emoji}
           </div>
@@ -64,7 +61,9 @@ export const Habit = ({ habit, isOwner }: HabitProps) => {
 
             <div className="flex items-center gap-1">
               <Icons.streak className="h-4 w-4" />
-              <div className="text-sm">{streakCount}</div>
+              <div className="text-sm">
+                {contributions?.length && contributions[0].id}
+              </div>
             </div>
           </div>
           {isOwner && (

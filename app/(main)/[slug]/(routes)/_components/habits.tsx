@@ -10,7 +10,10 @@ interface HabitsProps {
 }
 
 export const Habits = ({ slug, isOwner }: HabitsProps) => {
-  const { data: habits, isLoading } = trpc.habit.getAll.useQuery({ slug });
+  const { data: habits, isLoading } = trpc.habit.getAll.useQuery(
+    { slug },
+    { staleTime: Infinity },
+  );
 
   if (isLoading) {
     return (

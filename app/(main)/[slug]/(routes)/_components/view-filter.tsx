@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { GanttChart } from "lucide-react";
-import { Type } from "@/lib/utils";
+import { View } from "@/lib/utils";
 
 import {
   Select,
@@ -12,15 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface TypeFilterProps {
-  type: Type;
+interface ViewFilterProps {
+  view: View;
   slug: string;
 }
 
-export const TypeFilter = ({ type, slug }: TypeFilterProps) => {
+export const ViewFilter = ({ view, slug }: ViewFilterProps) => {
   const router = useRouter();
 
-  const types = [
+  const views = [
     {
       label: "Week",
       value: "week",
@@ -36,19 +36,19 @@ export const TypeFilter = ({ type, slug }: TypeFilterProps) => {
   ];
 
   const onValueChange = (value: string) => {
-    router.push(`/${slug}?type=${value}`);
+    router.push(`/${slug}?view=${value}`);
   };
 
   return (
-    <Select onValueChange={onValueChange} defaultValue={type}>
+    <Select onValueChange={onValueChange} defaultValue={view}>
       <SelectTrigger className="h-8 w-fit border-none">
         <GanttChart className="mr-2 h-4 w-4" />
         <SelectValue placeholder="View" />
       </SelectTrigger>
       <SelectContent>
-        {types.map((type) => (
-          <SelectItem value={type.value} key={type.value}>
-            {type.label}
+        {views.map((view) => (
+          <SelectItem value={view.value} key={view.value}>
+            {view.label}
           </SelectItem>
         ))}
       </SelectContent>
