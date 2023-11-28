@@ -1,5 +1,7 @@
 "use client";
 
+import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 
@@ -9,12 +11,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 interface HabitProps {
   habit: GetAllHabits[number];
-  isOwner: boolean;
 }
 
-export const Habit = ({ habit, isOwner }: HabitProps) => {
-  const totalContributions = 25;
-  const streakCount = 4;
+export const Habit = ({ habit }: HabitProps) => {
+  const params = useParams();
+  const { data: session } = useSession();
+
+  const isOwner = params["slug"] === session?.user.slug;
+
   const { data: contributions } = trpc.contribution.getAllByHabitId.useQuery(
     {
       habitId: habit.id,
@@ -41,12 +45,12 @@ export const Habit = ({ habit, isOwner }: HabitProps) => {
             <div className="flex gap-4 md:hidden">
               <div className="flex items-center gap-1">
                 <Icons.contributions className="h-4 w-4" />
-                <div className="text-sm">{totalContributions}</div>
+                <div className="text-sm">{contributions?.length}</div>
               </div>
 
               <div className="flex items-center gap-1">
                 <Icons.streak className="h-4 w-4" />
-                <div className="text-sm">{streakCount}</div>
+                <div className="text-sm">{4}</div>
               </div>
             </div>
           </div>
@@ -56,14 +60,12 @@ export const Habit = ({ habit, isOwner }: HabitProps) => {
           <div className="hidden gap-4 md:flex">
             <div className="flex items-center gap-1">
               <Icons.contributions className="h-4 w-4" />
-              <div className="text-sm">{totalContributions}</div>
+              <div className="text-sm">{4}</div>
             </div>
 
             <div className="flex items-center gap-1">
               <Icons.streak className="h-4 w-4" />
-              <div className="text-sm">
-                {contributions?.length && contributions[0].id}
-              </div>
+              <div className="text-sm">{contributions?.length}</div>
             </div>
           </div>
           {isOwner && (

@@ -1,20 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { View } from "@/lib/utils";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { ViewFilter } from "./view-filter";
 import { RangeFilter } from "./range-filter";
 
-interface FiltersProps {
-  view: View;
-  range: number;
-  slug: string;
-}
-
-export const Filters = ({ view, range, slug }: FiltersProps) => {
+export const Filters = () => {
   const [mounted, setMounted] = useState<boolean>(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -22,10 +16,11 @@ export const Filters = ({ view, range, slug }: FiltersProps) => {
   if (!mounted) {
     return <Filters.Skeleton />;
   }
+
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <ViewFilter view={view} slug={slug} />
-      <RangeFilter range={range} slug={slug} view={view} />
+      <ViewFilter />
+      <RangeFilter />
     </div>
   );
 };

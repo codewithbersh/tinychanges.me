@@ -2,20 +2,21 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { View, formatRangeFilter } from "@/lib/utils";
+import {
+  formatRangeFilter,
+  validateRangeParams,
+  validateViewParams,
+} from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
-interface RangeFilterProps {
-  range: number;
-  slug: string;
-  view: View;
-}
-
-export const RangeFilter = ({ range, slug, view }: RangeFilterProps) => {
+export const RangeFilter = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
+
+  const view = validateViewParams(searchParams.get("view"));
+  const range = validateRangeParams(searchParams.get("range"));
+  const router = useRouter();
 
   const { label } = formatRangeFilter({ view, range });
 

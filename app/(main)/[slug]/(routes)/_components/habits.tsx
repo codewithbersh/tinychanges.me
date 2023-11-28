@@ -3,13 +3,13 @@
 import { trpc } from "@/app/_trpc/client";
 
 import { Habit } from "./habit";
+import { useParams } from "next/navigation";
 
-interface HabitsProps {
-  slug: string;
-  isOwner: boolean;
-}
+export const Habits = () => {
+  const params = useParams();
 
-export const Habits = ({ slug, isOwner }: HabitsProps) => {
+  const slug = params["slug"] as string;
+
   const { data: habits, isLoading } = trpc.habit.getAll.useQuery(
     { slug },
     { staleTime: Infinity },
@@ -31,7 +31,7 @@ export const Habits = ({ slug, isOwner }: HabitsProps) => {
   return (
     <>
       {habits.map((habit) => (
-        <Habit key={habit.id} habit={habit} isOwner={isOwner} />
+        <Habit key={habit.id} habit={habit} />
       ))}
     </>
   );

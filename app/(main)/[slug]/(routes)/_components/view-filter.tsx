@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { GanttChart } from "lucide-react";
-import { View } from "@/lib/utils";
+import { View, validateViewParams } from "@/lib/utils";
 
 import {
   Select,
@@ -12,12 +12,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface ViewFilterProps {
-  view: View;
-  slug: string;
-}
+export const ViewFilter = () => {
+  const searchParams = useSearchParams();
+  const params = useParams();
 
-export const ViewFilter = ({ view, slug }: ViewFilterProps) => {
+  const slug = params["slug"];
+  const view = validateViewParams(searchParams.get("view"));
+
   const router = useRouter();
 
   const views = [

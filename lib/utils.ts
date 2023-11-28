@@ -24,7 +24,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function validateViewParams(text: string | undefined) {
+export function validateViewParams(text: string | null) {
   switch (text?.toLowerCase()) {
     case "month":
       return "month";
@@ -35,7 +35,7 @@ export function validateViewParams(text: string | undefined) {
   }
 }
 
-export function validateRangeParams(text: string | undefined) {
+export function validateRangeParams(text: string | null) {
   const num = Number(text);
   switch (isNaN(num)) {
     case false:
