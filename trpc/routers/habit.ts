@@ -4,6 +4,52 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const habitRouter = router({
+  getByHabitId: privateProcedure
+    .input(
+      z.object({
+        habitId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { habitId } = input;
+      const { userId } = ctx;
+      try {
+        return await db.habit.findFirst({
+          where: {
+            id: habitId,
+            userId,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+    }),
+
+  getAll: publicProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { slug } = input;
+
+      try {
+        return await db.habit.findMany({
+          where: {
+            user: {
+              slug,
+            },
+          },
+          include: {
+            contributions: true,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+
   create: privateProcedure
     .input(
       z.object({
@@ -42,26 +88,6 @@ export const habitRouter = router({
         }
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      }
-    }),
-  getByHabitId: privateProcedure
-    .input(
-      z.object({
-        habitId: z.string(),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const { habitId } = input;
-      const { userId } = ctx;
-      try {
-        return await db.habit.findFirst({
-          where: {
-            id: habitId,
-            userId,
-          },
-        });
-      } catch (error) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
       }
     }),
 });

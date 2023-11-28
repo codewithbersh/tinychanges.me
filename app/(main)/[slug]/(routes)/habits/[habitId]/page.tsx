@@ -1,5 +1,5 @@
-import { getCurrentUser } from "@/lib/get-current-user";
 import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/lib/get-current-user";
 
 import { HabitForm } from "./_components/habit-form";
 

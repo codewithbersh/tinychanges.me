@@ -18,72 +18,72 @@ import {
 } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
-type View = "weekly" | "monthly" | "yearly";
+export type Type = "week" | "month" | "year";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatViewParams(params: string | null) {
-  switch (params?.toLowerCase()) {
-    case "weekly":
-      return "weekly";
+export function validateTypeParams(text: string | undefined) {
+  switch (text?.toLowerCase()) {
+    case "month":
+      return "month";
+    case "year":
+      return "year";
     default:
-      return "monthly";
+      return "week";
   }
 }
 
-export function formatStatusParams(params: string | null) {
-  switch (params?.toLowerCase()) {
-    case "in-progress":
-      return "in-progress";
-    case "completed":
-      return "completed";
-    default:
-      return "all";
-  }
-}
-
-export function formatRangeParams(params: string | null) {
-  const num = Number(params);
-
+export function validateRangeParams(text: string | undefined) {
+  const num = Number(text);
   switch (isNaN(num)) {
     case false:
       return num;
+
     default:
       return 0;
   }
 }
 
-export function formatRange({ view, range }: { view: View; range: number }) {
+export function formatRangeFilter({
+  type,
+  range,
+}: {
+  type: Type;
+  range: number;
+}) {
   const today = startOfToday();
 
-  if (view === "monthly") {
-    const current = addMonths(today, range);
-    const from = startOfMonth(current);
-    const to = endOfMonth(current);
-    const currentRange = { from, to };
-    const currentLabel = format(current, "MMMM");
-    const days = getDaysInMonth(from);
+  switch (type) {
+    case "month":
+      var current = addMonths(today, range);
+      var from = startOfMonth(current);
+      var to = endOfMonth(current);
+      var currentRange = { from, to };
+      var currentLabel = format(current, "MMMM");
+      var days = getDaysInMonth(from);
 
-    return { range: currentRange, label: currentLabel, days };
-  } else if (view === "weekly") {
-    const current = addWeeks(today, range);
-    const from = startOfWeek(current);
-    const to = endOfWeek(current);
-    const currentRange = { from, to };
-    const currentLabel = `${format(from, "MMM dd")} – ${format(to, "MMM dd")}`;
+      return { range: currentRange, label: currentLabel, days };
 
-    return { range: currentRange, label: currentLabel, days: 7 };
-  } else {
-    const current = addYears(today, range);
-    const from = startOfYear(current);
-    const to = endOfYear(current);
-    const currentRange = { from, to };
-    const currentLabel = `${format(from, "yyyy")}`;
-    const days = getDaysInYear(from);
+    case "year":
+      var current = addYears(today, range);
+      var from = startOfYear(current);
+      var to = endOfYear(current);
+      var currentRange = { from, to };
+      var currentLabel = `${format(from, "yyyy")}`;
+      var days = getDaysInYear(from);
 
-    return { range: currentRange, label: currentLabel, days: days };
+      return { range: currentRange, label: currentLabel, days: days };
+
+    default:
+      var current = addWeeks(today, range);
+      var from = startOfWeek(current);
+      var to = endOfWeek(current);
+      var currentRange = { from, to };
+      var currentLabel = `${format(from, "MMM dd")} – ${format(to, "MMM dd")}`;
+
+      return { range: currentRange, label: currentLabel, days: 7 };
   }
 }
 
