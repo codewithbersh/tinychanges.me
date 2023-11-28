@@ -1,4 +1,4 @@
-export const HabitYearView = () => {
+export const YearView = () => {
   return (
     <div className="hide-scrollbar flex gap-6 overflow-x-auto rounded-lg bg-neutral-800/50 p-4">
       {Array.from({ length: 12 }).map((_, index) => (

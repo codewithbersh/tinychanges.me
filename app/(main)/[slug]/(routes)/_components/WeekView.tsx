@@ -1,4 +1,4 @@
-export const HabitWeekView = () => {
+export const WeekView = () => {
   return (
     <div className="flex gap-4 rounded-lg bg-neutral-800/50 p-4 md:gap-8">
       {Array.from({ length: 7 }).map((_, index) => (

@@ -22,11 +22,12 @@ export const contributionRouter = router({
         });
 
         const total = contributions.length;
+        const dates = contributions.map((contrib) => contrib.date);
         const streak = summary({
-          dates: contributions.map((contrib) => contrib.date),
+          dates,
         });
 
-        return { contributions, total, streak };
+        return { contributions, total, streak, dates };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }

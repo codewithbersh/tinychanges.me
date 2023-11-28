@@ -4,10 +4,13 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
+import { startOfToday } from "date-fns";
+import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Contributions } from "./contributions";
 
 interface HabitProps {
   habit: GetAllHabits[number];
@@ -15,6 +18,7 @@ interface HabitProps {
 
 export const Habit = ({ habit }: HabitProps) => {
   const params = useParams();
+
   const { data: session } = useSession();
 
   const isOwner = params["slug"] === session?.user.slug;
@@ -28,6 +32,9 @@ export const Habit = ({ habit }: HabitProps) => {
     },
   );
 
+  const hasContribToday = !!contributions?.contributions.some(
+    (contrib) => contrib.date.getTime() === startOfToday().getTime(),
+  );
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
@@ -73,13 +80,17 @@ export const Habit = ({ habit }: HabitProps) => {
             </div>
           </div>
           {isOwner && (
-            <Button variant="secondary">
-              <Icons.star className="mr-2" />
+            <Button variant={hasContribToday ? "default" : "secondary"}>
+              <Icons.star
+                className={cn("mr-2", hasContribToday && "fill-neutral-950")}
+              />
               Today
             </Button>
           )}
         </div>
       </div>
+
+      <Contributions contributions={contributions?.dates} />
     </div>
   );
 };
