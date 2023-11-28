@@ -41,9 +41,6 @@ export const habitRouter = router({
               slug,
             },
           },
-          include: {
-            contributions: true,
-          },
         });
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });

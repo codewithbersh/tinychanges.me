@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Type } from "@/lib/utils";
-import { RangeFilter } from "./range-filter";
-import { TypeFilter } from "./type-filter";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { TypeFilter } from "./type-filter";
+import { RangeFilter } from "./range-filter";
 
 interface FiltersProps {
   type: Type;

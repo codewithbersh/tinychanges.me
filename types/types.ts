@@ -12,3 +12,4 @@ export type Route = {
 };
 
 export type GetPrivateUser = RouterOutput["user"]["private"]["get"];
+export type GetAllHabits = RouterOutput["habit"]["getAll"];

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { GanttChart } from "lucide-react";
+import { Type } from "@/lib/utils";
 
 import {
   Select,
@@ -10,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Type } from "@/lib/utils";
 
 interface TypeFilterProps {
   type: Type;
