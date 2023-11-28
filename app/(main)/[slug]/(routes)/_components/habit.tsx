@@ -45,12 +45,14 @@ export const Habit = ({ habit }: HabitProps) => {
             <div className="flex gap-4 md:hidden">
               <div className="flex items-center gap-1">
                 <Icons.contributions className="h-4 w-4" />
-                <div className="text-sm">{contributions?.length}</div>
+                <div className="text-sm">{contributions?.total}</div>
               </div>
 
               <div className="flex items-center gap-1">
                 <Icons.streak className="h-4 w-4" />
-                <div className="text-sm">{4}</div>
+                <div className="text-sm">
+                  {contributions?.streak.currentStreak}
+                </div>
               </div>
             </div>
           </div>
@@ -60,12 +62,14 @@ export const Habit = ({ habit }: HabitProps) => {
           <div className="hidden gap-4 md:flex">
             <div className="flex items-center gap-1">
               <Icons.contributions className="h-4 w-4" />
-              <div className="text-sm">{4}</div>
+              <div className="text-sm">{contributions?.total}</div>
             </div>
 
             <div className="flex items-center gap-1">
               <Icons.streak className="h-4 w-4" />
-              <div className="text-sm">{contributions?.length}</div>
+              <div className="text-sm">
+                {contributions?.streak.currentStreak}
+              </div>
             </div>
           </div>
           {isOwner && (
