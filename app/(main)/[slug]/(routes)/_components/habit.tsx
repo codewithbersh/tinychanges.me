@@ -4,10 +4,10 @@ import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 import { startOfToday } from "date-fns";
 
-import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Contributions } from "./contributions";
 import { ContributeTodayToggle } from "./contribute-today-toggle";
+import { StreakAndContribs } from "./streak-and-contribs";
 
 interface HabitProps {
   habit: GetAllHabits[number];
@@ -27,7 +27,7 @@ export const Habit = ({ habit }: HabitProps) => {
     (contrib) => contrib.date.getTime() === startOfToday().getTime(),
   );
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 truncate">
           <div
@@ -40,37 +40,21 @@ export const Habit = ({ habit }: HabitProps) => {
             <div className="w-fit truncate text-sm font-medium">
               {habit.habit}
             </div>
-            <div className="flex gap-4 md:hidden">
-              <div className="flex items-center gap-1">
-                <Icons.contributions className="h-4 w-4" />
-                <div className="text-sm">{contributions?.total}</div>
-              </div>
 
-              <div className="flex items-center gap-1">
-                <Icons.streak className="h-4 w-4" />
-                <div className="text-sm">
-                  {contributions?.streak.currentStreak}
-                </div>
-              </div>
-            </div>
+            <StreakAndContribs
+              streak={contributions?.streak.currentStreak}
+              contribs={contributions?.total}
+              className="flex md:hidden"
+            />
           </div>
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden gap-4 md:flex">
-            <div className="flex items-center gap-1">
-              <Icons.contributions className="h-4 w-4" />
-              <div className="text-sm">{contributions?.total}</div>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Icons.streak className="h-4 w-4" />
-              <div className="text-sm">
-                {contributions?.streak.currentStreak}
-              </div>
-            </div>
-          </div>
-
+          <StreakAndContribs
+            streak={contributions?.streak.currentStreak}
+            contribs={contributions?.total}
+            className="hidden md:flex"
+          />
           <ContributeTodayToggle
             contribTodayId={contribToday?.id}
             habitId={habit.id}
