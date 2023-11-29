@@ -7,8 +7,9 @@ import {
 } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 
-import { MonthView } from "./month-view";
 import { WeekView } from "./week-view";
+import { MonthView } from "./month-view";
+import { YearView } from "./year-view";
 
 interface ContributionsProps {
   contributions: Date[] | undefined;
@@ -36,7 +37,14 @@ export const Contributions = ({
         />
       );
     case "year":
-      return;
+      return (
+        <YearView
+          contributions={contributions}
+          from={from}
+          days={days}
+          habitColor={habitColor}
+        />
+      );
     default:
       return (
         <WeekView

@@ -1,29 +1,8 @@
 import { cn } from "@/lib/utils";
-import { addDays, format } from "date-fns";
 
 import { Contribution } from "./contribution";
 
-interface YearViewProps {
-  contributions: Date[] | undefined;
-  from: Date;
-  days: number;
-  habitColor: string;
-}
-
-export const YearView = ({
-  contributions,
-  days,
-  from,
-  habitColor,
-}: YearViewProps) => {
-  const dates = Array.from({ length: days }).map((_, index) => {
-    const day = addDays(from, index);
-    const tooltip = format(day, "MMM dd, yyyy");
-    const hasContrib = !!contributions?.some(
-      (contrib) => contrib.getTime() === day.getTime(),
-    );
-    return { day, tooltip, hasContrib };
-  });
+export const YearViewTest = () => {
   return (
     <div className="grid-rows-12 hide-scrollbar grid grid-flow-col gap-2 overflow-x-auto rounded-lg bg-neutral-800 p-4">
       <div className="row-span-3 flex w-8 flex-col border ">
@@ -53,12 +32,9 @@ export const YearView = ({
         ))}
       </div>
       <div className="grid-rows-7 col-span-2 row-span-2 grid grid-flow-col gap-1">
-        {dates.map((day) => (
-          <Contribution day={day.tooltip} key={day.tooltip}>
-            <div
-              className="h-4 w-4 rounded-sm bg-neutral-700"
-              style={{ backgroundColor: day.hasContrib ? habitColor : "" }}
-            />
+        {Array.from({ length: 366 }, (_, index) => (
+          <Contribution day={`${index + 1}`} key={index}>
+            <div className="h-4 w-4 rounded-sm bg-neutral-700" />
           </Contribution>
         ))}
       </div>
