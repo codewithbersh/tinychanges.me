@@ -1,5 +1,4 @@
 import { addDays, format } from "date-fns";
-import { cn } from "@/lib/utils";
 
 import { Contribution } from "./contribution";
 
@@ -7,9 +6,15 @@ interface MonthViewProps {
   contributions: Date[] | undefined;
   from: Date;
   days: number;
+  habitColor: string;
 }
 
-export const MonthView = ({ contributions, days, from }: MonthViewProps) => {
+export const MonthView = ({
+  contributions,
+  days,
+  from,
+  habitColor,
+}: MonthViewProps) => {
   const dates = Array.from({ length: days }).map((_, index) => {
     const day = addDays(from, index);
     const tooltip = format(day, "MMM dd, yyyy");
@@ -24,10 +29,8 @@ export const MonthView = ({ contributions, days, from }: MonthViewProps) => {
       {dates.map((date) => (
         <Contribution day={date.tooltip} key={date.tooltip}>
           <div
-            className={cn(
-              "aspect-square w-full rounded-[2px] bg-neutral-700 text-black sm:rounded-sm",
-              date.hasContrib && "bg-red-500",
-            )}
+            className="aspect-square w-full rounded-[2px] bg-neutral-700 text-black sm:rounded-sm"
+            style={{ backgroundColor: date.hasContrib ? habitColor : "" }}
           />
         </Contribution>
       ))}

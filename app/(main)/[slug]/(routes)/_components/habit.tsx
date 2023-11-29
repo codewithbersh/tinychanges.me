@@ -78,7 +78,10 @@ export const Habit = ({ habit }: HabitProps) => {
         </div>
       </div>
 
-      <Contributions contributions={contributions?.dates} />
+      <Contributions
+        contributions={contributions?.dates}
+        habitColor={habit.color}
+      />
     </div>
   );
 };

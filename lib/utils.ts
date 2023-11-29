@@ -56,34 +56,35 @@ export function formatRangeFilter({
   const today = startOfToday();
 
   switch (view) {
-    case "month":
-      var current = addMonths(today, range);
-      var from = startOfMonth(current);
-      var to = endOfMonth(current);
-      var currentRange = { from, to };
-      var currentLabel = format(current, "MMMM");
-      var days = getDaysInMonth(from);
+    case "month": {
+      const current = addMonths(today, range);
+      const from = startOfMonth(current);
+      const currentLabel = format(current, "MMMM");
+      const days = getDaysInMonth(from);
 
-      return { range: currentRange, label: currentLabel, days };
+      return { from, label: currentLabel, days };
+    }
 
-    case "year":
-      var current = addYears(today, range);
-      var from = startOfYear(current);
-      var to = endOfYear(current);
-      var currentRange = { from, to };
-      var currentLabel = `${format(from, "yyyy")}`;
-      var days = getDaysInYear(from);
+    case "year": {
+      const current = addYears(today, range);
+      const from = startOfYear(current);
+      const currentLabel = `${format(from, "yyyy")}`;
+      const days = getDaysInYear(from);
 
-      return { range: currentRange, label: currentLabel, days: days };
+      return { from, label: currentLabel, days: days };
+    }
 
-    default:
-      var current = addWeeks(today, range);
-      var from = startOfWeek(current);
-      var to = endOfWeek(current);
-      var currentRange = { from, to };
-      var currentLabel = `${format(from, "MMM dd")} – ${format(to, "MMM dd")}`;
+    default: {
+      const current = addWeeks(today, range);
+      const from = startOfWeek(current);
+      const to = endOfWeek(current);
+      const currentLabel = `${format(from, "MMM dd")} – ${format(
+        to,
+        "MMM dd",
+      )}`;
 
-      return { range: currentRange, label: currentLabel, days: 7 };
+      return { from, label: currentLabel, days: 7 };
+    }
   }
 }
 
