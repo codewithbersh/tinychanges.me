@@ -31,7 +31,7 @@ export const Habit = ({ habit }: HabitProps) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 truncate">
           <div
-            className="text-2l grid h-10 w-10 place-items-center rounded-sm  !bg-opacity-25 leading-none"
+            className="grid h-10 w-10 place-items-center rounded-sm text-2xl leading-none"
             style={{ backgroundColor: habit.color }}
           >
             {habit.emoji}
