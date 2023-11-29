@@ -1,4 +1,4 @@
-import { addDays, format, startOfToday } from "date-fns";
+import { addDays, format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 import { Contribution } from "./contribution";
@@ -20,7 +20,7 @@ export const MonthView = ({ contributions, days, from }: MonthViewProps) => {
   });
 
   return (
-    <div className="grid-cols-16 grid grid-flow-col grid-rows-2 gap-1 rounded-lg bg-neutral-800/50 p-4 sm:gap-2 ">
+    <div className="grid grid-flow-col grid-cols-16 grid-rows-2 gap-1 rounded-lg bg-neutral-800/50 p-4 sm:gap-2 ">
       {dates.map((date) => (
         <Contribution day={date.tooltip} key={date.tooltip}>
           <div

@@ -1,28 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 import { startOfToday } from "date-fns";
-import { cn } from "@/lib/utils";
 
 import { Icons } from "@/components/ui/icons";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Contributions } from "./contributions";
+import { ContributeTodayToggle } from "./contribute-today-toggle";
 
 interface HabitProps {
   habit: GetAllHabits[number];
 }
 
 export const Habit = ({ habit }: HabitProps) => {
-  const params = useParams();
-
-  const { data: session } = useSession();
-
-  const isOwner = params["slug"] === session?.user.slug;
-
   const { data: contributions } = trpc.contribution.getAllByHabitId.useQuery(
     {
       habitId: habit.id,
@@ -32,7 +23,7 @@ export const Habit = ({ habit }: HabitProps) => {
     },
   );
 
-  const hasContribToday = !!contributions?.contributions.some(
+  const contribToday = contributions?.contributions.find(
     (contrib) => contrib.date.getTime() === startOfToday().getTime(),
   );
   return (
@@ -79,14 +70,11 @@ export const Habit = ({ habit }: HabitProps) => {
               </div>
             </div>
           </div>
-          {isOwner && (
-            <Button variant={hasContribToday ? "default" : "secondary"}>
-              <Icons.star
-                className={cn("mr-2", hasContribToday && "fill-neutral-950")}
-              />
-              Today
-            </Button>
-          )}
+
+          <ContributeTodayToggle
+            contribTodayId={contribToday?.id}
+            habitId={habit.id}
+          />
         </div>
       </div>
 
@@ -106,6 +94,7 @@ Habit.Skeleton = function SkeletonHabit() {
         </div>
         <Skeleton className="ml-auto h-8 !w-[88px] shrink-0" />
       </div>
+      <Skeleton className="h-24 rounded-lg" />
     </div>
   );
 };
