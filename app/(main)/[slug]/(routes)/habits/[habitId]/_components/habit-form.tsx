@@ -61,7 +61,6 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
   });
 
   useEffect(() => {
-    console.log("im running");
     if (initialData) {
       form.reset(initialData);
     }
@@ -74,6 +73,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
         onSuccess: (habit) => {
           toast.success(successMessage);
           utils.habit.getByHabitId.invalidate({ habitId: habit.id });
+          utils.habit.getAll.invalidate();
           router.push(`/${slug}`);
         },
       },

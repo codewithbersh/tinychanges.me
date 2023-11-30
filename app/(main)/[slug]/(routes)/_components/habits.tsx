@@ -31,7 +31,7 @@ export const Habits = () => {
   return (
     <>
       {habits.map((habit) => (
-        <Habit key={habit.id} habit={habit} />
+        <Habit key={habit.id} habit={habit} slug={slug} />
       ))}
     </>
   );

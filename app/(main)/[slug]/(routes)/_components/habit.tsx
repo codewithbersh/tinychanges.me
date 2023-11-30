@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 import { startOfToday } from "date-fns";
+import { LinkIcon } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Contributions } from "./contributions";
@@ -11,9 +13,10 @@ import { StreakAndContribs } from "./streak-and-contribs";
 
 interface HabitProps {
   habit: GetAllHabits[number];
+  slug: string;
 }
 
-export const Habit = ({ habit }: HabitProps) => {
+export const Habit = ({ habit, slug }: HabitProps) => {
   const { data: contributions } = trpc.contribution.getAllByHabitId.useQuery(
     {
       habitId: habit.id,
@@ -31,15 +34,19 @@ export const Habit = ({ habit }: HabitProps) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 truncate">
           <div
-            className="grid h-10 w-10 place-items-center rounded-sm text-2xl leading-none"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-sm text-2xl leading-none"
             style={{ backgroundColor: habit.color }}
           >
             {habit.emoji}
           </div>
-          <div className="flex h-full flex-col justify-between truncate ">
-            <div className="w-fit truncate text-sm font-medium">
+          <div className="flex h-full flex-col justify-between">
+            <Link
+              href={`/${slug}/habits/${habit.id}`}
+              className="flex w-fit items-center text-sm font-medium underline-offset-2 hover:underline md:text-base"
+            >
               {habit.habit}
-            </div>
+              <LinkIcon className="ml-2 h-3 w-3" />
+            </Link>
 
             <StreakAndContribs
               streak={contributions?.streak.currentStreak}
