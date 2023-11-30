@@ -1,9 +1,10 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 
+import { EmptyHabits } from "@/components/empty-habits";
 import { Habit } from "./habit";
-import { useParams } from "next/navigation";
 
 export const Habits = () => {
   const params = useParams();
@@ -26,7 +27,7 @@ export const Habits = () => {
   }
 
   if (!habits || habits.length < 1) {
-    return "No habits";
+    return <EmptyHabits />;
   }
   return (
     <>

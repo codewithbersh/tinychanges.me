@@ -1,3 +1,5 @@
+"use client";
+
 import { Route } from "./header";
 
 import { Logo } from "@/components/logo";

@@ -1,4 +1,7 @@
-import { getCurrentUser } from "@/lib/get-current-user";
+"use client";
+
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 import { Navbar } from "./navbar";
 import { Profile } from "./profile";
@@ -6,33 +9,38 @@ import { Profile } from "./profile";
 export type Route = {
   label: string;
   href: string;
+  isActive: boolean;
 };
 
 interface HeaderProps {
   slug: string;
 }
 
-export const Header = async ({ slug }: HeaderProps) => {
-  const user = await getCurrentUser();
+export const Header = ({ slug }: HeaderProps) => {
+  const { data: session } = useSession();
+  const pathname = usePathname();
 
   const routes = [
     {
-      label: "Home",
-      href: `/${user?.slug}`,
+      label: "Habits",
+      href: `/${session?.user.slug}`,
+      isActive: pathname === `/${session?.user.slug}`,
     },
     {
       label: "Profile",
-      href: `/${user?.slug}/profile`,
+      href: `/${session?.user.slug}/profile`,
+      isActive: pathname === `/${session?.user.slug}/profile`,
     },
     {
       label: "Create Habit",
-      href: `/${user?.slug}/habits/new`,
+      href: `/${session?.user.slug}/habits/new`,
+      isActive: pathname.startsWith(`/${session?.user.slug}/habits/`),
     },
   ];
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
-      <Navbar routes={routes} isAuthenticated={!!user} />
+      <Navbar routes={routes} isAuthenticated={!!session?.user} />
       <Profile slug={slug} />
     </div>
   );
