@@ -190,11 +190,13 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
             )}
           </Button>
 
-          <DeleteModal onDelete={handleDelete} isLoading={isDeleting}>
-            <Button variant="destructive" className="" size="icon">
-              <Trash className="h-4 w-4" />
-            </Button>
-          </DeleteModal>
+          {initialData && (
+            <DeleteModal onDelete={handleDelete} isLoading={isDeleting}>
+              <Button variant="destructive" className="" size="icon">
+                <Trash className="h-4 w-4" />
+              </Button>
+            </DeleteModal>
+          )}
         </div>
       </form>
     </Form>

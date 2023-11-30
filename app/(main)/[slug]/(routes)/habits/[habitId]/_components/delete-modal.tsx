@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -37,9 +38,7 @@ export const DeleteModal = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="secondary" disabled={isLoading}>
-            Cancel
-          </Button>
+          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <Button variant="destructive" onClick={onDelete} disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Delete Habit
