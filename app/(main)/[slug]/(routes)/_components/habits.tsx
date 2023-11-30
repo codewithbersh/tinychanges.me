@@ -25,7 +25,7 @@ export const Habits = () => {
     );
   }
 
-  if (!habits || habits.length < 2) {
+  if (!habits || habits.length < 1) {
     return "No habits";
   }
   return (

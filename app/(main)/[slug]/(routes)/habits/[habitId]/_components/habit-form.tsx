@@ -6,7 +6,7 @@ import { trpc } from "@/app/_trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Loader, Plus } from "lucide-react";
+import { Loader, Plus, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FieldEmoji } from "./field-emoji";
 import { FieldColor } from "./field-color";
+import { DeleteModal } from "./delete-modal";
 
 const formSchema = z.object({
   emoji: z.string().min(1),
@@ -50,6 +51,8 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
   );
 
   const { mutate, isLoading: isMutating } = trpc.habit.create.useMutation();
+  const { mutate: deleteHabit, isLoading: isDeleting } =
+    trpc.habit.delete.useMutation();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -80,6 +83,27 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
     );
   };
 
+  const handleDelete = () => {
+    if (!initialData?.id) {
+      return;
+    }
+
+    deleteHabit(
+      { id: initialData.id },
+      {
+        onSuccess: () => {
+          toast.success("Habit deleted.");
+          utils.habit.getByHabitId.invalidate({ habitId: initialData.id });
+          utils.habit.getAll.invalidate();
+          router.push(`/${slug}`);
+        },
+        onError: () => {
+          toast.error("Failed to delete habit.");
+        },
+      },
+    );
+  };
+
   if (isLoading) {
     return <HabitForm.Skeleton />;
   }
@@ -88,6 +112,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
   const submittingMessage = initialData ? "Saving habit" : "Adding habit";
   const submitText = initialData ? "Save habit" : "Add habit";
   const isSubmitting = form.formState.isSubmitting || isMutating;
+
   return (
     <Form {...form}>
       <form
@@ -150,19 +175,27 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
           )}
         />
 
-        <Button type="submit" className="mt-4 w-fit" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <Loader className="mr-2 h-4 w-4 animate-spin " />
-              {submittingMessage}
-            </>
-          ) : (
-            <>
-              <Plus className="mr-2 h-4 w-4" />
-              {submitText}
-            </>
-          )}
-        </Button>
+        <div className="mt-4 flex gap-4">
+          <Button type="submit" className="w-fit" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader className="mr-2 h-4 w-4 animate-spin " />
+                {submittingMessage}
+              </>
+            ) : (
+              <>
+                <Plus className="mr-2 h-4 w-4" />
+                {submitText}
+              </>
+            )}
+          </Button>
+
+          <DeleteModal onDelete={handleDelete} isLoading={isDeleting}>
+            <Button variant="destructive" className="" size="icon">
+              <Trash className="h-4 w-4" />
+            </Button>
+          </DeleteModal>
+        </div>
       </form>
     </Form>
   );
@@ -181,7 +214,10 @@ HabitForm.Skeleton = function SkeletonHabitForm() {
           <Skeleton className="h-10 w-full rounded-md" />
         </div>
       ))}
-      <Skeleton className="mt-4 h-8 w-24 rounded-md" />
+      <div className="mt-4 flex gap-4">
+        <Skeleton className="h-8 w-[118px] rounded-md" />
+        <Skeleton className="h-8 w-8 rounded-md" />
+      </div>
     </div>
   );
 };
