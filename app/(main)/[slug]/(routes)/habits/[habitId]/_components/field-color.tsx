@@ -13,17 +13,17 @@ export const FieldColor = ({
 }: FieldColorProps) => {
   const colors = [
     {
-      hex: "#4ade80",
-      tailwind: "bg-green-400",
+      hex: "#34d399",
+      tailwind: "bg-emerald-400",
     },
     {
-      hex: "#ef4444",
-      tailwind: "bg-red-500",
+      hex: "#f472b6",
+      tailwind: "bg-pink-400",
     },
 
     {
-      hex: "#3b82f6",
-      tailwind: "bg-blue-500",
+      hex: "#38bdf8",
+      tailwind: "bg-sky-400",
     },
     {
       hex: "#fb923c",

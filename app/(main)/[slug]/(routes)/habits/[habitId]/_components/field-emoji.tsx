@@ -45,8 +45,9 @@ export const FieldEmoji = ({
           ) : (
             <SmilePlus
               className={cn(
-                "h-12 w-12 stroke-[1px] text-muted-foreground",
+                "h-12 w-12 stroke-[2px] text-muted-foreground",
                 fieldError && "text-destructive",
+                selectedColor.length > 0 && "text-neutral-950",
               )}
             />
           )}

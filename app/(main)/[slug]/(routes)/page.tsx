@@ -3,7 +3,7 @@ import { Habits } from "./_components/habits";
 
 const SlugPage = () => {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-12 md:gap-16">
       <Filters />
       <Habits />
     </div>

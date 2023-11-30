@@ -25,9 +25,9 @@ import { FieldColor } from "./field-color";
 import { DeleteModal } from "./delete-modal";
 
 const formSchema = z.object({
-  emoji: z.string().min(1),
-  habit: z.string().min(1),
-  color: z.string().min(1),
+  emoji: z.string().min(1, "Select an emoji"),
+  habit: z.string().min(1, "Add habit description"),
+  color: z.string().min(1, "Select a color"),
 });
 
 type FormData = z.infer<typeof formSchema>;

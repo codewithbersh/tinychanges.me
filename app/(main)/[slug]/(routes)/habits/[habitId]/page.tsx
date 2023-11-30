@@ -17,11 +17,7 @@ const HabitIdPage = async ({ params: { habitId, slug } }: HabitIdPageProps) => {
     return notFound();
   }
 
-  return (
-    <div>
-      <HabitForm habitId={habitId} slug={slug} />
-    </div>
-  );
+  return <HabitForm habitId={habitId} slug={slug} />;
 };
 
 export default HabitIdPage;
