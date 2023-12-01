@@ -51,7 +51,7 @@ export default async function RootLayout({
         <Toaster
           position="top-center"
           richColors
-          theme="system"
+          theme="dark"
           offset={16}
           duration={1500}
         />
