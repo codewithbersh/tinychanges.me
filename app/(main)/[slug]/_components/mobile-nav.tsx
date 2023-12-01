@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Menu } from "lucide-react";
 import { Route } from "./header";
-import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,8 +17,11 @@ interface MobileNavProps {
 }
 
 export const MobileNav = ({ routes, isAuthenticated }: MobileNavProps) => {
+  const router = useRouter();
+  const [open, setOpen] = useState<boolean>(false);
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button className="md:hidden" variant="secondary" size="icon">
           <Menu className="h-4 w-4" />
@@ -29,11 +34,17 @@ export const MobileNav = ({ routes, isAuthenticated }: MobileNavProps) => {
         <div className="mt-auto  flex flex-col gap-4 ">
           {isAuthenticated &&
             routes.map((route) => (
-              <Link href={route.href} passHref key={route.href}>
-                <Button variant="ghost" className="w-full justify-start">
-                  {route.label}
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="w-full justify-start"
+                key={route.href}
+                onClick={() => {
+                  setOpen(false);
+                  router.push(route.href);
+                }}
+              >
+                {route.label}
+              </Button>
             ))}
 
           {isAuthenticated ? (
