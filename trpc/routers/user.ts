@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 import db from "@/lib/prismadb";
 import { utapi } from "@/lib/utapi";
 import slugify from "@sindresorhus/slugify";
+import { habitConfig } from "@/config/habit";
 
 export const userRouter = router({
   public: router({
@@ -161,6 +162,71 @@ export const userRouter = router({
         });
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+
+  getImage: privateProcedure.query(async ({ ctx }) => {
+    const { userId } = ctx;
+
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      const { image, email, slug } = user;
+      return { image, email, slug };
+    } catch (error) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    }
+  }),
+
+  updateImage: privateProcedure
+    .input(
+      z.object({
+        image: z.string().nullable(),
+        oldImage: z.string().optional().nullable(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { image, oldImage } = input;
+
+      const defaultImageUrls = habitConfig.defaultAvatarImages.reduce(
+        (arr: string[], curr) => {
+          arr.push(curr.value);
+          return arr;
+        },
+        [],
+      );
+
+      try {
+        if (oldImage) {
+          const fileName = extractFileName(oldImage);
+
+          if (fileName && image !== oldImage) {
+            if (!defaultImageUrls.includes(oldImage)) {
+              await utapi.deleteFiles([fileName.trim()]);
+            }
+          }
+        }
+
+        await db.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            image,
+          },
+        });
+        return { ok: true, message: "Image uploaded." };
+      } catch (error) {
+        return { ok: false, message: "An error has occured." };
       }
     }),
 });

@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserAvatarProps {
   imageUrl: string | null | undefined;
-  email: string;
+  email: string | null | undefined;
   className?: string;
 }
 
@@ -21,7 +21,7 @@ export const UserAvatar = ({ imageUrl, email, className }: UserAvatarProps) => {
           className,
         )}
       >
-        {email[0].toUpperCase()}
+        {email ? email[0].toUpperCase() : ""}
       </AvatarFallback>
     </Avatar>
   );
