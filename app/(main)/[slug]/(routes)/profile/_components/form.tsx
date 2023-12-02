@@ -8,6 +8,7 @@ import { trpc } from "@/app/_trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -50,7 +51,8 @@ export const Form = () => {
     staleTime: Infinity,
   });
 
-  const { mutate: update } = trpc.user.updateUser.useMutation();
+  const { mutate: update, isLoading: isMutating } =
+    trpc.user.updateUser.useMutation();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -115,6 +117,7 @@ export const Form = () => {
                     placeholder="Enter your name"
                     {...field}
                     value={field.value ?? ""}
+                    disabled={isMutating}
                   />
                 </FormControl>
                 <FormMessage />
@@ -129,7 +132,11 @@ export const Form = () => {
               <FormItem>
                 <FormLabel>Link</FormLabel>
                 <FormControl>
-                  <Input placeholder="Create your personal link" {...field} />
+                  <Input
+                    placeholder="Create your personal link"
+                    {...field}
+                    disabled={isMutating}
+                  />
                 </FormControl>
                 <FormDescription>
                   tinychanges.me/{slugify(field.value)}
@@ -150,6 +157,7 @@ export const Form = () => {
                     placeholder="Enter your twitter handle"
                     {...field}
                     value={field.value ?? ""}
+                    disabled={isMutating}
                   />
                 </FormControl>
                 <FormDescription>twitter.com/{field.value}</FormDescription>
@@ -157,7 +165,16 @@ export const Form = () => {
               </FormItem>
             )}
           />
-          <Button className="w-fit">Save Changes</Button>
+          <Button className="w-fit" disabled={isMutating}>
+            {isMutating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving Changes
+              </>
+            ) : (
+              "Save Changes"
+            )}
+          </Button>
         </form>
       </FormParent>
     </div>
