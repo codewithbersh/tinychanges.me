@@ -20,7 +20,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ImageUpload } from "./image-upload";
+import { FieldImage } from "./field-image";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required.").nullable(),
@@ -44,7 +46,7 @@ export const Form = () => {
   const router = useRouter();
   const utils = trpc.useUtils();
 
-  const { data: user } = trpc.user.getAuthUser.useQuery(undefined, {
+  const { data: user, isLoading } = trpc.user.getAuthUser.useQuery(undefined, {
     staleTime: Infinity,
   });
 
@@ -84,6 +86,15 @@ export const Form = () => {
       },
     );
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-8">
+        <FieldImage.Skeleton />
+        <Form.Skeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="flex max-w-sm flex-col gap-8">
@@ -149,6 +160,28 @@ export const Form = () => {
           <Button className="w-fit">Save Changes</Button>
         </form>
       </FormParent>
+    </div>
+  );
+};
+
+Form.Skeleton = function SkeletonForm() {
+  return (
+    <div className="flex max-w-sm flex-col gap-8">
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-12 rounded-sm" />
+        <Skeleton className="h-10 w-full rounded-md" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-12 rounded-sm" />
+        <Skeleton className="h-10 w-full rounded-md" />
+        <Skeleton className="h-5 w-24 rounded-sm" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-12 rounded-sm" />
+        <Skeleton className="h-10 w-full rounded-md" />
+        <Skeleton className="h-5 w-24 rounded-sm" />
+      </div>
+      <Skeleton className="h-8 w-[118.75px] rounded-md" />
     </div>
   );
 };

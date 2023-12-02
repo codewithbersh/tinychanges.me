@@ -11,7 +11,6 @@ export type Route = {
   icon: LucideIcon;
 };
 
-export type GetPrivateUser = RouterOutput["user"]["private"]["get"];
 export type GetAllHabits = RouterOutput["habit"]["getAll"];
 export type GetAllContributionsByHabitId =
   RouterOutput["contribution"]["getAllByHabitId"];

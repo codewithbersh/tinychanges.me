@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { FormLabel } from "@/components/ui/form";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FieldImageProps {
   value: string | null;
@@ -48,7 +49,7 @@ export const FieldImage = ({
           side="right"
           className="flex flex-col items-center justify-center gap-2 border-neutral-700 bg-input-background"
         >
-          <FormLabel>Select Image</FormLabel>
+          <FormLabel className="mr-auto">Select Image</FormLabel>
           <div className="grid grid-cols-4 gap-1.5">
             {habitConfig.defaultAvatarImages.map((image) => (
               <Image
@@ -122,6 +123,15 @@ export const FieldImage = ({
       >
         Remove Image
       </Button>
+    </div>
+  );
+};
+
+FieldImage.Skeleton = function SkeletonFieldImage() {
+  return (
+    <div className="flex items-center gap-6">
+      <Skeleton className="h-24 w-24 rounded-full" />
+      <Skeleton className="h-8 w-[121px] rounded-md" />
     </div>
   );
 };
