@@ -3,6 +3,7 @@
 import { trpc } from "@/app/_trpc/client";
 import { notFound } from "next/navigation";
 import { Calendar } from "lucide-react";
+import { format } from "date-fns";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,7 +38,7 @@ export const Profile = ({ slug }: ProfileProps) => {
 
       <div className="flex items-center gap-1.5 leading-none ">
         <h1 className="fond-medium">{user.name}</h1>
-        <span className="text-sm text-muted-foreground">@codewithbersh</span>
+        <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
       </div>
 
       <div className="flex gap-6">
@@ -50,7 +51,7 @@ export const Profile = ({ slug }: ProfileProps) => {
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4  text-muted-foreground" />
           <div className="text-xs leading-none text-muted-foreground">
-            Joined Jan 24, 2023
+            {format(user.joinedAt, "MMM dd, yyyy")}
           </div>
         </div>
       </div>
