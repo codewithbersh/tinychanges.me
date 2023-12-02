@@ -46,11 +46,12 @@ model User {
   emailVerified DateTime?
   image         String?
   slug          String    @unique @default(cuid())
-  bio           String?
-  joinedAt      DateTime  @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  habits        Habit[]
+  twitterHandle String?
+
+  joinedAt DateTime  @default(now())
+  accounts Account[]
+  sessions Session[]
+  habits   Habit[]
 }
 
 model VerificationToken {
