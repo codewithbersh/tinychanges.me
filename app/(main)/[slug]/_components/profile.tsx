@@ -32,7 +32,7 @@ export const Profile = ({ slug }: ProfileProps) => {
     <div className="flex flex-col gap-4">
       <Avatar>
         <AvatarImage src={user.image ?? ""} />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>{user.email![0]}</AvatarFallback>
       </Avatar>
 
       <div className="flex items-center gap-1.5 leading-none ">
