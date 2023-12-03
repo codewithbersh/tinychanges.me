@@ -13,17 +13,18 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   title: siteConfig.title,
   description: siteConfig.url,
+
   icons: {
     icon: [
       {
         media: "(prefers-color-scheme: light)",
-        url: "/favicon-light.ico",
-        href: "/favicon-light.ico",
+        url: "/logo72x72.png",
+        href: "/logo72x72.png",
       },
       {
         media: "(prefers-color-scheme: dark)",
-        url: "/favicon-dark.ico",
-        href: "/favicon-dark.ico",
+        url: "/logo72x72.png",
+        href: "/logo72x72.png",
       },
     ],
   },
