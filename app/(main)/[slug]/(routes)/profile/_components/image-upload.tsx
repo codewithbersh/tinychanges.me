@@ -34,7 +34,7 @@ export const ImageUpload = () => {
 
   useEffect(() => {
     form.reset(data);
-  }, [data]);
+  }, [data, form]);
 
   const onSubmit = (values: FormData) => {
     update(

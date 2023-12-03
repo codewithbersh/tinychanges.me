@@ -66,7 +66,7 @@ export const Form = () => {
 
   useEffect(() => {
     form.reset(user);
-  }, [user]);
+  }, [user, form]);
 
   const onSubmit = (values: FormData) => {
     update(
