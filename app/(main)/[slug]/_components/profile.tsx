@@ -79,8 +79,8 @@ Profile.Skeleton = function SkeletonProfile() {
         <Skeleton className="h-5 w-12" />
         <Skeleton className="h-5 w-12" />
       </div>
-      <div className="flex gap-2">
-        <Skeleton className="h-4 w-28" />
+      <div className="flex gap-6">
+        <Skeleton className="h-4 w-[124px]" />
         <Skeleton className="h-4 w-28" />
       </div>
     </div>
