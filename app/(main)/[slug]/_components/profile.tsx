@@ -63,7 +63,7 @@ export const Profile = ({ slug }: ProfileProps) => {
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4  text-muted-foreground" />
           <div className="text-xs leading-none text-muted-foreground">
-            {format(user.joinedAt, "MMM dd, yyyy")}
+            Joined {format(user.joinedAt, "MMM dd, yyyy")}
           </div>
         </div>
       </div>
