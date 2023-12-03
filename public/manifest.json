@@ -25,9 +25,9 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#0a0a0a",
-  "background_color": "#0a0a0a",
-  "start_url": "/",
+  "theme_color": "#171717",
+  "background_color": "#171717",
+  "start_url": "/login",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait"
