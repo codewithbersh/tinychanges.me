@@ -7,6 +7,32 @@ import slugify from "@sindresorhus/slugify";
 import { habitConfig } from "@/config/habit";
 
 export const userRouter = router({
+  getUserTotalContributions: publicProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { slug } = input;
+
+      try {
+        const total = await db.contribution.aggregate({
+          where: {
+            habit: {
+              user: {
+                slug,
+              },
+            },
+          },
+          _count: true,
+        });
+
+        return total._count;
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
   getUserBySlug: publicProcedure
     .input(
       z.object({
@@ -141,6 +167,7 @@ export const userRouter = router({
 
           if (fileName && image !== oldImage) {
             if (!defaultImageUrls.includes(oldImage)) {
+              console.log("im here");
               await utapi.deleteFiles([fileName.trim()]);
             }
           }

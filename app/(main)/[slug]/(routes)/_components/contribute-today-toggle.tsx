@@ -34,6 +34,9 @@ export const ContributeTodayToggle = ({
         onSuccess: ({ message }) => {
           toast.success(message);
           utils.contribution.getAllByHabitId.invalidate({ habitId });
+          utils.user.getUserTotalContributions.invalidate({
+            slug: params["slug"] as string,
+          });
         },
       },
     );

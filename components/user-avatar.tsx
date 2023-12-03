@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserAvatarProps {
@@ -15,12 +16,7 @@ export const UserAvatar = ({ imageUrl, email, className }: UserAvatarProps) => {
           <AvatarImage src={imageUrl} />
         </>
       ) : null}
-      <AvatarFallback
-        className={cn(
-          "h-8 w-8 bg-primary-foreground text-lg font-medium text-primary",
-          className,
-        )}
-      >
+      <AvatarFallback className={cn(className)}>
         {email ? email[0].toUpperCase() : ""}
       </AvatarFallback>
     </Avatar>

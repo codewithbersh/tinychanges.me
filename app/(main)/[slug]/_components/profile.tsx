@@ -21,6 +21,16 @@ export const Profile = ({ slug }: ProfileProps) => {
     },
   );
 
+  const { data: totalContributions } =
+    trpc.user.getUserTotalContributions.useQuery(
+      {
+        slug,
+      },
+      {
+        staleTime: Infinity,
+      },
+    );
+
   if (isLoading) {
     return <Profile.Skeleton />;
   }
@@ -36,16 +46,18 @@ export const Profile = ({ slug }: ProfileProps) => {
         <AvatarFallback>{user.email![0]}</AvatarFallback>
       </Avatar>
 
-      <div className="flex items-center gap-1.5 leading-none ">
+      <div className="flex h-5 items-center gap-1.5 leading-none ">
         <h1 className="fond-medium">{user.name}</h1>
-        <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
+        {user.twitterHandle && (
+          <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
+        )}
       </div>
 
       <div className="flex gap-6">
         <div className="flex items-center gap-2">
           <Icons.contributions />
-          <div className="text-xs leading-none text-muted-foreground">
-            256 contributions
+          <div className="min-w-[100px] text-xs leading-none text-muted-foreground">
+            {totalContributions} contribution{totalContributions != 1 && "s"}
           </div>
         </div>
         <div className="flex items-center gap-2">

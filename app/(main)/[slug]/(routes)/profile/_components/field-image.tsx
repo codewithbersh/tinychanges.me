@@ -114,7 +114,7 @@ export const FieldImage = ({
       <UserAvatar
         imageUrl={value}
         email={email}
-        className="h-24 w-24 text-5xl font-medium"
+        className="h-24 w-24 text-6xl font-medium"
       />
       <Button
         variant="secondary"
