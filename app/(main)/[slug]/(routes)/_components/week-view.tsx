@@ -1,4 +1,4 @@
-import { addDays, format } from "date-fns";
+import { addDays, format, isSameDay } from "date-fns";
 
 import { Contribution } from "./contribution";
 
@@ -18,8 +18,8 @@ export const WeekView = ({
   const dates = Array.from({ length: days }).map((_, index) => {
     const day = addDays(from, index);
     const tooltip = format(day, "MMM dd, yyyy");
-    const hasContrib = !!contributions?.some(
-      (contrib) => contrib.getTime() === day.getTime(),
+    const hasContrib = contributions?.some((contrib) =>
+      isSameDay(day, contrib),
     );
     return { day, tooltip, hasContrib };
   });

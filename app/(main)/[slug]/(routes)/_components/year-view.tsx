@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { addDays, format, getDay } from "date-fns";
+import { addDays, format, getDay, isSameDay } from "date-fns";
 
 import { Contribution } from "./contribution";
 
@@ -19,8 +19,8 @@ export const YearView = ({
   const dates = Array.from({ length: days }).map((_, index) => {
     const day = addDays(from, index);
     const tooltip = format(day, "MMM dd, yyyy");
-    const hasContrib = !!contributions?.some(
-      (contrib) => contrib.getTime() === day.getTime(),
+    const hasContrib = contributions?.some((contrib) =>
+      isSameDay(day, contrib),
     );
     return { day, tooltip, hasContrib };
   });
@@ -29,7 +29,7 @@ export const YearView = ({
   return (
     <div className="grid-rows-12 hide-scrollbar grid grid-flow-col gap-2 overflow-x-auto rounded-lg bg-neutral-800 p-4">
       <div className="row-span-3 flex w-8 flex-col border ">
-        <div className="grid-rows-7 mt-6 grid h-full text-end">
+        <div className="mt-6 grid h-full grid-rows-7 text-end">
           {weekDays.map((day, index) => (
             <div className="grid place-items-center" key={day}>
               <span
@@ -54,7 +54,7 @@ export const YearView = ({
           </span>
         ))}
       </div>
-      <div className="grid-rows-7 col-span-2 row-span-2 grid grid-flow-col gap-1">
+      <div className="col-span-2 row-span-2 grid grid-flow-col grid-rows-7 gap-1">
         {dates.map((day, index) => (
           <Contribution day={day.tooltip} key={day.tooltip}>
             <div

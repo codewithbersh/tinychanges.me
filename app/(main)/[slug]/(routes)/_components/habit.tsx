@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
-import { startOfToday } from "date-fns";
+import { isSameDay } from "date-fns";
 import { LinkIcon } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,9 +26,10 @@ export const Habit = ({ habit, slug }: HabitProps) => {
     },
   );
 
-  const contribToday = contributions?.contributions.find(
-    (contrib) => contrib.date.getTime() === startOfToday().getTime(),
+  const contribToday = contributions?.contributions.find((contrib) =>
+    isSameDay(contrib.date, new Date()),
   );
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
