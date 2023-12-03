@@ -95,6 +95,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
           toast.success("Habit deleted.");
           utils.habit.getByHabitId.invalidate({ habitId: initialData.id });
           utils.habit.getAll.invalidate();
+          utils.user.getUserTotalContributions.invalidate({ slug });
           router.push(`/${slug}`);
         },
         onError: () => {
