@@ -21,7 +21,7 @@ export const LoginAction = ({ userId }: { userId: string | undefined }) => {
           View Habits <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       ) : (
-        <Link href="/login">Join now – it's free</Link>
+        <Link href="/login">Join now – it&apos;s free</Link>
       )}
     </Button>
   );
