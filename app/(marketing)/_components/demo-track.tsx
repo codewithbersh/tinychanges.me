@@ -1,121 +1,106 @@
 "use client";
 
+import { Dispatch } from "react";
 import {
-  addDays,
-  format,
-  getDaysInMonth,
-  isToday,
+  eachDayOfInterval,
+  endOfMonth,
+  isSameDay,
   startOfMonth,
-  startOfToday,
+  subDays,
 } from "date-fns";
 import { Check } from "lucide-react";
-import { cn, isInCommitments, toggleCommit } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { marketingConfig } from "@/config/marketing";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { DemoLabel } from "./demo-label";
+import { useEffectOnce } from "usehooks-ts";
+import { DemoAction, DemoState } from "./demo-reducer";
+
+import { MonthView } from "@/app/(main)/[slug]/(routes)/_components/month-view";
 
 //@ts-ignore
 import confetti from "canvas-confetti";
 
 interface DemoTrackProps {
-  color: string;
-  habit: string;
-  emoji: string;
-  commitments: Date[] | null;
-  setCommitments: (values: Date[]) => void;
+  state: DemoState;
+  dispatch: Dispatch<DemoAction>;
 }
 
-export const DemoTrack = ({
-  color,
-  habit,
-  emoji,
-  commitments,
-  setCommitments,
-}: DemoTrackProps) => {
-  const today = startOfToday();
-  const days = getDaysInMonth(today);
+export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
+  const today = new Date();
+  const days = eachDayOfInterval({
+    start: startOfMonth(today),
+    end: endOfMonth(today),
+  });
+
+  useEffectOnce(() => {
+    const contribs = eachDayOfInterval({
+      start: startOfMonth(new Date()),
+      end: subDays(new Date(), 1),
+    });
+
+    dispatch({ type: "setContribs", payload: { contributions: contribs } });
+  });
+
+  const hasContribToday = state?.contributions?.some((date) =>
+    isSameDay(date, new Date()),
+  );
 
   const onToggle = () => {
-    toggleCommit(today, commitments, setCommitments);
-
-    if (!isInCommitments(today, commitments)) {
+    const contribs = state.contributions;
+    if (hasContribToday) {
+      contribs?.pop();
+    } else {
+      contribs?.push(new Date());
       confetti({
         particleCount: 200,
         spread: 360,
         origin: { y: 0.4 },
-        colors: [color],
+        colors: [state.color],
       });
     }
+    dispatch({ type: "setContribs", payload: { contributions: contribs } });
   };
 
   return (
     <div
-      className="animate-fade-up space-y-6 opacity-0"
+      className="animate-fade-up space-y-2 opacity-0"
       style={{ animationFillMode: "forwards", animationDelay: "0.75s" }}
     >
-      <DemoLabel
-        title={marketingConfig.track.title}
-        description={marketingConfig.track.description}
-      />
+      <div className="space-y-6 ">
+        <DemoLabel
+          title={marketingConfig.track.title}
+          description={marketingConfig.track.description}
+        />
 
-      <div className="space-y-4 rounded-lg border bg-input-background p-4">
-        <div className="flex items-center gap-2">
-          <div
-            className=" flex aspect-square h-12 items-center justify-center rounded-md text-2xl leading-none"
-            style={{ backgroundColor: color }}
-          >
-            {emoji}
+        <div className="space-y-4 rounded-lg">
+          <div className="flex items-center gap-2">
+            <div
+              className=" flex aspect-square h-12 items-center justify-center rounded-md text-2xl leading-none"
+              style={{ backgroundColor: state.color }}
+            >
+              {state.emoji}
+            </div>
+            <div className="truncate font-medium">{state.habit}</div>
+            <div
+              className={cn(
+                "ml-auto grid h-9 w-9 place-items-center rounded-full bg-neutral-300 text-primary dark:bg-neutral-800",
+              )}
+              role="button"
+              style={{
+                backgroundColor: hasContribToday ? state.color : "",
+              }}
+              onClick={onToggle}
+            >
+              <Check className="h-6 w-6" />
+            </div>
           </div>
-          <div className="truncate font-medium">{habit}</div>
-          <div
-            className={cn(
-              "ml-auto grid h-9 w-9 place-items-center rounded-full bg-neutral-300 text-primary dark:bg-neutral-800",
-            )}
-            role="button"
-            style={{
-              backgroundColor: isInCommitments(today, commitments) ? color : "",
-            }}
-            onClick={onToggle}
-          >
-            <Check className="h-6 w-6" />
-          </div>
-        </div>
-
-        <div className="grid grid-flow-col grid-rows-2 place-content-between gap-y-1 justify-self-center">
-          {Array.from({ length: days }, (_, index) => {
-            const day = addDays(startOfMonth(today), index);
-            return (
-              <TooltipProvider key={index}>
-                <Tooltip delayDuration={0}>
-                  <TooltipTrigger asChild>
-                    <div
-                      className={cn(
-                        "h-4 w-4 rounded-[2px] bg-neutral-300 dark:bg-neutral-800",
-                        isToday(day) &&
-                          "ring-1 ring-primary ring-offset-1 ring-offset-background",
-                      )}
-                      style={{
-                        backgroundColor: isInCommitments(day, commitments)
-                          ? color
-                          : "",
-                      }}
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {format(day, "MMMM dd, yyyy")}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            );
-          })}
         </div>
       </div>
+      <MonthView
+        color={state.color ?? ""}
+        days={days}
+        contributions={state.contributions}
+      />
     </div>
   );
 };

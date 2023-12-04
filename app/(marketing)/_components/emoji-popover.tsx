@@ -1,7 +1,9 @@
 "use client";
 
+import { Dispatch } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { DemoAction } from "./demo-reducer";
 
 import {
   Popover,
@@ -11,14 +13,14 @@ import {
 
 interface EmojiPopover {
   children: React.ReactNode;
-  setEmoji: (value: string) => void;
+  dispatch: Dispatch<DemoAction>;
   open: boolean;
   setOpen: (value: boolean) => void;
 }
 
 export const EmojiPopover = ({
   children,
-  setEmoji,
+  dispatch,
   open,
   setOpen,
 }: EmojiPopover) => {
@@ -34,8 +36,9 @@ export const EmojiPopover = ({
           previewPosition="none"
           maxFrequentRows={2}
           onEmojiSelect={(e: { native: string }) => {
+            dispatch({ type: "setEmoji", payload: { emoji: e.native } });
+            console.log(e);
             onClose();
-            setEmoji(e.native);
           }}
         />
       </PopoverContent>
