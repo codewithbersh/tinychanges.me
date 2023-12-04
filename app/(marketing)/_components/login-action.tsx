@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { trpc } from "@/app/_trpc/client";
+import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,7 +17,9 @@ export const LoginAction = ({ userId }: { userId: string | undefined }) => {
   return (
     <Button className="mx-auto mt-4 w-fit" asChild>
       {data?.user ? (
-        <Link href={`/${data.user.slug}`}>View Habits</Link>
+        <Link href={`/${data.user.slug}`}>
+          View Habits <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
       ) : (
         <Link href="/login">Join now – it's free</Link>
       )}
