@@ -3,6 +3,7 @@
 import { Dispatch } from "react";
 import { marketingConfig } from "@/config/marketing";
 import { useEffectOnce } from "usehooks-ts";
+import { eachDayOfInterval, startOfMonth, subDays } from "date-fns";
 import { DemoAction } from "./demo-reducer";
 
 interface DemoSetDefaultsProps {
@@ -11,6 +12,12 @@ interface DemoSetDefaultsProps {
 
 export const DemoSetDefaults = ({ dispatch }: DemoSetDefaultsProps) => {
   useEffectOnce(() => {
+    const contribs = eachDayOfInterval({
+      start: startOfMonth(new Date()),
+      end: subDays(new Date(), 1),
+    });
+
+    dispatch({ type: "setContribs", payload: { contributions: contribs } });
     randomHabit({ dispatch });
   });
 

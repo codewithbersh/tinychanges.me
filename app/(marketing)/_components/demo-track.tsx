@@ -6,19 +6,17 @@ import {
   endOfMonth,
   isSameDay,
   startOfMonth,
-  subDays,
 } from "date-fns";
-import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { marketingConfig } from "@/config/marketing";
 import { DemoLabel } from "./demo-label";
-import { useEffectOnce } from "usehooks-ts";
 import { DemoAction, DemoState } from "./demo-reducer";
-
-import { MonthView } from "@/app/(main)/[slug]/(routes)/_components/month-view";
-
+import { summary } from "date-streaks";
 //@ts-ignore
 import confetti from "canvas-confetti";
+
+import { MonthView } from "@/app/(main)/[slug]/(routes)/_components/month-view";
+import { StreakAndContribs } from "@/app/(main)/[slug]/(routes)/_components/streak-and-contribs";
+import { DemoContributionToggle } from "./demo-contribution-toggle";
 
 interface DemoTrackProps {
   state: DemoState;
@@ -32,16 +30,7 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     end: endOfMonth(today),
   });
 
-  useEffectOnce(() => {
-    const contribs = eachDayOfInterval({
-      start: startOfMonth(new Date()),
-      end: subDays(new Date(), 1),
-    });
-
-    dispatch({ type: "setContribs", payload: { contributions: contribs } });
-  });
-
-  const hasContribToday = state?.contributions?.some((date) =>
+  const hasContribToday = !!state?.contributions?.some((date) =>
     isSameDay(date, new Date()),
   );
 
@@ -60,6 +49,10 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     }
     dispatch({ type: "setContribs", payload: { contributions: contribs } });
   };
+
+  const streak = state.contributions
+    ? summary({ dates: state.contributions }).currentStreak
+    : 0;
 
   return (
     <div
@@ -80,19 +73,18 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
             >
               {state.emoji}
             </div>
-            <div className="truncate font-medium">{state.habit}</div>
-            <div
-              className={cn(
-                "ml-auto grid h-9 w-9 place-items-center rounded-full bg-neutral-300 text-primary dark:bg-neutral-800",
-              )}
-              role="button"
-              style={{
-                backgroundColor: hasContribToday ? state.color : "",
-              }}
-              onClick={onToggle}
-            >
-              <Check className="h-6 w-6" />
+            <div className="flex flex-col justify-between truncate">
+              <div className="truncate font-medium">{state.habit}</div>
+              <StreakAndContribs
+                streak={streak}
+                contribs={state.contributions?.length}
+                className="flex"
+              />
             </div>
+            <DemoContributionToggle
+              hasContribToday={hasContribToday}
+              onToggle={onToggle}
+            />
           </div>
         </div>
       </div>
