@@ -75,9 +75,10 @@ export const Form = () => {
         onSuccess: (res) => {
           if (res.ok) {
             console.log("RES.USER: ", res.user);
+            utils.user.getUserBySlug.invalidate({ slug: res.user?.slug });
+            utils.user.getUserById.invalidate({ id: user?.id });
             toast.success(res.message);
             router.push(`/${res.user!.slug}/profile`);
-            utils.user.getUserBySlug.invalidate({ slug: res.user?.slug });
           } else {
             toast.error(res.message);
           }

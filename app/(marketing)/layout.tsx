@@ -6,7 +6,7 @@ const MarketingLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="flex min-h-full flex-col">
       <svg
-        className=" pointer-events-none fixed inset-0 h-full w-full stroke-neutral-200/75 opacity-50 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)] dark:stroke-neutral-800/75"
+        className=" pointer-events-none fixed inset-0 h-full w-full stroke-neutral-700/75 opacity-50 [mask-image:radial-gradient(100%_100%_at_top_center,white,transparent)]"
         aria-hidden
       >
         <defs>

@@ -53,6 +53,27 @@ export const userRouter = router({
       }
     }),
 
+  getUserById: publicProcedure
+    .input(
+      z.object({
+        id: z.string().optional(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { id } = input;
+
+      try {
+        const user = await db.user.findFirst({
+          where: {
+            id,
+          },
+        });
+        return { ok: true, user };
+      } catch (error) {
+        return { ok: false };
+      }
+    }),
+
   getAuthUser: privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx;
 

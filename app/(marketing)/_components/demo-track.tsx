@@ -2,15 +2,12 @@
 
 import {
   addDays,
-  eachDayOfInterval,
   format,
   getDaysInMonth,
   isToday,
   startOfMonth,
   startOfToday,
-  startOfYesterday,
 } from "date-fns";
-import { useEffectOnce } from "usehooks-ts";
 import { Check } from "lucide-react";
 import { cn, isInCommitments, toggleCommit } from "@/lib/utils";
 import { marketingConfig } from "@/config/marketing";
@@ -25,7 +22,6 @@ import { DemoLabel } from "./demo-label";
 
 //@ts-ignore
 import confetti from "canvas-confetti";
-import { useState } from "react";
 
 interface DemoTrackProps {
   color: string;
@@ -42,26 +38,13 @@ export const DemoTrack = ({
   commitments,
   setCommitments,
 }: DemoTrackProps) => {
-  const [audio, setAudio] = useState<any>(null);
-
   const today = startOfToday();
   const days = getDaysInMonth(today);
-
-  const pastDays = eachDayOfInterval({
-    start: startOfMonth(today),
-    end: startOfYesterday(),
-  });
-
-  useEffectOnce(() => {
-    setCommitments(pastDays);
-    setAudio(new Audio("/success.mp3"));
-  });
 
   const onToggle = () => {
     toggleCommit(today, commitments, setCommitments);
 
     if (!isInCommitments(today, commitments)) {
-      audio.play();
       confetti({
         particleCount: 200,
         spread: 360,
