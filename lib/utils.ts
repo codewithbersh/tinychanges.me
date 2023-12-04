@@ -58,32 +58,32 @@ export function formatRangeFilter({
   switch (view) {
     case "month": {
       const current = addMonths(today, range);
-      const from = startOfMonth(current);
+      const start = startOfMonth(current);
+      const end = endOfMonth(current);
       const currentLabel = format(current, "MMMM");
-      const days = getDaysInMonth(from);
 
-      return { from, label: currentLabel, days };
+      return { label: currentLabel, interval: { start, end } };
     }
 
     case "year": {
       const current = addYears(today, range);
-      const from = startOfYear(current);
-      const currentLabel = `${format(from, "yyyy")}`;
-      const days = getDaysInYear(from);
+      const start = startOfYear(current);
+      const end = endOfYear(current);
+      const currentLabel = `${format(start, "yyyy")}`;
 
-      return { from, label: currentLabel, days: days };
+      return { label: currentLabel, interval: { start, end } };
     }
 
     default: {
       const current = addWeeks(today, range);
-      const from = startOfWeek(current);
-      const to = endOfWeek(current);
-      const currentLabel = `${format(from, "MMM dd")} – ${format(
-        to,
+      const start = startOfWeek(current);
+      const end = endOfWeek(current);
+      const currentLabel = `${format(start, "MMM dd")} – ${format(
+        end,
         "MMM dd",
       )}`;
 
-      return { from, label: currentLabel, days: 7 };
+      return { label: currentLabel, interval: { start, end } };
     }
   }
 }

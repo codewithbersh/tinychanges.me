@@ -6,10 +6,11 @@ import {
   validateViewParams,
 } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
+import { eachDayOfInterval, isWithinInterval } from "date-fns";
 
-import { WeekView } from "./week-view";
-import { MonthView } from "./month-view";
 import { YearView } from "./year-view";
+import { MonthView } from "./month-view";
+import { WeekView } from "./week-view";
 
 interface ContributionsProps {
   contributions: Date[] | undefined;
@@ -21,37 +22,38 @@ export const Contributions = ({
   habitColor,
 }: ContributionsProps) => {
   const searchParams = useSearchParams();
-
   const view = validateViewParams(searchParams.get("view"));
   const range = validateRangeParams(searchParams.get("range"));
-  const { from, days } = formatRangeFilter({ view, range });
+  const { interval } = formatRangeFilter({ view, range });
+
+  const days = eachDayOfInterval(interval);
+  const contribtuonsWithinInterval = contributions?.filter((date) =>
+    isWithinInterval(date, interval),
+  );
 
   switch (view) {
     case "month":
       return (
         <MonthView
-          contributions={contributions}
-          from={from}
+          color={habitColor}
           days={days}
-          habitColor={habitColor}
+          contributions={contribtuonsWithinInterval}
         />
       );
     case "year":
       return (
         <YearView
-          contributions={contributions}
-          from={from}
+          color={habitColor}
           days={days}
-          habitColor={habitColor}
+          contributions={contribtuonsWithinInterval}
         />
       );
     default:
       return (
         <WeekView
-          contributions={contributions}
-          from={from}
+          color={habitColor}
           days={days}
-          habitColor={habitColor}
+          contributions={contribtuonsWithinInterval}
         />
       );
   }

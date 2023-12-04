@@ -1,40 +1,29 @@
-import { addDays, format, isSameDay } from "date-fns";
+import { isSameDay } from "date-fns";
 
 import { Contribution } from "./contribution";
 
 interface MonthViewProps {
+  days: Date[];
   contributions: Date[] | undefined;
-  from: Date;
-  days: number;
-  habitColor: string;
+  color: string;
 }
 
-export const MonthView = ({
-  contributions,
-  days,
-  from,
-  habitColor,
-}: MonthViewProps) => {
-  const dates = Array.from({ length: days }).map((_, index) => {
-    const day = addDays(from, index);
-    const tooltip = format(day, "MMM dd, yyyy");
-
-    const hasContrib = contributions?.some((contrib) =>
-      isSameDay(day, contrib),
-    );
-    return { day, tooltip, hasContrib };
-  });
-
+export const MonthView = ({ days, contributions, color }: MonthViewProps) => {
   return (
-    <div className="grid grid-flow-col grid-cols-16 grid-rows-2 gap-1 rounded-lg bg-neutral-800/50 p-4 sm:gap-2 ">
-      {dates.map((date) => (
-        <Contribution day={date.tooltip} key={date.tooltip}>
-          <div
-            className="aspect-square w-full rounded-[2px] bg-neutral-700 text-black sm:rounded-sm"
-            style={{ backgroundColor: date.hasContrib ? habitColor : "" }}
-          />
-        </Contribution>
-      ))}
+    <div className="grid grid-flow-col grid-rows-2 gap-2 overflow-x-auto rounded-lg bg-neutral-800/50 p-4">
+      {days.map((day) => {
+        const hasContrib = contributions?.some((contribDay) =>
+          isSameDay(day, contribDay),
+        );
+        return (
+          <Contribution day={day.toDateString()} key={day.toDateString()}>
+            <div
+              className="aspect-square min-h-[20px] w-full min-w-[20px] rounded-[2px] bg-neutral-700 sm:rounded-sm"
+              style={{ backgroundColor: hasContrib ? color : "" }}
+            />
+          </Contribution>
+        );
+      })}
     </div>
   );
 };
