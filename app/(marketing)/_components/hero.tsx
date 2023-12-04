@@ -4,6 +4,7 @@ import { LoginAction } from "./login-action";
 
 export const Hero = async () => {
   const user = await getCurrentUser();
+
   return (
     <div className="flex flex-col gap-2 text-center">
       <h1
