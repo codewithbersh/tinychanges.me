@@ -106,7 +106,7 @@ export const UserAuthForm = () => {
                   animationFillMode: "forwards",
                 }}
               >
-                {isLoading && <Loader className="h-4 w-4 animate-spin" />}
+                {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
                 <Mail className="mr-2 h-4 w-4" />
                 Sign in with email
               </Button>
