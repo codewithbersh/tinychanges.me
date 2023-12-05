@@ -32,7 +32,7 @@ export const Habits = () => {
   return (
     <>
       {habits.map((habit) => (
-        <Habit key={habit.id} habit={habit} slug={slug} />
+        <Habit key={habit.id} habit={habit} />
       ))}
     </>
   );

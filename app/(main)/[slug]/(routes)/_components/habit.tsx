@@ -11,10 +11,9 @@ import { StreakAndContribs } from "./streak-and-contribs";
 
 interface HabitProps {
   habit: GetAllHabits[number];
-  slug: string;
 }
 
-export const Habit = ({ habit, slug }: HabitProps) => {
+export const Habit = ({ habit }: HabitProps) => {
   const { data: contributions } = trpc.contribution.getAllByHabitId.useQuery(
     {
       habitId: habit.id,
