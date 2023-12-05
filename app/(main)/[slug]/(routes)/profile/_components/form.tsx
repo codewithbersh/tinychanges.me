@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { trpc } from "@/app/_trpc/client";
@@ -44,6 +45,8 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export const Form = () => {
+  const { data: session, update: updateSession } = useSession();
+
   const router = useRouter();
   const utils = trpc.useUtils();
 
@@ -72,11 +75,19 @@ export const Form = () => {
     update(
       { ...values, oldSlug: user!.slug },
       {
-        onSuccess: (res) => {
+        onSuccess: async (res) => {
           if (res.ok) {
-            console.log("RES.USER: ", res.user);
             utils.user.getUserBySlug.invalidate({ slug: res.user?.slug });
             utils.user.getUserById.invalidate({ id: user?.id });
+
+            updateSession({
+              ...session,
+              user: {
+                ...session?.user,
+                slug: res.user?.slug,
+              },
+            });
+
             toast.success(res.message);
             router.push(`/${res.user!.slug}/profile`);
           } else {

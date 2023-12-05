@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { HabitEmojiIcon } from "@/components/habit-emoji-icon";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const HabitsList = () => {
   const { data: session } = useSession();
@@ -17,7 +18,14 @@ export const HabitsList = () => {
     return notFound();
   }
 
-  const { data: habits } = trpc.habit.getAll.useQuery({ slug: slug as string });
+  const { data: habits, isLoading } = trpc.habit.getAll.useQuery({
+    slug: slug as string,
+  });
+
+  if (isLoading) {
+    return <HabitsList.Skeleton />;
+  }
+
   return (
     <ol className="flex flex-col gap-4">
       {habits?.map((habit) => (
@@ -30,5 +38,15 @@ export const HabitsList = () => {
         </Link>
       ))}
     </ol>
+  );
+};
+
+HabitsList.Skeleton = function SkeletonHabitsList() {
+  return (
+    <div className="flex flex-col gap-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <Skeleton className="h-16 rounded-md" key={index} />
+      ))}
+    </div>
   );
 };
