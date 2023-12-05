@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { trpc } from "@/app/_trpc/client";
 import { notFound } from "next/navigation";
 import { Calendar } from "lucide-react";
@@ -41,17 +42,19 @@ export const Profile = ({ slug }: ProfileProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Avatar>
-        <AvatarImage src={user.image ?? ""} />
-        <AvatarFallback>{user.email![0]}</AvatarFallback>
-      </Avatar>
+      <Link className="w-fit space-y-4" href={`/${user.slug}`}>
+        <Avatar>
+          <AvatarImage src={user.image ?? ""} />
+          <AvatarFallback>{user.email![0]}</AvatarFallback>
+        </Avatar>
 
-      <div className="flex h-5 items-center gap-1.5 leading-none ">
-        <h1 className="fond-medium">{user.name}</h1>
-        {user.twitterHandle && (
-          <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
-        )}
-      </div>
+        <div className="flex h-5 items-center gap-1.5 leading-none ">
+          <h1 className="fond-medium">{user.name}</h1>
+          {user.twitterHandle && (
+            <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
+          )}
+        </div>
+      </Link>
 
       <div className="flex gap-6">
         <div className="flex items-center gap-2">
