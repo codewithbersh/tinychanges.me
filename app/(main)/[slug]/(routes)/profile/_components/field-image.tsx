@@ -1,9 +1,10 @@
 "use client";
 
 import { BaseSyntheticEvent, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { UploadButton } from "@/lib/uploadthing";
 import { Camera, ImagePlus, Loader } from "lucide-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { habitConfig } from "@/config/habit";
 
@@ -46,7 +47,6 @@ export const FieldImage = ({
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          side="right"
           className="flex flex-col items-center justify-center gap-2 border-neutral-700 bg-input-background"
         >
           <FormLabel className="mr-auto">Select Image</FormLabel>
@@ -86,9 +86,9 @@ export const FieldImage = ({
               button({ isUploading }) {
                 return (
                   <Button
-                    className="pointer-events-none z-10 bg-input-background"
-                    variant="ghost"
+                    className="pointer-events-none z-10 w-[254px] bg-input-background "
                     disabled={disabled || isUploading}
+                    variant="ghost"
                   >
                     {isUploading && (
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
@@ -104,6 +104,24 @@ export const FieldImage = ({
               trigger();
             }}
           />
+
+          <div className="mt-4 flex gap-1 text-xs text-muted-foreground">
+            <Link
+              href="https://www.avatartion.com/"
+              target="_blank"
+              className=" underline hover:text-primary"
+            >
+              Avatartion
+            </Link>
+            |
+            <Link
+              href="https://www.drawkit.com/"
+              target="_blank"
+              className=" underline hover:text-primary"
+            >
+              Draw Kit
+            </Link>
+          </div>
         </PopoverContent>
       </Popover>
     );
