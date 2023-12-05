@@ -36,7 +36,7 @@ export const HabitsList = () => {
   return (
     <ol className="flex flex-col gap-4">
       {habits?.map((habit) => (
-        <Link passHref href={`/${slug}/habits/${habit.id}`}>
+        <Link passHref href={`/${slug}/habits/${habit.id}`} key={habit.id}>
           <li className="flex items-center gap-4 rounded-md bg-input-background/50 p-4">
             <HabitEmojiIcon color={habit.color} emoji={habit.emoji} />
             <h1 className="truncate">{habit.habit}</h1>

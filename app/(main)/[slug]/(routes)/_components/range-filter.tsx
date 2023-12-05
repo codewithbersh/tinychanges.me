@@ -54,6 +54,6 @@ export const RangeFilter = () => {
   );
 };
 
-RangeFilter.Skeleton = function () {
+RangeFilter.Skeleton = function SkeletonRangeFilter() {
   return <Skeleton className="h-8 w-full rounded-md md:w-[204.89px]" />;
 };
