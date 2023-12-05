@@ -22,19 +22,19 @@ export const Header = ({ slug }: HeaderProps) => {
 
   const routes = [
     {
-      label: "Habits",
+      label: "Home",
       href: `/${session?.user.slug}`,
       isActive: pathname === `/${session?.user.slug}`,
+    },
+    {
+      label: "Habits",
+      href: `/${session?.user.slug}/habits`,
+      isActive: pathname === `/${session?.user.slug}/habits`,
     },
     {
       label: "Profile",
       href: `/${session?.user.slug}/profile`,
       isActive: pathname === `/${session?.user.slug}/profile`,
-    },
-    {
-      label: "Create Habit",
-      href: `/${session?.user.slug}/habits/new`,
-      isActive: pathname.startsWith(`/${session?.user.slug}/habits/`),
     },
   ];
 
