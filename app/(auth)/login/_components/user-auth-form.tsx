@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader, Loader2, Mail } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import * as z from "zod";
@@ -39,11 +39,6 @@ export const UserAuthForm = () => {
   });
 
   async function onSubmit(values: FormData) {
-    if (values.email !== "brucesalcedo.programming@gmail.com") {
-      form.setError("email", { message: "You're not an admin. 😉" });
-      return;
-    }
-
     try {
       setIsLoading(true);
       const signInResult = await signIn("email", {
@@ -89,7 +84,11 @@ export const UserAuthForm = () => {
                       <Input
                         placeholder="hello@brucesalcedo.com"
                         {...field}
-                        className="h-10"
+                        className="h-10 animate-fade-up opacity-0"
+                        style={{
+                          animationDelay: "0.45s",
+                          animationFillMode: "forwards",
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -98,26 +97,32 @@ export const UserAuthForm = () => {
               />
               <Button
                 type="submit"
-                className="w-full items-center gap-2"
+                className="w-full animate-fade-up items-center opacity-0"
                 disabled={isLoading || isGoogleLoading}
                 size="lg"
                 variant="secondary"
+                style={{
+                  animationDelay: "0.60s",
+                  animationFillMode: "forwards",
+                }}
               >
                 {isLoading && <Loader className="h-4 w-4 animate-spin" />}
+                <Mail className="mr-2 h-4 w-4" />
                 Sign in with email
               </Button>
             </>
           )}
         </form>
       </Form>
-      <div className="relative">
+      <div
+        className="relative animate-fade-up opacity-0"
+        style={{ animationDelay: "0.75s", animationFillMode: "forwards" }}
+      >
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
+          <span className="bg-background px-2 text-muted-foreground">Or</span>
         </div>
       </div>
 
@@ -127,9 +132,10 @@ export const UserAuthForm = () => {
           signIn("google");
         }}
         variant="outline"
-        className="w-full items-center gap-2"
+        className="w-full animate-fade-up items-center gap-2 opacity-0"
         disabled={isLoading || isGoogleLoading}
         size="lg"
+        style={{ animationDelay: "0.90s", animationFillMode: "forwards" }}
       >
         {isGoogleLoading && <Loader2 className="h-4 w-4 animate-spin" />}
         <Icons.google />
