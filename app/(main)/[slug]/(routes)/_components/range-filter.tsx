@@ -9,6 +9,7 @@ import {
 } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const RangeFilter = () => {
   const searchParams = useSearchParams();
@@ -51,4 +52,8 @@ export const RangeFilter = () => {
       </Button>
     </div>
   );
+};
+
+RangeFilter.Skeleton = function () {
+  return <Skeleton className="h-8 w-full rounded-md md:w-[204.89px]" />;
 };

@@ -7,6 +7,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const HabitsLink = () => {
   const { data: session } = useSession();
@@ -16,12 +17,16 @@ export const HabitsLink = () => {
     return;
   }
 
-  const { data: user } = trpc.user.getAuthUser.useQuery(undefined, {
+  const { data: user, isLoading } = trpc.user.getAuthUser.useQuery(undefined, {
     staleTime: Infinity,
   });
 
   if (!user) {
     return;
+  }
+
+  if (isLoading) {
+    return <HabitsLink.Skeleton />;
   }
 
   return (
@@ -31,4 +36,8 @@ export const HabitsLink = () => {
       </Link>
     </Button>
   );
+};
+
+HabitsLink.Skeleton = function SkeletonHabitsLink() {
+  return <Skeleton className="ml-auto h-8 w-8 rounded-md md:ml-0" />;
 };

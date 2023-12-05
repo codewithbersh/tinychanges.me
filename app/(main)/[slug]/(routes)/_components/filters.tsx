@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { ViewFilter } from "./view-filter";
 import { HabitsLink } from "./habits-link";
 import { RangeFilter } from "./range-filter";
@@ -32,8 +31,11 @@ export const Filters = () => {
 Filters.Skeleton = function SkeletonFilters() {
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <Skeleton className="h-8 w-24 rounded-md" />
-      <Skeleton className="h-8 w-full rounded-md md:w-24" />
+      <div className="flex gap-4">
+        <ViewFilter.Skeleton />
+        <HabitsLink.Skeleton />
+      </div>
+      <RangeFilter.Skeleton />
     </div>
   );
 };

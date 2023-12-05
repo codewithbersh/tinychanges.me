@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const ViewFilter = () => {
   const searchParams = useSearchParams();
@@ -55,4 +56,8 @@ export const ViewFilter = () => {
       </SelectContent>
     </Select>
   );
+};
+
+ViewFilter.Skeleton = function SkeletonViewFilter() {
+  return <Skeleton className="h-8 w-[108.17px] rounded-md" />;
 };
