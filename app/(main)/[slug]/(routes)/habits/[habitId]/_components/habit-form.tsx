@@ -6,7 +6,7 @@ import { trpc } from "@/app/_trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Loader, Plus, Trash } from "lucide-react";
+import { AlertTriangle, Bookmark, Loader, Plus, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -53,6 +53,7 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
   const { mutate, isLoading: isMutating } = trpc.habit.create.useMutation();
   const { mutate: deleteHabit, isLoading: isDeleting } =
     trpc.habit.delete.useMutation();
+  const { mutate: archiveHabit } = trpc.habit.archive.useMutation();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -105,6 +106,21 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
     );
   };
 
+  const handleArchive = () => {
+    if (!initialData?.id) return;
+
+    archiveHabit(
+      { id: initialData.id, archived: !initialData.archived },
+      {
+        onSuccess: ({ habit }) => {
+          toast.success("Habit archived");
+          utils.habit.getByHabitId.invalidate({ habitId: habit?.id });
+          utils.habit.getAll.invalidate();
+        },
+      },
+    );
+  };
+
   if (isLoading) {
     return <HabitForm.Skeleton />;
   }
@@ -116,90 +132,116 @@ export const HabitForm = ({ habitId, slug }: HabitFormProps) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex max-w-sm flex-col gap-8"
-      >
-        <FormField
-          control={form.control}
-          name="emoji"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Emoji</FormLabel>
-              <FormControl>
-                <FieldEmoji
-                  value={field.value}
-                  onChange={field.onChange}
-                  selectedColor={form.watch("color")}
-                  isSubmitting={isSubmitting}
-                  fieldError={form.formState.errors.emoji}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <div className="max-w-sm space-y-2">
+        {initialData?.archived && (
+          <div className="flex items-center gap-2 rounded-md border border-yellow-300/25 bg-yellow-300/5 p-1 px-2 text-yellow-500">
+            <AlertTriangle className="h-4 w-4" />
+            <div className=" text-xs leading-none">
+              This habit has been archived.
+            </div>
+          </div>
+        )}
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-8"
+        >
+          <FormField
+            control={form.control}
+            name="emoji"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Emoji</FormLabel>
+                <FormControl>
+                  <FieldEmoji
+                    value={field.value}
+                    onChange={field.onChange}
+                    selectedColor={form.watch("color")}
+                    isSubmitting={isSubmitting}
+                    fieldError={form.formState.errors.emoji}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="habit"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Habit</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Run 15 minutes daily"
-                  {...field}
-                  disabled={isSubmitting}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="habit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Habit</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Run 15 minutes daily"
+                    {...field}
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="color"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Color</FormLabel>
-              <FormControl>
-                <FieldColor
-                  value={field.value}
-                  onChange={field.onChange}
-                  isSubmitting={isSubmitting}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Color</FormLabel>
+                <FormControl>
+                  <FieldColor
+                    value={field.value}
+                    onChange={field.onChange}
+                    isSubmitting={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className="mt-4 flex gap-4">
-          <Button type="submit" className="w-fit" disabled={isSubmitting}>
-            {isSubmitting ? (
+          <div className="mt-4 flex gap-4">
+            <Button type="submit" className="w-fit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader className="mr-2 h-4 w-4 animate-spin " />
+                  {submittingMessage}
+                </>
+              ) : (
+                <>
+                  <Plus className="mr-2 h-4 w-4" />
+                  {submitText}
+                </>
+              )}
+            </Button>
+
+            {initialData && (
               <>
-                <Loader className="mr-2 h-4 w-4 animate-spin " />
-                {submittingMessage}
-              </>
-            ) : (
-              <>
-                <Plus className="mr-2 h-4 w-4" />
-                {submitText}
+                <DeleteModal onDelete={handleDelete} isLoading={isDeleting}>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    className=""
+                    size="icon"
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </DeleteModal>
+                <Button
+                  type="button"
+                  variant={initialData.archived ? "default" : "secondary"}
+                  size="icon"
+                  className="ml-auto"
+                  onClick={handleArchive}
+                >
+                  <Bookmark className="h-4 w-4" />
+                </Button>
               </>
             )}
-          </Button>
-
-          {initialData && (
-            <DeleteModal onDelete={handleDelete} isLoading={isDeleting}>
-              <Button variant="destructive" className="" size="icon">
-                <Trash className="h-4 w-4" />
-              </Button>
-            </DeleteModal>
-          )}
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </Form>
   );
 };

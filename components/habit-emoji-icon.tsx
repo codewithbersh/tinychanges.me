@@ -14,7 +14,7 @@ export const HabitEmojiIcon = ({
   return (
     <div
       className={cn(
-        "grid h-8 w-8 place-items-center rounded-md leading-none",
+        "grid h-8 w-8 shrink-0 place-items-center rounded-md leading-none",
         className,
       )}
       style={{ backgroundColor: color }}

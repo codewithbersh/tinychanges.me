@@ -37,6 +37,7 @@ export const habitRouter = router({
       try {
         return await db.habit.findMany({
           where: {
+            archived: false,
             user: {
               slug,
             },
@@ -45,6 +46,29 @@ export const habitRouter = router({
             createdAt: "desc",
           },
         });
+      } catch (error) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+
+  getAllPrivate: privateProcedure
+    .input(
+      z.object({
+        archived: z.boolean().optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { archived } = input;
+      try {
+        const habits = await db.habit.findMany({
+          where: {
+            userId,
+            archived,
+          },
+        });
+
+        return habits;
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
@@ -91,6 +115,33 @@ export const habitRouter = router({
       }
     }),
 
+  archive: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        archived: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { id, archived } = input;
+
+      try {
+        const habit = await db.habit.update({
+          where: {
+            id,
+            userId,
+          },
+          data: {
+            archived,
+          },
+        });
+
+        return { ok: true, habit };
+      } catch (error) {
+        return { ok: false };
+      }
+    }),
   delete: privateProcedure
     .input(
       z.object({

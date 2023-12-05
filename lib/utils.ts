@@ -8,8 +8,6 @@ import {
   endOfWeek,
   endOfYear,
   format,
-  getDaysInMonth,
-  getDaysInYear,
   isSameDay,
   startOfMonth,
   startOfToday,
@@ -22,6 +20,17 @@ export type View = "week" | "month" | "year";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function validateArchiveParams(text: string | null) {
+  switch (text?.toLowerCase()) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    default:
+      return undefined;
+  }
 }
 
 export function validateViewParams(text: string | null) {
