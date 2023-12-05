@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { ViewFilter } from "./view-filter";
+import { HabitsLink } from "./habits-link";
 import { RangeFilter } from "./range-filter";
 
 export const Filters = () => {
@@ -19,7 +20,10 @@ export const Filters = () => {
 
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <ViewFilter />
+      <div className="flex gap-4">
+        <ViewFilter />
+        <HabitsLink />
+      </div>
       <RangeFilter />
     </div>
   );

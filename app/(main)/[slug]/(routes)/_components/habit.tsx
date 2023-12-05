@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
 import { isSameDay } from "date-fns";
-import { LinkIcon } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Contributions } from "./contributions";
@@ -41,13 +39,9 @@ export const Habit = ({ habit, slug }: HabitProps) => {
             {habit.emoji}
           </div>
           <div className="flex h-full flex-col justify-between">
-            <Link
-              href={`/${slug}/habits/${habit.id}`}
-              className="flex w-fit items-center text-sm font-medium underline-offset-2 hover:underline md:text-base"
-            >
+            <div className="text-sm font-medium md:text-base">
               {habit.habit}
-              <LinkIcon className="ml-2 h-3 w-3" />
-            </Link>
+            </div>
 
             <StreakAndContribs
               streak={contributions?.streak.currentStreak}
