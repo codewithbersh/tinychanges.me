@@ -108,7 +108,16 @@ export const userRouter = router({
       const { userId } = ctx;
       const { name, slug, twitterHandle, oldSlug } = input;
 
-      const invalidSlugs = ["habits", "profile", "settings", "dashboard"];
+      const invalidSlugs = [
+        "habits",
+        "profile",
+        "settings",
+        "dashboard",
+        "admin",
+        "home",
+        "login",
+        "logout",
+      ];
 
       const slugified = slugify(slug);
 
