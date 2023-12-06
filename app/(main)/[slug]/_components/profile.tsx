@@ -42,7 +42,7 @@ export const Profile = ({ slug }: ProfileProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Link className="w-fit space-y-4" href={`/${user.slug}`}>
+      <Link className="w-fit space-y-4" href={`/${user.slug}/profile`}>
         <Avatar>
           <AvatarImage src={user.image ?? ""} />
           <AvatarFallback>{user.email![0]}</AvatarFallback>
