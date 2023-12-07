@@ -9,13 +9,17 @@ import { authOptions } from "@/lib/auth";
 
 import { Providers } from "@/components/providers/providers";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   manifest: "/manifest.json",
   title: siteConfig.title,
   description: siteConfig.url,
-  viewport:
-    "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1",
-
   icons: {
     icon: [
       {
