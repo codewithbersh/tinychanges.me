@@ -12,7 +12,7 @@ export const HabitsLink = () => {
   const { data: session } = useSession();
   const params = useParams();
 
-  if (!session?.user && params["slug"] !== session?.user.slug) {
+  if (!session?.user || params["slug"] !== session?.user.slug) {
     return;
   }
 
