@@ -3,7 +3,6 @@ import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { summary } from "date-streaks";
-import { startOfDay } from "date-fns";
 
 export const contributionRouter = router({
   getAllByHabitId: publicProcedure
@@ -40,10 +39,8 @@ export const contributionRouter = router({
         habitId: z.string(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
-      const { userId } = ctx;
+    .mutation(async ({ input }) => {
       const { contribTodayId, habitId } = input;
-      const date = startOfDay(new Date());
 
       try {
         let message: string;
@@ -60,7 +57,7 @@ export const contributionRouter = router({
           await db.contribution.create({
             data: {
               habitId: habitId,
-              date,
+              date: new Date(),
             },
           });
 
