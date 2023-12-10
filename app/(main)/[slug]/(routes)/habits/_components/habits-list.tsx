@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
+import { notFound, useParams, useSearchParams } from "next/navigation";
 import { trpc } from "@/app/_trpc/client";
 import { useSession } from "next-auth/react";
-import { notFound, useParams, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { HabitEmojiIcon } from "@/components/habit-emoji-icon";
@@ -17,7 +17,9 @@ export const HabitsList = () => {
   const slug = params["slug"];
   const searchParams = validateArchiveParams(useSearchParams().get("archived"));
 
-  if (!session?.user && session?.user.slug !== slug) {
+  const isOwner = session?.user.slug === slug;
+
+  if (!session?.user && !isOwner) {
     return notFound();
   }
 
@@ -30,7 +32,7 @@ export const HabitsList = () => {
   }
 
   if (habits?.length === 0) {
-    return <EmptyHabits />;
+    return <EmptyHabits slug={slug as string} isOwner={isOwner} />;
   }
 
   return (

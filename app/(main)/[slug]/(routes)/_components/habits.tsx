@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { trpc } from "@/app/_trpc/client";
 
 import { EmptyHabits } from "@/components/empty-habits";
@@ -8,6 +9,7 @@ import { Habit } from "./habit";
 
 export const Habits = () => {
   const params = useParams();
+  const { data: session } = useSession();
 
   const slug = params["slug"] as string;
 
@@ -27,7 +29,7 @@ export const Habits = () => {
   }
 
   if (!habits || habits.length < 1) {
-    return <EmptyHabits />;
+    return <EmptyHabits slug={slug} isOwner={session?.user.slug === slug} />;
   }
   return (
     <>
