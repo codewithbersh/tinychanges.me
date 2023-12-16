@@ -14,26 +14,34 @@ interface ActivitiesProps {
       }
     | undefined;
   totalContributions: number | undefined;
+  isDemo?: true;
 }
 
-export const Activities = ({ streak, totalContributions }: ActivitiesProps) => {
+export const Activities = ({
+  streak,
+  totalContributions,
+  isDemo,
+}: ActivitiesProps) => {
   return (
     <div className="flex w-full items-center gap-4">
       <Activity
         icon={<Icons.contributions />}
         count={totalContributions}
         label="contributions"
+        isDemo={isDemo}
       />
       <Activity
         icon={<Icons.star />}
         count={streak?.longestStreak}
         label="longest streak"
         className="ml-auto"
+        isDemo={isDemo}
       />
       <Activity
         icon={<Icons.streak />}
         count={streak?.currentStreak}
         label="current streak"
+        isDemo={isDemo}
       />
     </div>
   );
@@ -44,18 +52,22 @@ function Activity({
   count,
   label,
   className,
+  isDemo,
 }: {
   icon: JSX.Element;
   count: number | undefined | number[];
   label: string;
   className?: string;
+  isDemo?: true;
 }) {
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {icon}
       <div>
         <span>{count ?? 0} </span>
-        <span className="hidden md:inline">{label}</span>
+        <span className={cn("hidden md:inline", isDemo && "md:hidden")}>
+          {label}
+        </span>
       </div>
     </div>
   );
@@ -63,7 +75,7 @@ function Activity({
 
 Activities.Skeleton = function SkeletonActivities() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex h-6 items-center justify-center gap-2">
       <div className="flex items-center gap-2">
         <Skeleton className="h-4 w-4" />
         <Skeleton className="hidden h-4 w-[115px] md:inline" />

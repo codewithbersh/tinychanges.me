@@ -2,21 +2,22 @@
 
 import { Dispatch } from "react";
 import {
+  addMonths,
   eachDayOfInterval,
-  endOfMonth,
   isSameDay,
   startOfMonth,
+  subMonths,
 } from "date-fns";
-import { marketingConfig } from "@/config/marketing";
-import { DemoLabel } from "./demo-label";
 import { DemoAction, DemoState } from "./demo-reducer";
 import { summary } from "date-streaks";
 //@ts-ignore
 import confetti from "canvas-confetti";
 
-import { MonthView } from "@/app/(main)/[slug]/(routes)/_components/month-view";
-import { StreakAndContribs } from "@/app/(main)/[slug]/(routes)/_components/streak-and-contribs";
-import { DemoContributionToggle } from "./demo-contribution-toggle";
+import { Habit } from "@/app/(main)/[slug]/(routes)/_components/contribution/habit";
+import { Grids } from "@/app/(main)/[slug]/(routes)/_components/contribution/grids";
+import { Activities } from "@/app/(main)/[slug]/(routes)/_components/contribution/activities";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/ui/icons";
 
 interface DemoTrackProps {
   state: DemoState;
@@ -26,8 +27,8 @@ interface DemoTrackProps {
 export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
   const today = new Date();
   const days = eachDayOfInterval({
-    start: startOfMonth(today),
-    end: endOfMonth(today),
+    start: subMonths(startOfMonth(today), 2),
+    end: addMonths(startOfMonth(today), 3),
   });
 
   const hasContribToday = !!state?.contributions?.some((date) =>
@@ -50,48 +51,50 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     dispatch({ type: "setContribs", payload: { contributions: contribs } });
   };
 
-  const streak = state.contributions
-    ? summary({ dates: state.contributions }).currentStreak
-    : 0;
+  const habit = {
+    id: "",
+    emoji: state.emoji ?? "",
+    habit: state.habit ?? "",
+    color: state.color ?? "",
+  };
+
+  const streak = summary({ dates: state.contributions ?? [] });
+
+  const totalContributions = state.contributions?.length;
 
   return (
     <div
-      className="animate-fade-up space-y-2 opacity-0"
+      className="flex animate-fade-up flex-col gap-4 rounded-md bg-neutral-800/50 p-4 opacity-0"
       style={{ animationFillMode: "forwards", animationDelay: "0.75s" }}
     >
-      <div className="space-y-6 ">
-        <DemoLabel
-          title={marketingConfig.track.title}
-          description={marketingConfig.track.description}
-        />
+      <div className="flex items-center justify-between">
+        <Habit emoji={habit.emoji} habit={habit.habit} />
 
-        <div className="space-y-4 rounded-lg">
-          <div className="flex items-center gap-2">
-            <div
-              className=" flex aspect-square h-12 items-center justify-center rounded-md text-2xl leading-none"
-              style={{ backgroundColor: state.color }}
-            >
-              {state.emoji}
-            </div>
-            <div className="flex flex-col justify-between truncate">
-              <div className="truncate font-medium">{state.habit}</div>
-              <StreakAndContribs
-                streak={streak}
-                contribs={state.contributions?.length}
-                className="flex"
-              />
-            </div>
-            <DemoContributionToggle
-              hasContribToday={hasContribToday}
-              onToggle={onToggle}
-            />
-          </div>
-        </div>
+        {hasContribToday ? (
+          <Button className="text-neutral-950" onClick={onToggle}>
+            <Icons.star className="mr-2 fill-neutral-950" />
+            Today
+          </Button>
+        ) : (
+          <Button variant="secondary" onClick={onToggle}>
+            <Icons.star className="mr-2" />
+            Today
+          </Button>
+        )}
       </div>
-      <MonthView
-        color={state.color ?? ""}
-        days={days}
-        contributions={state.contributions}
+
+      <div className="overflow-x-auto">
+        <Grids
+          days={days}
+          contributions={state.contributions}
+          color={habit.color}
+        />
+      </div>
+
+      <Activities
+        streak={streak}
+        totalContributions={totalContributions}
+        isDemo
       />
     </div>
   );
