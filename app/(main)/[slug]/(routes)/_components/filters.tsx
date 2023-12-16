@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { ViewFilter } from "./view-filter";
 import { HabitsLink } from "./habits-link";
 import { RangeFilter } from "./range-filter";
 
@@ -18,24 +17,18 @@ export const Filters = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <div className="flex gap-4">
-        <ViewFilter />
-        <HabitsLink />
-      </div>
+    <div className="flex items-center justify-between">
       <RangeFilter />
+      <HabitsLink />
     </div>
   );
 };
 
 Filters.Skeleton = function SkeletonFilters() {
   return (
-    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-      <div className="flex gap-4">
-        <ViewFilter.Skeleton />
-        <HabitsLink.Skeleton />
-      </div>
+    <div className="flex items-center justify-between">
       <RangeFilter.Skeleton />
+      <HabitsLink.Skeleton />
     </div>
   );
 };

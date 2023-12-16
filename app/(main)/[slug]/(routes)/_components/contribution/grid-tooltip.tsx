@@ -5,12 +5,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-interface ContributionProps {
+interface GridTooltipProps {
   children: React.ReactNode;
   day: string;
 }
 
-export const Contribution = ({ children, day }: ContributionProps) => {
+export const GridTooltip = ({ children, day }: GridTooltipProps) => {
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>

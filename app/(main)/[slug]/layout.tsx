@@ -14,7 +14,7 @@ const SlugLayout = ({ params: { slug }, children }: SlugLayoutProps) => {
       </div>
 
       <div className="p-4 py-8 md:p-8 md:py-16">
-        <div className="mx-auto max-w-2xl">{children}</div>
+        <div className="mx-auto max-w-[876px]">{children}</div>
       </div>
     </div>
   );

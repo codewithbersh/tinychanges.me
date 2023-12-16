@@ -1,17 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import {
   addDays,
-  addMonths,
-  addWeeks,
   addYears,
-  endOfMonth,
-  endOfWeek,
   endOfYear,
   format,
   isSameDay,
-  startOfMonth,
   startOfToday,
-  startOfWeek,
   startOfYear,
 } from "date-fns";
 import { twMerge } from "tailwind-merge";
@@ -55,46 +49,14 @@ export function validateRangeParams(text: string | null) {
   }
 }
 
-export function formatRangeFilter({
-  view,
-  range,
-}: {
-  view: View;
-  range: number;
-}) {
+export function formatRangeFilter({ range }: { range: number }) {
   const today = startOfToday();
 
-  switch (view) {
-    case "month": {
-      const current = addMonths(today, range);
-      const start = startOfMonth(current);
-      const end = endOfMonth(current);
-      const currentLabel = format(current, "MMMM");
-
-      return { label: currentLabel, interval: { start, end } };
-    }
-
-    case "year": {
-      const current = addYears(today, range);
-      const start = startOfYear(current);
-      const end = endOfYear(current);
-      const currentLabel = `${format(start, "yyyy")}`;
-
-      return { label: currentLabel, interval: { start, end } };
-    }
-
-    default: {
-      const current = addWeeks(today, range);
-      const start = startOfWeek(current);
-      const end = endOfWeek(current);
-      const currentLabel = `${format(start, "MMM dd")} – ${format(
-        end,
-        "MMM dd",
-      )}`;
-
-      return { label: currentLabel, interval: { start, end } };
-    }
-  }
+  const current = addYears(today, range);
+  const start = startOfYear(current);
+  const end = endOfYear(current);
+  const currentLabel = `${format(start, "yyyy")}`;
+  return { label: currentLabel, interval: { start, end } };
 }
 
 export function formatDay({ from, index }: { from: Date; index: number }) {

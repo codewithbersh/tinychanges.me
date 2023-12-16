@@ -1,13 +1,12 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
-import { isSameDay } from "date-fns";
+import { eachDayOfInterval, isSameDay } from "date-fns";
+import { formatRangeFilter, validateRangeParams } from "@/lib/utils";
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { Contributions } from "./contributions";
-import { ContributeTodayToggle } from "./contribute-today-toggle";
-import { StreakAndContribs } from "./streak-and-contribs";
+import { ContributionGraph } from "./contribution/contribution-graph";
 
 interface HabitProps {
   habit: GetAllHabits[number];
@@ -23,66 +22,28 @@ export const Habit = ({ habit }: HabitProps) => {
     },
   );
 
-  const contribToday = contributions?.contributions.find((contrib) =>
+  const today = contributions?.contributions.find((contrib) =>
     isSameDay(contrib.date, new Date()),
   );
 
+  const searchParams = useSearchParams();
+  const range = validateRangeParams(searchParams.get("range"));
+  const { interval } = formatRangeFilter({ range });
+
+  const days = eachDayOfInterval(interval);
+
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4 truncate">
-          <div
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-sm text-2xl leading-none"
-            style={{ backgroundColor: habit.color }}
-          >
-            {habit.emoji}
-          </div>
-          <div className="flex h-full flex-col justify-between">
-            <div className="text-sm font-medium md:text-base">
-              {habit.habit}
-            </div>
-
-            <StreakAndContribs
-              streak={contributions?.streak.currentStreak}
-              contribs={contributions?.total}
-              className="flex md:hidden"
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <StreakAndContribs
-            streak={contributions?.streak.currentStreak}
-            contribs={contributions?.total}
-            className="hidden md:flex"
-          />
-          <ContributeTodayToggle
-            contribTodayId={contribToday?.id}
-            habitId={habit.id}
-          />
-        </div>
-      </div>
-
-      <Contributions
-        contributions={contributions?.dates}
-        habitColor={habit.color}
-      />
-    </div>
+    <ContributionGraph
+      days={days}
+      habit={habit}
+      contributions={contributions?.dates}
+      contributionId={today?.id}
+      streak={contributions?.streak}
+      totalContributions={contributions?.contributions.length}
+    />
   );
 };
 
 Habit.Skeleton = function SkeletonHabit() {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-4">
-        <Skeleton className="h-10 w-10 shrink-0 rounded-md" />
-        <div className="flex w-full flex-col gap-1 md:flex-row">
-          <Skeleton className="h-4 w-32" />
-          <Skeleton className="h-4 w-16 md:ml-auto" />
-        </div>
-        <Skeleton className="ml-auto h-8 !w-[88px] shrink-0" />
-      </div>
-      <Skeleton className="h-24 rounded-lg" />
-    </div>
-  );
+  return <ContributionGraph.Skeleton />;
 };

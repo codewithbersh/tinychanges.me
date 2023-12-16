@@ -39,7 +39,7 @@ export const Header = ({ slug }: HeaderProps) => {
   ];
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="mx-auto flex max-w-[876px] flex-col gap-6">
       <Navbar routes={routes} isAuthenticated={!!session?.user} />
       <Profile slug={slug} />
     </div>

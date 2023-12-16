@@ -2,11 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  formatRangeFilter,
-  validateRangeParams,
-  validateViewParams,
-} from "@/lib/utils";
+import { formatRangeFilter, validateRangeParams } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,12 +10,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const RangeFilter = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
-  const view = validateViewParams(searchParams.get("view"));
   const range = validateRangeParams(searchParams.get("range"));
   const router = useRouter();
 
-  const { label } = formatRangeFilter({ view, range });
+  const { label } = formatRangeFilter({ range });
 
   const onClick = (val: number) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -33,7 +27,7 @@ export const RangeFilter = () => {
   };
 
   return (
-    <div className="flex w-full items-center justify-between gap-4 md:w-fit md:justify-normal">
+    <div className="flex items-center justify-between gap-6">
       <Button
         size="icon"
         variant="secondary"
@@ -55,5 +49,5 @@ export const RangeFilter = () => {
 };
 
 RangeFilter.Skeleton = function SkeletonRangeFilter() {
-  return <Skeleton className="h-8 w-full rounded-md md:w-[204.89px]" />;
+  return <Skeleton className="h-8 w-[147px] rounded-md" />;
 };

@@ -17,7 +17,7 @@ export const HabitsLink = () => {
   }
 
   return (
-    <Button variant="secondary" size="icon" className="ml-auto md:ml-0" asChild>
+    <Button variant="secondary" size="icon" asChild>
       <Link href={`/${session.user.slug}/habits`}>
         <Settings className="h-4 w-4 text-muted-foreground" />
       </Link>

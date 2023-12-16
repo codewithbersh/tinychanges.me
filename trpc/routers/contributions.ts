@@ -35,20 +35,20 @@ export const contributionRouter = router({
   toggleContributionToday: privateProcedure
     .input(
       z.object({
-        contribTodayId: z.string().optional(),
+        contributionId: z.string().optional(),
         habitId: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      const { contribTodayId, habitId } = input;
+      const { contributionId, habitId } = input;
 
       try {
         let message: string;
 
-        if (contribTodayId) {
+        if (contributionId) {
           await db.contribution.delete({
             where: {
-              id: contribTodayId,
+              id: contributionId,
             },
           });
 

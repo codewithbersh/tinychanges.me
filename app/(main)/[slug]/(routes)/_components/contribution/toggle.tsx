@@ -1,23 +1,17 @@
-"use client";
-
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
 import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 
-interface ContributeTodayToggleProps {
-  contribTodayId: string | undefined;
+interface ToggleProps {
+  contributionId: string | undefined;
   habitId: string;
 }
 
-export const ContributeTodayToggle = ({
-  contribTodayId,
-  habitId,
-}: ContributeTodayToggleProps) => {
+export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
   const params = useParams();
   const { data: session } = useSession();
   const utils = trpc.useUtils();
@@ -29,7 +23,7 @@ export const ContributeTodayToggle = ({
 
   const onToggle = () => {
     toggle(
-      { contribTodayId, habitId },
+      { contributionId, habitId },
       {
         onSuccess: ({ message }) => {
           toast.success(message);
@@ -41,18 +35,16 @@ export const ContributeTodayToggle = ({
       },
     );
   };
-
   return (
     <>
-      {isOwner && (
-        <Button
-          variant={contribTodayId ? "default" : "secondary"}
-          onClick={onToggle}
-          disabled={isLoading}
-        >
-          <Icons.star
-            className={cn("mr-2", contribTodayId && "fill-neutral-950")}
-          />
+      {contributionId ? (
+        <Button className="text-neutral-950" onClick={onToggle}>
+          <Icons.star className="mr-2 fill-neutral-950" />
+          Today
+        </Button>
+      ) : (
+        <Button variant="secondary" onClick={onToggle}>
+          <Icons.star className="mr-2" />
           Today
         </Button>
       )}
