@@ -3,7 +3,12 @@
 import { useSearchParams } from "next/navigation";
 import { GetAllHabits } from "@/types/types";
 import { trpc } from "@/app/_trpc/client";
-import { eachDayOfInterval, isSameDay } from "date-fns";
+import {
+  eachDayOfInterval,
+  isSameDay,
+  startOfDay,
+  startOfToday,
+} from "date-fns";
 import { formatRangeFilter, validateRangeParams } from "@/lib/utils";
 
 import { ContributionGraph } from "./contribution/contribution-graph";

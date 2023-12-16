@@ -41,6 +41,8 @@ export const contributionRouter = router({
     )
     .mutation(async ({ input }) => {
       const { contributionId, habitId } = input;
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
 
       try {
         let message: string;
@@ -57,7 +59,7 @@ export const contributionRouter = router({
           await db.contribution.create({
             data: {
               habitId: habitId,
-              date: new Date(),
+              date: today,
             },
           });
 
