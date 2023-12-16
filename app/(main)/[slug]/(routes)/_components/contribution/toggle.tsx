@@ -16,7 +16,7 @@ export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
   const { data: session } = useSession();
   const utils = trpc.useUtils();
 
-  const { mutate: toggle, isLoading } =
+  const { mutate: toggle } =
     trpc.contribution.toggleContributionToday.useMutation();
 
   const isOwner = params["slug"] === session?.user.slug;
@@ -35,6 +35,11 @@ export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
       },
     );
   };
+
+  if (!isOwner) {
+    return;
+  }
+
   return (
     <>
       {contributionId ? (
