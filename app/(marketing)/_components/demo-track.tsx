@@ -4,12 +4,12 @@ import { Dispatch } from "react";
 import {
   addMonths,
   eachDayOfInterval,
-  isSameDay,
   startOfMonth,
   subMonths,
 } from "date-fns";
 import { DemoAction, DemoState } from "./demo-reducer";
 import { summary } from "date-streaks";
+import { getISODate } from "@/lib/get-iso-date";
 //@ts-ignore
 import confetti from "canvas-confetti";
 
@@ -29,10 +29,10 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
   const days = eachDayOfInterval({
     start: subMonths(startOfMonth(today), 2),
     end: addMonths(startOfMonth(today), 3),
-  });
+  }).map((day) => getISODate(day));
 
-  const hasContribToday = !!state?.contributions?.some((date) =>
-    isSameDay(date, new Date()),
+  const hasContribToday = !!state?.contributions?.some(
+    (date) => date === getISODate(new Date()),
   );
 
   const onToggle = () => {
@@ -40,7 +40,7 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     if (hasContribToday) {
       contribs?.pop();
     } else {
-      contribs?.push(new Date());
+      contribs?.push(getISODate(new Date()));
       confetti({
         particleCount: 200,
         spread: 360,
@@ -58,7 +58,7 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     color: state.color ?? "",
   };
 
-  const streak = summary({ dates: state.contributions ?? [] });
+  const streaks = summary({ dates: state.contributions ?? [] });
 
   const totalContributions = state.contributions?.length;
 
@@ -92,7 +92,7 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
       </div>
 
       <Activities
-        streak={streak}
+        streaks={streaks}
         totalContributions={totalContributions}
         isDemo
       />

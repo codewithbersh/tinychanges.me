@@ -1,8 +1,10 @@
+import { getISODate } from "@/lib/get-iso-date";
+
 export type DemoState = {
   color: string | undefined;
   emoji: string | undefined;
   habit: string | undefined;
-  contributions: Date[] | undefined;
+  contributions: string[] | undefined;
 };
 
 export type DemoAction = {
@@ -17,7 +19,7 @@ export type DemoAction = {
     color?: string;
     emoji?: string;
     habit?: string;
-    contributions?: Date[];
+    contributions?: string[];
   };
 };
 
@@ -33,12 +35,12 @@ export function demoReducer(state: DemoState, action: DemoAction) {
       return { ...state, contributions: action.payload.contributions };
     case "addContribToday": {
       const contributions = state.contributions;
-      contributions?.push(new Date());
+      contributions?.push(getISODate(new Date()));
       return { ...state, contributions };
     }
     case "removeContribToday": {
       const contributions = state.contributions;
-      contributions?.push(new Date());
+      contributions?.push(getISODate(new Date()));
       return { ...state, contributions };
     }
 

@@ -4,13 +4,10 @@ import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ActivitiesProps {
-  streak:
+  streaks:
     | {
         currentStreak: number;
         longestStreak: number;
-        streaks: number[];
-        todayInStreak: boolean;
-        withinCurrentStreak: boolean;
       }
     | undefined;
   totalContributions: number | undefined;
@@ -18,7 +15,7 @@ interface ActivitiesProps {
 }
 
 export const Activities = ({
-  streak,
+  streaks,
   totalContributions,
   isDemo,
 }: ActivitiesProps) => {
@@ -32,14 +29,14 @@ export const Activities = ({
       />
       <Activity
         icon={<Icons.star />}
-        count={streak?.longestStreak}
+        count={streaks?.longestStreak}
         label="longest streak"
         className="ml-auto"
         isDemo={isDemo}
       />
       <Activity
         icon={<Icons.streak />}
-        count={streak?.currentStreak}
+        count={streaks?.currentStreak}
         label="current streak"
         isDemo={isDemo}
       />

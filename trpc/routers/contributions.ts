@@ -3,6 +3,7 @@ import { privateProcedure, publicProcedure, router } from "@/trpc/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { summary } from "date-streaks";
+import { getISODate } from "@/lib/get-iso-date";
 
 export const contributionRouter = router({
   getAllByHabitId: publicProcedure
@@ -15,19 +16,18 @@ export const contributionRouter = router({
       const { habitId } = input;
 
       try {
-        const contributions = await db.contribution.findMany({
+        const res = await db.contribution.findMany({
           where: {
             habitId,
           },
         });
 
-        const total = contributions.length;
-        const dates = contributions.map((contrib) => contrib.date);
-        const streak = summary({
-          dates,
+        const contributions = res.map((contrib) => contrib.date);
+        const streaks = summary({
+          dates: contributions,
         });
 
-        return { contributions, total, streak, dates };
+        return { contributions, streaks };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
@@ -35,22 +35,21 @@ export const contributionRouter = router({
   toggleContributionToday: privateProcedure
     .input(
       z.object({
-        contributionId: z.string().optional(),
+        hasContribToday: z.boolean(),
         habitId: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      const { contributionId, habitId } = input;
-      const today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
+      const { hasContribToday, habitId } = input;
+      const date = getISODate(new Date());
 
       try {
         let message: string;
 
-        if (contributionId) {
-          await db.contribution.delete({
+        if (hasContribToday) {
+          await db.contribution.deleteMany({
             where: {
-              id: contributionId,
+              date,
             },
           });
 
@@ -59,7 +58,7 @@ export const contributionRouter = router({
           await db.contribution.create({
             data: {
               habitId: habitId,
-              date: today,
+              date,
             },
           });
 

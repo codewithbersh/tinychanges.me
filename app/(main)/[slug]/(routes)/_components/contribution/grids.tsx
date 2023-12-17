@@ -1,13 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { isSameDay, isToday } from "date-fns";
+import { getISODate } from "@/lib/get-iso-date";
 
 import { GridTooltip } from "./grid-tooltip";
 
 interface GridsProps {
-  days: Date[];
-  contributions: Date[] | undefined;
+  days: string[];
+  contributions: string[] | undefined;
   color: string;
 }
 
@@ -15,21 +15,21 @@ export const Grids = ({ days, contributions, color }: GridsProps) => {
   return (
     <div className="grid w-fit grid-flow-col grid-rows-7 gap-1">
       {days.map((day) => {
-        const hasContrib = contributions?.some((contribDay) =>
-          isSameDay(contribDay, day),
+        const hasContribution = contributions?.some(
+          (contribution) => contribution === day,
         );
 
-        const isGridToday = isToday(day);
-
         return (
-          <GridTooltip day={day.toDateString()} key={day.toDateString()}>
+          <GridTooltip day={day} key={day}>
             <div
-              key={day.toDateString()}
+              key={day}
               className={cn(
                 "h-3 w-3 rounded-[2px] bg-neutral-700",
-                isGridToday && !hasContrib && "border border-neutral-50",
+                day === getISODate(new Date()) &&
+                  !hasContribution &&
+                  "border border-neutral-50",
               )}
-              style={{ backgroundColor: hasContrib ? color : "" }}
+              style={{ backgroundColor: hasContribution ? color : "" }}
             />
           </GridTooltip>
         );

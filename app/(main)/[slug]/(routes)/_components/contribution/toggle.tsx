@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 
 interface ToggleProps {
-  contributionId: string | undefined;
+  hasContribToday: boolean;
   habitId: string;
 }
 
-export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
+export const Toggle = ({ hasContribToday, habitId }: ToggleProps) => {
   const params = useParams();
   const { data: session } = useSession();
   const utils = trpc.useUtils();
@@ -23,7 +23,7 @@ export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
 
   const onToggle = () => {
     toggle(
-      { contributionId, habitId },
+      { hasContribToday, habitId },
       {
         onSuccess: ({ message }) => {
           toast.success(message);
@@ -42,7 +42,7 @@ export const Toggle = ({ contributionId, habitId }: ToggleProps) => {
 
   return (
     <>
-      {contributionId ? (
+      {hasContribToday ? (
         <Button className="text-neutral-950" onClick={onToggle}>
           <Icons.star className="mr-2 fill-neutral-950" />
           Today

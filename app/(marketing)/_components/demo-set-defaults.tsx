@@ -4,6 +4,8 @@ import { Dispatch } from "react";
 import { marketingConfig } from "@/config/marketing";
 import { useEffectOnce } from "usehooks-ts";
 import { eachDayOfInterval, startOfMonth, subDays } from "date-fns";
+import { getISODate } from "@/lib/get-iso-date";
+
 import { DemoAction } from "./demo-reducer";
 
 interface DemoSetDefaultsProps {
@@ -17,7 +19,12 @@ export const DemoSetDefaults = ({ dispatch }: DemoSetDefaultsProps) => {
       end: subDays(new Date(), 1),
     });
 
-    dispatch({ type: "setContribs", payload: { contributions: contribs } });
+    dispatch({
+      type: "setContribs",
+      payload: {
+        contributions: contribs.map((contrib) => getISODate(contrib)),
+      },
+    });
     randomHabit({ dispatch });
   });
 

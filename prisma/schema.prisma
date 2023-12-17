@@ -89,8 +89,8 @@ model Contribution {
   id String @id @default(cuid())
 
   habitId String
-  habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
-  date    DateTime
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date    String
 
   @@unique([date, habitId])
   @@index([habitId])
