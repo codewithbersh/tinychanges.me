@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { trpc } from "@/app/_trpc/client";
 import { getDaysInRange } from "@/lib/get-days-in-range";
+import { getISODate } from "@/lib/get-iso-date";
 
 import { EmptyHabits } from "@/components/empty-habits";
 import { Habit } from "./habit";
@@ -22,10 +23,7 @@ export const Habits = () => {
   );
 
   const days = getDaysInRange(searchParams.get("range"));
-  const daysISO = useMemo(
-    () => days.map((day) => day.toISOString().substring(0, 10)),
-    [days],
-  );
+  const daysISO = useMemo(() => days.map((day) => getISODate(day)), [days]);
 
   if (isLoading) {
     return (
