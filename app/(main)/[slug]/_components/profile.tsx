@@ -5,6 +5,7 @@ import { trpc } from "@/app/_trpc/client";
 import { notFound } from "next/navigation";
 import { Calendar } from "lucide-react";
 import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,6 +16,8 @@ interface ProfileProps {
 }
 
 export const Profile = ({ slug }: ProfileProps) => {
+  const { data: session } = useSession();
+
   const { data: user, isLoading } = trpc.user.getUserBySlug.useQuery(
     { slug },
     {
@@ -40,21 +43,39 @@ export const Profile = ({ slug }: ProfileProps) => {
     return notFound();
   }
 
+  const isOwner = session?.user.slug === user.slug;
+
   return (
     <div className="flex flex-col gap-4">
-      <Link className="w-fit space-y-4" href={`/${user.slug}/profile`}>
-        <Avatar>
-          <AvatarImage src={user.image ?? ""} />
-          <AvatarFallback>{user.email![0]}</AvatarFallback>
-        </Avatar>
+      {isOwner ? (
+        <Link className="w-fit space-y-4" href={`/${user.slug}/profile`}>
+          <Avatar>
+            <AvatarImage src={user.image ?? ""} />
+            <AvatarFallback>{user.email![0]}</AvatarFallback>
+          </Avatar>
 
-        <div className="flex h-5 items-center gap-1.5 leading-none ">
-          <h1 className="fond-medium">{user.name}</h1>
-          {user.twitterHandle && (
-            <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
-          )}
+          <div className="flex h-5 items-center gap-1.5 leading-none ">
+            <h1 className="fond-medium">{user.name}</h1>
+            {user.twitterHandle && (
+              <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
+            )}
+          </div>
+        </Link>
+      ) : (
+        <div className="w-fit space-y-4">
+          <Avatar>
+            <AvatarImage src={user.image ?? ""} />
+            <AvatarFallback>{user.email![0]}</AvatarFallback>
+          </Avatar>
+
+          <div className="flex h-5 items-center gap-1.5 leading-none ">
+            <h1 className="fond-medium">{user.name}</h1>
+            {user.twitterHandle && (
+              <span className="truncate text-sm text-muted-foreground">{`@${user.twitterHandle}`}</span>
+            )}
+          </div>
         </div>
-      </Link>
+      )}
 
       <div className="flex gap-6">
         <div className="flex items-center gap-2">
