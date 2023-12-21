@@ -1,19 +1,14 @@
-import { addYears, eachDayOfInterval, endOfYear, startOfYear } from "date-fns";
+import { addYears, endOfYear, formatISO, startOfYear } from "date-fns";
 
-export function getDaysInRange(input: string | null) {
+export function getRange(input: string | null) {
   let num = Number(input);
 
-  switch (isNaN(num)) {
-    case false:
-      num;
-    default:
-      num = 0;
+  if (isNaN(num)) {
+    num = 0;
   }
 
   const current = addYears(new Date(), num);
-  const start = startOfYear(current);
-  const end = endOfYear(current);
-  const days = eachDayOfInterval({ start, end });
-
-  return days;
+  const start = formatISO(startOfYear(current), { representation: "date" });
+  const end = formatISO(endOfYear(current), { representation: "date" });
+  return { start, end };
 }

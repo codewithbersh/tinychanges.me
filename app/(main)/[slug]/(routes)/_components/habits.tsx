@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { trpc } from "@/app/_trpc/client";
-import { getDaysInRange } from "@/lib/get-days-in-range";
-import { getISODate } from "@/lib/get-iso-date";
+import { getRange } from "@/lib/get-days-in-range";
 
 import { EmptyHabits } from "@/components/empty-habits";
 import { Habit } from "./habit";
@@ -22,8 +20,7 @@ export const Habits = () => {
     { staleTime: Infinity },
   );
 
-  const days = getDaysInRange(searchParams.get("range"));
-  const daysISO = useMemo(() => days.map((day) => getISODate(day)), [days]);
+  const range = getRange(searchParams.get("range"));
 
   if (isLoading) {
     return (
@@ -38,10 +35,11 @@ export const Habits = () => {
   if (!habits || habits.length < 1) {
     return <EmptyHabits slug={slug} isOwner={session?.user.slug === slug} />;
   }
+
   return (
     <>
       {habits.map((habit) => (
-        <Habit key={habit.id} habit={habit} days={daysISO} />
+        <Habit key={habit.id} habit={habit} range={range} />
       ))}
     </>
   );

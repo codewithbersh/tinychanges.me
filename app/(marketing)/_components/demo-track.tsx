@@ -3,18 +3,18 @@
 import { Dispatch } from "react";
 import {
   addMonths,
-  eachDayOfInterval,
+  endOfMonth,
+  formatISO,
   startOfMonth,
   subMonths,
 } from "date-fns";
 import { DemoAction, DemoState } from "./demo-reducer";
 import { summary } from "date-streaks";
-import { getISODate } from "@/lib/get-iso-date";
 //@ts-ignore
 import confetti from "canvas-confetti";
 
+import ActivityCalendar from "react-activity-calendar";
 import { Habit } from "@/app/(main)/[slug]/(routes)/_components/contribution/habit";
-import { Grids } from "@/app/(main)/[slug]/(routes)/_components/contribution/grids";
 import { Activities } from "@/app/(main)/[slug]/(routes)/_components/contribution/activities";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
@@ -26,13 +26,17 @@ interface DemoTrackProps {
 
 export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
   const today = new Date();
-  const days = eachDayOfInterval({
-    start: subMonths(startOfMonth(today), 2),
-    end: addMonths(startOfMonth(today), 3),
-  }).map((day) => getISODate(day));
+  const todayISO = formatISO(today, { representation: "date" });
+  const start = formatISO(startOfMonth(subMonths(new Date(), 2)), {
+    representation: "date",
+  });
+  const end = formatISO(endOfMonth(addMonths(new Date(), 2)), {
+    representation: "date",
+  });
+  const dates = state.contributions?.map((contrib) => contrib.date);
 
   const hasContribToday = !!state?.contributions?.some(
-    (date) => date === getISODate(new Date()),
+    (date) => date.date === todayISO,
   );
 
   const onToggle = () => {
@@ -40,7 +44,11 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     if (hasContribToday) {
       contribs?.pop();
     } else {
-      contribs?.push(getISODate(new Date()));
+      contribs?.push({
+        date: todayISO,
+        count: 1,
+        level: 1,
+      });
       confetti({
         particleCount: 200,
         spread: 360,
@@ -58,7 +66,7 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
     color: state.color ?? "",
   };
 
-  const streaks = summary({ dates: state.contributions ?? [] });
+  const streaks = summary({ dates: dates ?? [] });
 
   const totalContributions = state.contributions?.length;
 
@@ -83,13 +91,28 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
         )}
       </div>
 
-      <div className="overflow-x-auto">
-        <Grids
-          days={days}
-          contributions={state.contributions}
-          color={habit.color}
-        />
-      </div>
+      <ActivityCalendar
+        hideTotalCount
+        hideColorLegend
+        maxLevel={1}
+        data={[
+          {
+            date: start,
+            level: 0,
+            count: 0,
+          },
+          ...(state.contributions ?? []),
+          {
+            date: end,
+            level: 0,
+            count: 0,
+          },
+        ]}
+        theme={{
+          light: ["#404040", habit.color],
+          dark: ["#404040", habit.color],
+        }}
+      />
 
       <Activities
         streaks={streaks}

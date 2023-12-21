@@ -22,7 +22,9 @@ export const DemoSetDefaults = ({ dispatch }: DemoSetDefaultsProps) => {
     dispatch({
       type: "setContribs",
       payload: {
-        contributions: contribs.map((contrib) => getISODate(contrib)),
+        contributions: contribs.map((contrib) => {
+          return { date: getISODate(contrib), level: 1, count: 1 };
+        }),
       },
     });
     randomHabit({ dispatch });

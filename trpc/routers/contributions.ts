@@ -5,6 +5,12 @@ import { z } from "zod";
 import { summary } from "date-streaks";
 import { getISODate } from "@/lib/get-iso-date";
 
+export type TActivity = {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+};
+
 export const contributionRouter = router({
   getAllByHabitId: publicProcedure
     .input(
@@ -23,11 +29,15 @@ export const contributionRouter = router({
         });
 
         const contributions = res.map((contrib) => contrib.date);
+        const data = res.map((contrib) => {
+          return { date: contrib.date, count: 1, level: 1 } as TActivity;
+        });
+
         const streaks = summary({
           dates: contributions,
         });
 
-        return { contributions, streaks };
+        return { streaks, data };
       } catch (error) {
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
       }
