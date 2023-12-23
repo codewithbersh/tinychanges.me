@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import { Icons } from "@/components/ui/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 
+type TStreak = {
+  currentStreak: number;
+  longestStreak: number;
+};
+
 interface ActivitiesProps {
-  streaks:
-    | {
-        currentStreak: number;
-        longestStreak: number;
-      }
-    | undefined;
+  streaks: TStreak | undefined;
   totalContributions: number | undefined;
   isDemo?: true;
 }
@@ -28,7 +28,7 @@ export const Activities = ({
         isDemo={isDemo}
       />
       <Activity
-        icon={<Icons.star />}
+        icon={<Icons.star className="text-yellow-300" />}
         count={streaks?.longestStreak}
         label="longest streak"
         className="ml-auto"
