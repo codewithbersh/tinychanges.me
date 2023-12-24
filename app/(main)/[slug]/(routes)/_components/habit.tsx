@@ -6,9 +6,9 @@ import { trpc } from "@/app/_trpc/client";
 import ActivityCalendar from "react-activity-calendar";
 import React from "react";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { TActivity } from "@/trpc/routers/contributions";
 
 import { Skeleton } from "@/components/ui/skeleton";
-
 import { Activities } from "./contribution/activities";
 import { Toggle } from "./contribution/toggle";
 import { Habit as HabitInfo } from "./contribution/habit";
@@ -38,6 +38,20 @@ export const Habit = ({ habit, range }: HabitProps) => {
     (contrib) => contrib.date === todayISO,
   );
 
+  const activities: TActivity[] = [
+    {
+      date: range.start,
+      level: 0,
+      count: 0,
+    },
+    ...(contributions?.data ?? []),
+    {
+      date: range.end,
+      level: 0,
+      count: 0,
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-4 rounded-md bg-neutral-800/50 p-4">
       <div className="flex items-center justify-between">
@@ -51,19 +65,7 @@ export const Habit = ({ habit, range }: HabitProps) => {
         hideColorLegend
         maxLevel={1}
         weekStart={0}
-        data={[
-          {
-            date: range.start,
-            level: 0,
-            count: 0,
-          },
-          ...(contributions?.data ?? []),
-          {
-            date: range.end,
-            level: 0,
-            count: 0,
-          },
-        ]}
+        data={activities}
         theme={{
           light: ["#404040", habit.color],
           dark: ["#404040", habit.color],

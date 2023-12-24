@@ -12,5 +12,3 @@ export type Route = {
 };
 
 export type GetAllHabits = RouterOutput["habit"]["getAll"];
-export type GetAllContributionsByHabitId =
-  RouterOutput["contribution"]["getAllByHabitId"];
