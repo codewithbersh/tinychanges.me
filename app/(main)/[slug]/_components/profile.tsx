@@ -84,9 +84,9 @@ export const Profile = ({ slug }: ProfileProps) => {
             {totalContributions} contribution{totalContributions != 1 && "s"}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4  text-muted-foreground" />
-          <div className="text-xs leading-none text-muted-foreground">
+        <div className="flex items-center gap-2 truncate">
+          <Calendar className="h-4 w-4  shrink-0 text-muted-foreground" />
+          <div className="truncate text-xs leading-none text-muted-foreground">
             Joined {format(user.joinedAt, "MMM dd, yyyy")}
           </div>
         </div>

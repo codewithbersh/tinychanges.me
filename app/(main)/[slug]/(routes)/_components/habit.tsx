@@ -53,7 +53,7 @@ export const Habit = ({ habit, range }: HabitProps) => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 rounded-md bg-neutral-800/50 p-4">
+    <div className="flex flex-col gap-4 overflow-hidden rounded-md bg-neutral-800/50 p-4">
       <div className="flex items-center justify-between">
         <HabitInfo emoji={habit.emoji} habit={habit.habit} />
         <Toggle hasContribToday={hasContribToday} habitId={habit.id} />

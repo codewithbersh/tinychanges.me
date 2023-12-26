@@ -28,7 +28,7 @@ export const Activities = ({
         isDemo={isDemo}
       />
       <Activity
-        icon={<Icons.star className="text-yellow-300" />}
+        icon={<Icons.star className="fill-yellow-300" />}
         count={streaks?.longestStreak}
         label="longest streak"
         className="ml-auto"

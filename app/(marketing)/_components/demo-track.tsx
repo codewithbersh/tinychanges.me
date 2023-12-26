@@ -18,6 +18,8 @@ import { Habit } from "@/app/(main)/[slug]/(routes)/_components/contribution/hab
 import { Activities } from "@/app/(main)/[slug]/(routes)/_components/contribution/activities";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
+import { DemoLabel } from "./demo-label";
+import { marketingConfig } from "@/config/marketing";
 
 interface DemoTrackProps {
   state: DemoState;
@@ -71,54 +73,59 @@ export const DemoTrack = ({ state, dispatch }: DemoTrackProps) => {
   const totalContributions = state.contributions?.length;
 
   return (
-    <div
-      className="flex animate-fade-up flex-col gap-4 rounded-md bg-neutral-800/50 p-4 opacity-0"
-      style={{ animationFillMode: "forwards", animationDelay: "0.75s" }}
-    >
-      <div className="flex items-center justify-between">
-        <Habit emoji={habit.emoji} habit={habit.habit} />
+    <div className="space-y-6">
+      <DemoLabel
+        title={marketingConfig.track.title}
+        description={marketingConfig.track.description}
+      />
+      <div
+        className="flex animate-fade-up flex-col gap-4 rounded-md bg-neutral-800/50 p-4 opacity-0"
+        style={{ animationFillMode: "forwards", animationDelay: "0.75s" }}
+      >
+        <div className="flex items-center justify-between">
+          <Habit emoji={habit.emoji} habit={habit.habit} />
+          {hasContribToday ? (
+            <Button className="text-neutral-950" onClick={onToggle}>
+              <Icons.star className="mr-2 fill-neutral-950" />
+              Today
+            </Button>
+          ) : (
+            <Button variant="secondary" onClick={onToggle}>
+              <Icons.star className="mr-2" />
+              Today
+            </Button>
+          )}
+        </div>
 
-        {hasContribToday ? (
-          <Button className="text-neutral-950" onClick={onToggle}>
-            <Icons.star className="mr-2 fill-neutral-950" />
-            Today
-          </Button>
-        ) : (
-          <Button variant="secondary" onClick={onToggle}>
-            <Icons.star className="mr-2" />
-            Today
-          </Button>
-        )}
+        <ActivityCalendar
+          hideTotalCount
+          hideColorLegend
+          maxLevel={1}
+          data={[
+            {
+              date: start,
+              level: 0,
+              count: 0,
+            },
+            ...(state.contributions ?? []),
+            {
+              date: end,
+              level: 0,
+              count: 0,
+            },
+          ]}
+          theme={{
+            light: ["#404040", habit.color],
+            dark: ["#404040", habit.color],
+          }}
+        />
+
+        <Activities
+          streaks={streaks}
+          totalContributions={totalContributions}
+          isDemo
+        />
       </div>
-
-      <ActivityCalendar
-        hideTotalCount
-        hideColorLegend
-        maxLevel={1}
-        data={[
-          {
-            date: start,
-            level: 0,
-            count: 0,
-          },
-          ...(state.contributions ?? []),
-          {
-            date: end,
-            level: 0,
-            count: 0,
-          },
-        ]}
-        theme={{
-          light: ["#404040", habit.color],
-          dark: ["#404040", habit.color],
-        }}
-      />
-
-      <Activities
-        streaks={streaks}
-        totalContributions={totalContributions}
-        isDemo
-      />
     </div>
   );
 };

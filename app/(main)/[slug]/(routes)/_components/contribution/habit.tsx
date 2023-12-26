@@ -7,9 +7,9 @@ interface HabitProps {
 
 export const Habit = ({ emoji, habit }: HabitProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 truncate">
       <span className="text-xl leading-none">{emoji}</span>
-      <span className="text-sm font-medium">{habit}</span>
+      <span className="truncate text-sm font-medium">{habit}</span>
     </div>
   );
 };
